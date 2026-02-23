@@ -1,7 +1,15 @@
 {
   "articles": [
     {
+      "slug": "welcome",
+      "title": "Welcome to the TunnelMesh Blog",
+      "date": "2026-02-23",
+      "author": "TunnelMesh Team",
+      "excerpt": "A place for engineering notes, release announcements, and deep-dives on encrypted mesh networking."
+    },
+    {
       "slug": "introducing-tunnelmesh",
+      "draft": true,
       "title": "Introducing TunnelMesh: Encrypted Mesh Networking for the Next Frontier",
       "date": "2025-01-15",
       "author": "TunnelMesh Team",
