@@ -734,12 +734,13 @@ body::before {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 0.82rem;
   background: var(--bg-code-block) !important;
-  padding: 1.1rem 1.25rem !important;
+  padding: 2.4rem 1.25rem 1.1rem !important;
   line-height: 1.6;
 }
 
 /* Code language label */
-.doc-article pre .code-lang {
+.doc-article pre .code-lang,
+.blog-article-content pre .code-lang {
   position: absolute;
   top: 0;
   right: 0;
@@ -756,10 +757,11 @@ body::before {
 }
 
 /* Copy button */
-.doc-article pre .copy-btn {
+.doc-article pre .copy-btn,
+.blog-article-content pre .copy-btn {
   position: absolute;
   top: 0.45rem;
-  right: 0.5rem;
+  left: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.3rem;
@@ -775,7 +777,8 @@ body::before {
   transition: opacity var(--transition), color var(--transition);
 }
 
-.doc-article pre:hover .copy-btn {
+.doc-article pre:hover .copy-btn,
+.blog-article-content pre:hover .copy-btn {
   opacity: 1;
 }
 
@@ -1243,8 +1246,8 @@ body::before {
 .blog-article-content a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--accent-border); transition: color var(--transition); }
 .blog-article-content a:hover { color: var(--link-hover); }
 .blog-article-content code:not(pre code) { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--code-inline-bg); color: var(--code-inline-text); padding: 0.15em 0.45em; border-radius: 2px; border: 1px solid var(--border); }
-.blog-article-content pre { margin: 1.25rem 0; border-radius: var(--radius); overflow-x: auto; overflow-y: hidden; border: 1px solid var(--border); }
-.blog-article-content pre code.hljs { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--bg-code-block) !important; padding: 1rem 1.25rem !important; }
+.blog-article-content pre { margin: 1.25rem 0; border-radius: var(--radius); overflow-x: auto; overflow-y: hidden; border: 1px solid var(--border); position: relative; }
+.blog-article-content pre code.hljs { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--bg-code-block) !important; padding: 2.3rem 1.25rem 1rem !important; }
 .blog-article-content ul, .blog-article-content ol { margin: 0.5rem 0 1rem 1.5rem; }
 .blog-article-content li { margin-bottom: 0.3rem; }
 .blog-article-content blockquote { padding: 0.75rem 1rem 0.75rem 1.1rem; border-left: 3px solid var(--blockquote-bar); background: var(--accent-dim); color: var(--text-muted); border-radius: 0 var(--radius) var(--radius) 0; margin: 1rem 0; }
