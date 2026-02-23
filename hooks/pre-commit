@@ -10,8 +10,12 @@ warn() { printf '\033[33m  ⚠  %s\033[0m\n' "$*" >&2; }
 ok()   { printf '\033[32m  ✓  %s\033[0m\n' "$*"; }
 
 STAGED_MD=$(git diff --cached --name-only --diff-filter=ACM | grep '\.md$' || true)
+# New (Added) files only — existing docs don't need re-registration
+STAGED_NEW_DOCS=$(git diff --cached --name-only --diff-filter=A | grep '^docs/.*\.md$' || true)
 
-if [ -z "$STAGED_MD" ] && ! git diff --cached --name-only --diff-filter=ACM | grep -q 'articles/manifest.json'; then
+if [ -z "$STAGED_MD" ] && \
+   [ -z "$STAGED_NEW_DOCS" ] && \
+   ! git diff --cached --name-only --diff-filter=ACM | grep -q 'articles/manifest.json'; then
   exit 0
 fi
 
@@ -20,7 +24,6 @@ printf 'Linting staged markdown…\n'
 for FILE in $STAGED_MD; do
   # ── Image link validation ───────────────────────────────────
   IMG_DIR="$(dirname "$FILE")/images"
-  # Extract image paths like ![alt](images/foo.png)
   git show ":$FILE" | grep -oE '!\[[^]]*\]\(images/[^)]+\)' | \
     grep -oE 'images/[^)]+' | while read -r REF; do
     if [ ! -f "$IMG_DIR/${REF#images/}" ]; then
@@ -29,7 +32,6 @@ for FILE in $STAGED_MD; do
   done
 
   # ── Callout syntax check ────────────────────────────────────
-  # Catch common mistakes: [! NOTE], [!note], [!Warning]
   if git show ":$FILE" | grep -qE '^\s*>\s*\[![a-z]|^\s*>\s*\[! '; then
     fail "$FILE: malformed callout — use [!NOTE], [!IMPORTANT], [!WARNING], [!TIP], or [!CAUTION] (all caps, no space)"
   fi
@@ -45,9 +47,26 @@ for FILE in $STAGED_MD; do
   esac
 done
 
+# ── New doc pages must be registered in app.js and build.js ────
+for FILE in $STAGED_NEW_DOCS; do
+  DOC_ID="$(basename "$FILE" .md)"
+  # Pattern matches both single and double-quoted id values, e.g.:
+  #   { id: 'GETTING_STARTED', ... }  or  { id: "GETTING_STARTED", ... }
+  PATTERN="id:[[:space:]]*['\"]${DOC_ID}['\"]"
+
+  if ! grep -qE "$PATTERN" js/app.js; then
+    fail "$FILE: doc ID '${DOC_ID}' not registered in js/app.js DOC_SECTIONS" \
+      "— add { id: '${DOC_ID}', slug: 'your-slug', title: 'Page Title' } to the right section"
+  fi
+
+  if ! grep -qE "$PATTERN" build.js; then
+    fail "$FILE: doc ID '${DOC_ID}' not registered in build.js ALL_DOCS" \
+      "— add { id: '${DOC_ID}', slug: 'your-slug', title: 'Page Title' } to match app.js"
+  fi
+done
+
 # ── Manifest consistency check ──────────────────────────────────
 if git diff --cached --name-only --diff-filter=ACM | grep -q 'articles/manifest.json'; then
-  # Every non-draft slug in manifest must have a .md file
   python3 - <<'PYEOF'
 import json, sys, os
 try:
