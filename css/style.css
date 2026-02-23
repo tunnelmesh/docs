@@ -51,6 +51,27 @@
   --scrollbar-thumb:  rgba(255, 255, 255, 0.1);
 
   --grid-line:        rgba(0, 212, 180, 0.013);
+
+  /* Callout colors */
+  --callout-note-color:      #00d4b4;
+  --callout-note-bg:         rgba(0, 212, 180, 0.07);
+  --callout-note-border:     rgba(0, 212, 180, 0.35);
+
+  --callout-important-color: #a78bfa;
+  --callout-important-bg:    rgba(167, 139, 250, 0.08);
+  --callout-important-border: rgba(167, 139, 250, 0.4);
+
+  --callout-warning-color:   #f0a500;
+  --callout-warning-bg:      rgba(240, 165, 0, 0.08);
+  --callout-warning-border:  rgba(240, 165, 0, 0.4);
+
+  --callout-tip-color:       #3fb950;
+  --callout-tip-bg:          rgba(63, 185, 80, 0.07);
+  --callout-tip-border:      rgba(63, 185, 80, 0.38);
+
+  --callout-caution-color:   #f85149;
+  --callout-caution-bg:      rgba(248, 81, 73, 0.08);
+  --callout-caution-border:  rgba(248, 81, 73, 0.38);
 }
 
 /* ── Light Theme ── */
@@ -91,6 +112,27 @@
   --scrollbar-thumb:  rgba(0, 0, 0, 0.12);
 
   --grid-line:        rgba(0, 100, 90, 0.025);
+
+  /* Callout colors */
+  --callout-note-color:      #007a6c;
+  --callout-note-bg:         rgba(0, 157, 138, 0.07);
+  --callout-note-border:     rgba(0, 157, 138, 0.35);
+
+  --callout-important-color: #7c3aed;
+  --callout-important-bg:    rgba(124, 58, 237, 0.07);
+  --callout-important-border: rgba(124, 58, 237, 0.35);
+
+  --callout-warning-color:   #b45309;
+  --callout-warning-bg:      rgba(180, 83, 9, 0.07);
+  --callout-warning-border:  rgba(180, 83, 9, 0.35);
+
+  --callout-tip-color:       #166534;
+  --callout-tip-bg:          rgba(22, 101, 52, 0.07);
+  --callout-tip-border:      rgba(22, 101, 52, 0.35);
+
+  --callout-caution-color:   #b91c1c;
+  --callout-caution-bg:      rgba(185, 28, 28, 0.07);
+  --callout-caution-border:  rgba(185, 28, 28, 0.35);
 }
 
 /* ── Reset ── */
@@ -102,7 +144,7 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 body {
@@ -491,9 +533,9 @@ body::before {
    Markdown Article Styles
    ───────────────────────────────────────────────────────────── */
 .doc-article {
-  line-height: 1.75;
+  line-height: 1.85;
   color: var(--text);
-  font-size: 0.96rem;
+  font-size: 1.05rem;
 }
 
 /* Headings */
@@ -505,24 +547,24 @@ body::before {
   color: var(--heading);
   font-weight: 700;
   line-height: 1.3;
-  margin-top: 2.25rem;
-  margin-bottom: 0.75rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
   scroll-margin-top: calc(var(--nav-h) + 1.5rem);
 }
 
 .doc-article h1 {
-  font-size: 1.85rem;
+  font-size: 2rem;
   margin-top: 0;
-  padding-bottom: 0.6rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border);
 }
 
 .doc-article h2 {
-  font-size: 1.35rem;
-  padding-bottom: 0.4rem;
+  font-size: 1.45rem;
+  padding-bottom: 0.45rem;
   border-bottom: 1px solid var(--border);
   position: relative;
-  padding-left: 0.85rem;
+  padding-left: 0.9rem;
 }
 
 .doc-article h2::before {
@@ -537,16 +579,18 @@ body::before {
 }
 
 .doc-article h3 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--heading);
+  margin-top: 2.25rem;
 }
 
 .doc-article h4 {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
+  margin-top: 1.75rem;
 }
 
 /* Heading anchor links */
@@ -572,7 +616,7 @@ body::before {
 
 /* Paragraphs */
 .doc-article p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.35rem;
   color: var(--text);
 }
 
@@ -592,18 +636,18 @@ body::before {
 /* Lists */
 .doc-article ul,
 .doc-article ol {
-  margin: 0.5rem 0 1rem 1.5rem;
+  margin: 0.6rem 0 1.35rem 1.6rem;
 }
 
 .doc-article li {
-  margin-bottom: 0.3rem;
-  line-height: 1.65;
+  margin-bottom: 0.45rem;
+  line-height: 1.75;
 }
 
 .doc-article li > ul,
 .doc-article li > ol {
-  margin-top: 0.25rem;
-  margin-bottom: 0;
+  margin-top: 0.35rem;
+  margin-bottom: 0.25rem;
 }
 
 /* Inline code */
@@ -616,6 +660,65 @@ body::before {
   border-radius: 2px;
   border: 1px solid var(--accent-border);
 }
+
+/* ── Callout admonitions ── */
+.callout {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid;
+  border-left-width: 4px;
+}
+
+.callout-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.callout-body p:last-child { margin-bottom: 0; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+/* Per-type colors */
+.callout-note {
+  background: var(--callout-note-bg);
+  border-color: var(--callout-note-border);
+  border-left-color: var(--callout-note-color);
+}
+.callout-note .callout-header { color: var(--callout-note-color); }
+
+.callout-important {
+  background: var(--callout-important-bg);
+  border-color: var(--callout-important-border);
+  border-left-color: var(--callout-important-color);
+}
+.callout-important .callout-header { color: var(--callout-important-color); }
+
+.callout-warning {
+  background: var(--callout-warning-bg);
+  border-color: var(--callout-warning-border);
+  border-left-color: var(--callout-warning-color);
+}
+.callout-warning .callout-header { color: var(--callout-warning-color); }
+
+.callout-tip {
+  background: var(--callout-tip-bg);
+  border-color: var(--callout-tip-border);
+  border-left-color: var(--callout-tip-color);
+}
+.callout-tip .callout-header { color: var(--callout-tip-color); }
+
+.callout-caution {
+  background: var(--callout-caution-bg);
+  border-color: var(--callout-caution-border);
+  border-left-color: var(--callout-caution-color);
+}
+.callout-caution .callout-header { color: var(--callout-caution-color); }
 
 /* Code blocks */
 .doc-article pre {
