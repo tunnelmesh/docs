@@ -41,8 +41,8 @@
   --border-strong:    rgba(255, 255, 255, 0.12);
   --border-accent:    rgba(0, 212, 180, 0.3);
 
-  --code-inline-bg:   rgba(0, 212, 180, 0.08);
-  --code-inline-text: #7ee8d5;
+  --code-inline-bg:   rgba(255, 255, 255, 0.07);
+  --code-inline-text: #c8ccd6;
   --blockquote-bar:   rgba(0, 212, 180, 0.45);
   --table-head-bg:    rgba(255, 255, 255, 0.04);
   --table-row-alt:    rgba(255, 255, 255, 0.015);
@@ -102,8 +102,8 @@
   --border-strong:    rgba(0, 0, 0, 0.14);
   --border-accent:    rgba(0, 157, 138, 0.3);
 
-  --code-inline-bg:   rgba(0, 157, 138, 0.08);
-  --code-inline-text: #006b5e;
+  --code-inline-bg:   rgba(0, 0, 0, 0.06);
+  --code-inline-text: #2e3650;
   --blockquote-bar:   rgba(0, 157, 138, 0.5);
   --table-head-bg:    rgba(0, 0, 0, 0.04);
   --table-row-alt:    rgba(0, 0, 0, 0.018);
@@ -658,7 +658,7 @@ body::before {
   color: var(--code-inline-text);
   padding: 0.15em 0.45em;
   border-radius: 2px;
-  border: 1px solid var(--accent-border);
+  border: 1px solid var(--border);
 }
 
 /* ── Callout admonitions ── */
@@ -1241,7 +1241,7 @@ body::before {
 .blog-article-content p { margin-bottom: 1rem; }
 .blog-article-content a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--accent-border); transition: color var(--transition); }
 .blog-article-content a:hover { color: var(--link-hover); }
-.blog-article-content code:not(pre code) { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--code-inline-bg); color: var(--code-inline-text); padding: 0.15em 0.45em; border-radius: 2px; border: 1px solid var(--accent-border); }
+.blog-article-content code:not(pre code) { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--code-inline-bg); color: var(--code-inline-text); padding: 0.15em 0.45em; border-radius: 2px; border: 1px solid var(--border); }
 .blog-article-content pre { margin: 1.25rem 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
 .blog-article-content pre code.hljs { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--bg-code-block) !important; padding: 1rem 1.25rem !important; }
 .blog-article-content ul, .blog-article-content ol { margin: 0.5rem 0 1rem 1.5rem; }
