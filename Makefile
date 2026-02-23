@@ -8,9 +8,10 @@ serve:
 build:
 	node build.js
 
-# Build then serve dist/ — previews exactly what GitHub Pages will serve
+# Build then serve dist/ on 8081 — previews exactly what GitHub Pages will serve
+# (separate port so it can run alongside 'make serve')
 preview: build
-	python3 -m http.server 8080 --directory dist
+	python3 -m http.server 8081 --directory dist
 
 install-hooks:
 	cp hooks/pre-commit .git/hooks/pre-commit
