@@ -11,7 +11,7 @@ const DOC_SECTIONS = [
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
     </svg>`,
     docs: [
-      { id: 'GETTING_STARTED', title: 'Quick Start Guide' },
+      { id: 'GETTING_STARTED', slug: 'getting-started', title: 'Quick Start Guide' },
     ]
   },
   {
@@ -23,8 +23,8 @@ const DOC_SECTIONS = [
       <path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/>
     </svg>`,
     docs: [
-      { id: 'ADMIN',         title: 'Admin Guide' },
-      { id: 'USER_IDENTITY', title: 'User Identity & RBAC' },
+      { id: 'ADMIN',         slug: 'admin',         title: 'Admin Guide' },
+      { id: 'USER_IDENTITY', slug: 'user-identity', title: 'User Identity & RBAC' },
     ]
   },
   {
@@ -38,8 +38,8 @@ const DOC_SECTIONS = [
       <circle cx="12" cy="13" r="2"/>
     </svg>`,
     docs: [
-      { id: 'WIREGUARD',              title: 'WireGuard Integration' },
-      { id: 'INTERNAL_PACKET_FILTER', title: 'Internal Packet Filter' },
+      { id: 'WIREGUARD',              slug: 'wireguard',     title: 'WireGuard Integration' },
+      { id: 'INTERNAL_PACKET_FILTER', slug: 'packet-filter', title: 'Internal Packet Filter' },
     ]
   },
   {
@@ -51,8 +51,8 @@ const DOC_SECTIONS = [
       <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
     </svg>`,
     docs: [
-      { id: 'S3_STORAGE', title: 'S3-Compatible Storage' },
-      { id: 'NFS',        title: 'NFS File Sharing' },
+      { id: 'S3_STORAGE', slug: 's3-storage', title: 'S3-Compatible Storage' },
+      { id: 'NFS',        slug: 'nfs',        title: 'NFS File Sharing' },
     ]
   },
   {
@@ -65,8 +65,8 @@ const DOC_SECTIONS = [
       <line x1="9" y1="14" x2="15" y2="14"/>
     </svg>`,
     docs: [
-      { id: 'DOCKER',           title: 'Docker Deployment' },
-      { id: 'CLOUD_DEPLOYMENT', title: 'Cloud Deployment' },
+      { id: 'DOCKER',           slug: 'docker',           title: 'Docker Deployment' },
+      { id: 'CLOUD_DEPLOYMENT', slug: 'cloud-deployment', title: 'Cloud Deployment' },
     ]
   },
   {
@@ -80,13 +80,13 @@ const DOC_SECTIONS = [
       <line x1="10" y1="9" x2="8" y2="9"/>
     </svg>`,
     docs: [
-      { id: 'CLI',          title: 'CLI Reference' },
-      { id: 'BENCHMARKING', title: 'Benchmarking' },
+      { id: 'CLI',          slug: 'cli',          title: 'CLI Reference' },
+      { id: 'BENCHMARKING', slug: 'benchmarking', title: 'Benchmarking' },
     ]
   },
 ];
 
-// Flat ordered list of all docs for prev/next
+// Flat ordered list of all docs for prev/next navigation
 const ALL_DOCS = DOC_SECTIONS.flatMap(s => s.docs);
 
 // ── SVG icon helpers ──────────────────────────────────────────
@@ -105,27 +105,22 @@ const ICONS = {
 const CALLOUTS = {
   NOTE: {
     label: 'Note',
-    cssVar: '--callout-note',
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
   },
   IMPORTANT: {
     label: 'Important',
-    cssVar: '--callout-important',
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
   },
   WARNING: {
     label: 'Warning',
-    cssVar: '--callout-warning',
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
   },
   TIP: {
     label: 'Tip',
-    cssVar: '--callout-tip',
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><path d="M12 6a6 6 0 0 1 6 6c0 2.4-1.4 4.5-3.5 5.6V20a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-2.4C7.4 16.5 6 14.4 6 12a6 6 0 0 1 6-6z"/><line x1="10" y1="22" x2="14" y2="22"/></svg>`,
   },
   CAUTION: {
     label: 'Caution',
-    cssVar: '--callout-caution',
     icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
   },
 };
@@ -146,6 +141,7 @@ const state = {
   currentBlogSlug: null,
   blogManifest: null,
   tocObserver: null,
+  hasHydrated: false,
 };
 
 // ── Theme ─────────────────────────────────────────────────────
@@ -258,7 +254,6 @@ function configureMarked() {
         if (match) {
           const type = match[1].toUpperCase();
           const def = CALLOUTS[type];
-          // Strip the [!TYPE] tag from the first paragraph
           const body = quote.replace(/^<p>\[!(NOTE|IMPORTANT|WARNING|TIP|CAUTION)\][ \t]?\n?/i, '<p>');
           return `<div class="callout callout-${type.toLowerCase()}">` +
             `<div class="callout-header">${def.icon}<span class="callout-label">${def.label}</span></div>` +
@@ -271,12 +266,10 @@ function configureMarked() {
   });
 }
 
-function postProcess(html) {
-  // Wrap pre>code blocks and add copy buttons + language labels
-  const div = document.createElement('div');
-  div.innerHTML = html;
-
-  div.querySelectorAll('pre code').forEach(code => {
+// ── Post-process: add interactive features to a live element ──
+// Works in-place on a DOM element so event listeners are preserved.
+function postProcess(element) {
+  element.querySelectorAll('pre code').forEach(code => {
     const pre = code.parentElement;
     const lang = [...code.classList]
       .find(c => c.startsWith('language-'))
@@ -305,12 +298,9 @@ function postProcess(html) {
     pre.appendChild(btn);
   });
 
-  // Lightbox on image click
-  div.querySelectorAll('img').forEach(img => {
+  element.querySelectorAll('img').forEach(img => {
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
-
-  return div.innerHTML;
 }
 
 // ── Lightbox ──────────────────────────────────────────────────
@@ -321,7 +311,7 @@ function openLightbox(src, alt) {
   overlay.addEventListener('click', () => overlay.remove());
   document.addEventListener('keydown', function esc(e) {
     if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', esc); }
-  }, { once: false });
+  });
   document.body.appendChild(overlay);
 }
 
@@ -345,7 +335,6 @@ function buildPageTOC() {
     return `<a class="toc-entry toc-${level}" href="#${id}">${text}</a>`;
   }).join('');
 
-  // Observe headings for active highlight
   if (state.tocObserver) state.tocObserver.disconnect();
 
   const entries = tocNav.querySelectorAll('.toc-entry');
@@ -398,11 +387,8 @@ function buildPagination(docId) {
 
 // ── Load a doc ────────────────────────────────────────────────
 async function loadDoc(docId) {
-  // Validate
   const docDef = ALL_DOCS.find(d => d.id === docId);
-  if (!docDef) {
-    docId = ALL_DOCS[0].id;
-  }
+  if (!docDef) docId = ALL_DOCS[0].id;
 
   state.currentDocId = docId;
   showView('docs');
@@ -414,28 +400,23 @@ async function loadDoc(docId) {
   buildPagination(docId);
 
   try {
-    const res = await fetch(`docs/${docId}.md`);
+    const res = await fetch(`/docs/${docId}.md`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const md = await res.text();
-    const html = marked.parse(md);
-    article.innerHTML = postProcess(html);
 
-    // Syntax highlight
-    article.querySelectorAll('pre code').forEach(block => {
-      hljs.highlightElement(block);
-    });
+    article.innerHTML = marked.parse(md);
+    postProcess(article);
+    article.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
 
     buildPageTOC();
     closeSidebar();
     window.scrollTo({ top: 0, behavior: 'instant' });
 
-    // Handle in-page anchor if present
+    // Scroll to in-page anchor if present
     const hash = window.location.hash;
     if (hash.length > 1 && !hash.startsWith('#/')) {
       const target = document.getElementById(hash.slice(1));
-      if (target) {
-        setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 100);
-      }
+      if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 100);
     }
 
     document.title = `${docDef?.title || docId} — TunnelMesh Docs`;
@@ -443,7 +424,7 @@ async function loadDoc(docId) {
     article.innerHTML = `
       <div style="padding: 2rem 0; color: var(--text-muted);">
         <h2 style="color: var(--heading); margin-bottom: 0.5rem;">Could not load document</h2>
-        <p>Run a local web server to view docs: <code>python3 -m http.server 8000</code></p>
+        <p>Run a local web server to view docs: <code>make serve</code></p>
         <p style="margin-top: 0.5rem; font-size: 0.82rem; opacity: 0.6;">Error: ${err.message}</p>
       </div>
     `;
@@ -454,7 +435,7 @@ async function loadDoc(docId) {
 async function loadBlogManifest() {
   if (state.blogManifest) return state.blogManifest;
   try {
-    const res = await fetch('articles/manifest.json');
+    const res = await fetch('/articles/manifest.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     state.blogManifest = await res.json();
     return state.blogManifest;
@@ -521,17 +502,14 @@ async function showBlogArticle(slug) {
   const meta = (manifest.articles || []).find(a => a.slug === slug);
 
   try {
-    const res = await fetch(`articles/${slug}.md`);
+    const res = await fetch(`/articles/${slug}.md`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const md = await res.text();
-
-    // Strip frontmatter if present
     const stripped = md.replace(/^---[\s\S]*?---\n/, '');
-    const html = marked.parse(stripped);
-    const processed = postProcess(html);
 
     document.title = `${meta?.title || slug} — TunnelMesh Blog`;
 
+    // Build wrapper — content div is initially empty
     main.innerHTML = `
       <div class="blog-article-wrap">
         <a class="blog-back" href="#/blog">
@@ -544,13 +522,14 @@ async function showBlogArticle(slug) {
             ${meta.author ? `<span>· ${meta.author}</span>` : ''}
           </div>
         ` : ''}
-        <div class="blog-article-content">
-          ${processed}
-        </div>
+        <div class="blog-article-content" id="blog-article-inner"></div>
       </div>
     `;
 
-    main.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+    const contentEl = document.getElementById('blog-article-inner');
+    contentEl.innerHTML = marked.parse(stripped);
+    postProcess(contentEl);
+    contentEl.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
     window.scrollTo({ top: 0, behavior: 'instant' });
   } catch (err) {
     main.innerHTML = `
@@ -568,13 +547,54 @@ function formatDate(dateStr) {
   return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
+// ── Hydrate pre-rendered pages (built by build.js) ────────────
+// When landing on a pre-built page (e.g. /docs/cli/), the content
+// is already in the DOM. Skip the fetch — just attach interactivity.
+function hydratePrerendered(pr) {
+  state.hasHydrated = true;
+
+  if (pr.type === 'doc') {
+    state.currentDocId = pr.id;
+    showView('docs');
+    setActiveSidebarLink(pr.id);
+    buildPagination(pr.id);
+    const article = document.getElementById('doc-article');
+    postProcess(article);
+    article.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+    buildPageTOC();
+    const docDef = ALL_DOCS.find(d => d.id === pr.id);
+    document.title = `${docDef?.title || pr.id} — TunnelMesh Docs`;
+
+  } else if (pr.type === 'blog-index') {
+    showBlogIndex();
+
+  } else if (pr.type === 'blog-article') {
+    state.currentBlogSlug = pr.slug;
+    showView('blog');
+    const content = document.querySelector('.blog-article-content');
+    if (content) {
+      postProcess(content);
+      content.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+    }
+    loadBlogManifest().then(manifest => {
+      const meta = (manifest.articles || []).find(a => a.slug === pr.slug);
+      if (meta) document.title = `${meta.title} — TunnelMesh Blog`;
+    });
+  }
+}
+
 // ── Router ────────────────────────────────────────────────────
 function handleRoute() {
   const raw = window.location.hash;
 
-  // In-page anchor clicks (heading links, page TOC) — let the browser
-  // scroll naturally, don't re-route.
+  // In-page anchor clicks — let the browser scroll naturally
   if (raw && !raw.startsWith('#/')) return;
+
+  // Pre-rendered page: no hash, content already in DOM
+  if (!raw && window.__PRERENDERED && !state.hasHydrated) {
+    hydratePrerendered(window.__PRERENDERED);
+    return;
+  }
 
   const hash = raw || '#/docs/GETTING_STARTED';
 
@@ -586,16 +606,10 @@ function handleRoute() {
   } else if (hash.startsWith('#/blog')) {
     state.currentBlogSlug = null;
     showBlogIndex();
-    document.querySelectorAll('.nav-tab').forEach(t => {
-      t.classList.toggle('active', t.dataset.view === 'blog');
-    });
 
   } else {
     const docId = hash.replace('#/docs/', '') || 'GETTING_STARTED';
     loadDoc(docId);
-    document.querySelectorAll('.nav-tab').forEach(t => {
-      t.classList.toggle('active', t.dataset.view === 'docs');
-    });
   }
 }
 
@@ -605,38 +619,29 @@ function init() {
   configureMarked();
   buildSidebar();
 
-  // Nav tab clicks
   document.querySelectorAll('.nav-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       const view = tab.dataset.view;
       if (view === 'docs') {
-        const docId = state.currentDocId || 'GETTING_STARTED';
-        window.location.hash = `#/docs/${docId}`;
+        window.location.hash = `#/docs/${state.currentDocId || 'GETTING_STARTED'}`;
       } else if (view === 'blog') {
         window.location.hash = '#/blog';
       }
     });
   });
 
-  // Theme toggle
   document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-
-  // Hamburger
   document.getElementById('hamburger').addEventListener('click', openSidebar);
   document.getElementById('sidebar-overlay').addEventListener('click', closeSidebar);
 
-  // Sidebar link delegation
   document.getElementById('sidebar-nav').addEventListener('click', e => {
-    const link = e.target.closest('.sidebar-doc-link');
-    if (link) closeSidebar();
+    if (e.target.closest('.sidebar-doc-link')) closeSidebar();
   });
 
-  // Router
   window.addEventListener('hashchange', handleRoute);
   handleRoute();
 }
 
-// Boot when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {

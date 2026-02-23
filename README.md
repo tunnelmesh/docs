@@ -2,7 +2,7 @@
 
 Source for the TunnelMesh documentation site, served at **[read.tunnelmesh.io](https://read.tunnelmesh.io)**.
 
-Built as a pure static site — no build step, no dependencies. Open `index.html` in a browser via a local web server.
+Built as a pure static site — no npm, no dependencies. Open `index.html` in a browser via a local web server.
 
 ```bash
 make serve        # http://localhost:8080
@@ -12,7 +12,7 @@ make serve        # http://localhost:8080
 
 ## Publishing to GitHub Pages
 
-The site deploys directly from the `main` branch — every push to `main` is live within ~60 seconds.
+The site is built by `build.js` (Node.js built-ins only — no npm) and deployed from the `gh-pages` branch. Every push to `main` triggers the GitHub Actions workflow, which builds pre-rendered HTML for SEO and publishes it automatically within ~60 seconds.
 
 ### First-time setup
 
@@ -25,22 +25,22 @@ git remote add origin git@github.com:tunnelmesh/tunnelmesh-docs.git
 git push -u origin main
 ```
 
-#### 2. Enable GitHub Pages
+#### 2. Enable GitHub Pages from the `gh-pages` branch
 
 1. Go to **Settings → Pages** in the repository
 2. Under **Source**, select **Deploy from a branch**
-3. Set branch to `main`, folder to `/ (root)`
+3. Set branch to `gh-pages`, folder to `/ (root)`
 4. Click **Save**
 
-GitHub will publish the site at `https://tunnelmesh.github.io/tunnelmesh-docs` within a minute or two. The `CNAME` file in this repo tells GitHub Pages to serve it on `read.tunnelmesh.io` instead once DNS is configured.
+GitHub Actions will create the `gh-pages` branch on the first push to `main`.
 
 #### 3. Configure DNS
 
 Add a `CNAME` record with your DNS provider:
 
-| Type  | Name   | Value                              |
-|-------|--------|------------------------------------|
-| CNAME | `read` | `tunnelmesh.github.io`             |
+| Type  | Name   | Value                  |
+|-------|--------|------------------------|
+| CNAME | `read` | `tunnelmesh.github.io` |
 
 TTL of 300–3600 is fine. GitHub Pages handles HTTPS automatically via Let's Encrypt once the DNS record propagates (usually a few minutes, up to an hour).
 
@@ -52,7 +52,17 @@ TTL of 300–3600 is fine. GitHub Pages handles HTTPS automatically via Let's En
 4. Once verified, tick **Enforce HTTPS**
 
 The site is now live at **[https://read.tunnelmesh.io](https://read.tunnelmesh.io)**.
-The docs open directly via **[https://read.tunnelmesh.io/#/docs](https://read.tunnelmesh.io/#/docs)**.
+
+---
+
+## Local build
+
+```bash
+make build        # Generates dist/  (requires Node.js 18+)
+make serve        # Serves source at http://localhost:8080
+```
+
+The build script (`build.js`) pre-renders every doc and blog page to clean URLs so search engines can index them without executing JavaScript. It downloads marked.js from the CDN once and caches it in `.build-cache/`.
 
 ---
 
@@ -77,7 +87,9 @@ docs/
 └── NFS.md
 ```
 
-To add a new doc page, drop a `.md` file in `docs/` and register it in the `DOC_SECTIONS` manifest inside `js/app.js`.
+To add a new doc page, drop a `.md` file in `docs/` and register it in both:
+- `DOC_SECTIONS` in `js/app.js` (add `id`, `slug`, `title` to the right section)
+- `ALL_DOCS` in `build.js` (same `id`, `slug`, `title`)
 
 Images for docs go in `docs/images/` and are referenced as `images/filename.png`.
 
