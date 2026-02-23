@@ -760,8 +760,8 @@ body::before {
 .doc-article pre .copy-btn,
 .blog-article-content pre .copy-btn {
   position: absolute;
-  bottom: 0.45rem;
-  right: 0.5rem;
+  top: 0.45rem;
+  left: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.3rem;
