@@ -724,7 +724,8 @@ body::before {
 .doc-article pre {
   margin: 1.25rem 0;
   border-radius: var(--radius);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   border: 1px solid var(--border);
   position: relative;
 }
@@ -1242,7 +1243,7 @@ body::before {
 .blog-article-content a { color: var(--link); text-decoration: none; border-bottom: 1px solid var(--accent-border); transition: color var(--transition); }
 .blog-article-content a:hover { color: var(--link-hover); }
 .blog-article-content code:not(pre code) { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--code-inline-bg); color: var(--code-inline-text); padding: 0.15em 0.45em; border-radius: 2px; border: 1px solid var(--border); }
-.blog-article-content pre { margin: 1.25rem 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+.blog-article-content pre { margin: 1.25rem 0; border-radius: var(--radius); overflow-x: auto; overflow-y: hidden; border: 1px solid var(--border); }
 .blog-article-content pre code.hljs { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; background: var(--bg-code-block) !important; padding: 1rem 1.25rem !important; }
 .blog-article-content ul, .blog-article-content ol { margin: 0.5rem 0 1rem 1.5rem; }
 .blog-article-content li { margin-bottom: 0.3rem; }
