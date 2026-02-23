@@ -365,7 +365,6 @@ body::before {
    ───────────────────────────────────────────────────────────── */
 .app-wrap {
   position: relative;
-  z-index: 1;
   padding-top: var(--nav-h);
   min-height: 100vh;
 }
@@ -487,7 +486,6 @@ body::before {
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 99;
-  backdrop-filter: blur(2px);
 }
 
 /* ─────────────────────────────────────────────────────────────
