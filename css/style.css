@@ -1169,6 +1169,31 @@ body::before {
   max-width: 820px;
 }
 
+.draft-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--callout-warning-color);
+  background: var(--callout-warning-bg);
+  border: 1px solid var(--callout-warning-border);
+  border-radius: var(--radius);
+}
+
+.draft-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+
 .blog-back {
   display: inline-flex;
   align-items: center;

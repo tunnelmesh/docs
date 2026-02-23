@@ -471,7 +471,7 @@ async function showBlogIndex() {
   main.innerHTML = `<div class="doc-loading"><div class="loading-spinner"></div><span>Loading…</span></div>`;
 
   const manifest = await loadBlogManifest();
-  const articles = manifest.articles || [];
+  const articles = (manifest.articles || []).filter(a => !a.draft);
 
   if (articles.length === 0) {
     main.innerHTML = `
@@ -537,6 +537,7 @@ async function showBlogArticle(slug) {
         <a class="blog-back" href="#/blog">
           ${ICONS.arrowLeft} All articles
         </a>
+        ${meta?.draft ? `<div class="draft-badge">Draft — not published</div>` : ''}
         ${meta ? `
           <div class="blog-article-meta">
             <span class="meta-date">${formatDate(meta.date)}</span>
