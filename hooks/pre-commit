@@ -1,0 +1,85 @@
+#!/bin/sh
+# pre-commit hook — lints staged docs/ and articles/ markdown files
+# Install: make install-hooks
+
+set -e
+ERRORS=0
+
+fail() { printf '\033[31m  ✗  %s\033[0m\n' "$*" >&2; ERRORS=$((ERRORS + 1)); }
+warn() { printf '\033[33m  ⚠  %s\033[0m\n' "$*" >&2; }
+ok()   { printf '\033[32m  ✓  %s\033[0m\n' "$*"; }
+
+STAGED_MD=$(git diff --cached --name-only --diff-filter=ACM | grep '\.md$' || true)
+
+if [ -z "$STAGED_MD" ] && ! git diff --cached --name-only --diff-filter=ACM | grep -q 'articles/manifest.json'; then
+  exit 0
+fi
+
+printf 'Linting staged markdown…\n'
+
+for FILE in $STAGED_MD; do
+  # ── Image link validation ───────────────────────────────────
+  IMG_DIR="$(dirname "$FILE")/images"
+  # Extract image paths like ![alt](images/foo.png)
+  git show ":$FILE" | grep -oE '!\[[^]]*\]\(images/[^)]+\)' | \
+    grep -oE 'images/[^)]+' | while read -r REF; do
+    if [ ! -f "$IMG_DIR/${REF#images/}" ]; then
+      fail "$FILE: broken image ref '$REF' (not found at $IMG_DIR/${REF#images/})"
+    fi
+  done
+
+  # ── Callout syntax check ────────────────────────────────────
+  # Catch common mistakes: [! NOTE], [!note], [!Warning]
+  if git show ":$FILE" | grep -qE '^\s*>\s*\[![a-z]|^\s*>\s*\[! '; then
+    fail "$FILE: malformed callout — use [!NOTE], [!IMPORTANT], [!WARNING], [!TIP], or [!CAUTION] (all caps, no space)"
+  fi
+
+  # ── Blog articles must be registered in manifest.json ───────
+  case "$FILE" in
+    articles/*.md)
+      SLUG="$(basename "$FILE" .md)"
+      if ! grep -q "\"slug\": \"$SLUG\"" articles/manifest.json 2>/dev/null; then
+        fail "$FILE: no entry for slug \"$SLUG\" found in articles/manifest.json"
+      fi
+      ;;
+  esac
+done
+
+# ── Manifest consistency check ──────────────────────────────────
+if git diff --cached --name-only --diff-filter=ACM | grep -q 'articles/manifest.json'; then
+  # Every non-draft slug in manifest must have a .md file
+  python3 - <<'PYEOF'
+import json, sys, os
+try:
+    with open('articles/manifest.json') as f:
+        manifest = json.load(f)
+except Exception as e:
+    print(f"  \033[31m✗  articles/manifest.json: invalid JSON — {e}\033[0m", file=sys.stderr)
+    sys.exit(1)
+
+errors = 0
+for article in manifest.get('articles', []):
+    slug = article.get('slug', '')
+    if not slug:
+        print(f"  \033[31m✗  articles/manifest.json: entry missing 'slug' field\033[0m", file=sys.stderr)
+        errors += 1
+        continue
+    md_path = f"articles/{slug}.md"
+    if not os.path.exists(md_path):
+        draft = ' (draft)' if article.get('draft') else ''
+        print(f"  \033[31m✗  articles/manifest.json: slug \"{slug}\"{draft} has no matching {md_path}\033[0m", file=sys.stderr)
+        errors += 1
+    date = article.get('date', '')
+    if date and len(date) != 10:
+        print(f"  \033[33m⚠  articles/manifest.json: \"{slug}\" date should be YYYY-MM-DD\033[0m", file=sys.stderr)
+if errors:
+    sys.exit(1)
+PYEOF
+fi
+
+if [ "$ERRORS" -gt 0 ]; then
+  printf '\n\033[31m%d error(s) — commit blocked.\033[0m Fix the issues above and retry.\n\n' "$ERRORS" >&2
+  exit 1
+fi
+
+ok "Docs lint passed"
