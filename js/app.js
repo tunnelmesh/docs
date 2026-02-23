@@ -207,35 +207,24 @@ function showView(viewId) {
 
 // ── Markdown rendering ────────────────────────────────────────
 function configureMarked() {
-  const renderer = new marked.Renderer();
-
-  // Headings with anchor links
-  renderer.heading = function(text, level) {
-    const id = slugify(typeof text === 'string' ? text : text.raw || '');
-    const cleanText = typeof text === 'string' ? text : text.text || text.raw || '';
-    return `<h${level} id="${id}">
-      ${cleanText}
-      <a class="heading-anchor" href="#${id}" aria-label="Link to ${cleanText}">
-        ${ICONS.link}
-      </a>
-    </h${level}>`;
-  };
-
-  // External links open in new tab
-  renderer.link = function(href, title, text) {
-    const isExternal = typeof href === 'string' && (href.startsWith('http://') || href.startsWith('https://'));
-    const attrs = isExternal
-      ? ` target="_blank" rel="noopener" title="${title || ''}"`
-      : ` title="${title || ''}"`;
-    const ext = isExternal ? ` ${ICONS.externalLink}` : '';
-    return `<a href="${href || ''}"${attrs}>${text}${ext}</a>`;
-  };
-
-  marked.setOptions({
-    renderer,
+  marked.use({
     gfm: true,
     breaks: false,
-    pedantic: false,
+    renderer: {
+      // Headings with stable IDs and anchor links
+      heading(text, level, raw) {
+        // Use raw (plain text) for slug to avoid HTML entities in IDs
+        const id = slugify(raw || text);
+        return `<h${level} id="${id}">${text}<a class="heading-anchor" href="#${id}" aria-label="Link to section">${ICONS.link}</a></h${level}>\n`;
+      },
+      // External links open in new tab
+      link(href, title, text) {
+        const isExternal = typeof href === 'string' &&
+          (href.startsWith('http://') || href.startsWith('https://'));
+        const ext = isExternal ? ` ${ICONS.externalLink}` : '';
+        return `<a href="${href || ''}"${title ? ` title="${title}"` : ''}${isExternal ? ' target="_blank" rel="noopener"' : ''}>${text}${ext}</a>`;
+      },
+    }
   });
 }
 
