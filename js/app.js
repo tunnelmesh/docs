@@ -552,7 +552,13 @@ function formatDate(dateStr) {
 
 // ── Router ────────────────────────────────────────────────────
 function handleRoute() {
-  const hash = window.location.hash || '#/docs/GETTING_STARTED';
+  const raw = window.location.hash;
+
+  // In-page anchor clicks (heading links, page TOC) — let the browser
+  // scroll naturally, don't re-route.
+  if (raw && !raw.startsWith('#/')) return;
+
+  const hash = raw || '#/docs/GETTING_STARTED';
 
   if (hash.startsWith('#/blog/')) {
     const slug = hash.replace('#/blog/', '');
