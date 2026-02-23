@@ -305,7 +305,24 @@ function postProcess(html) {
     pre.appendChild(btn);
   });
 
+  // Lightbox on image click
+  div.querySelectorAll('img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
+
   return div.innerHTML;
+}
+
+// ── Lightbox ──────────────────────────────────────────────────
+function openLightbox(src, alt) {
+  const overlay = document.createElement('div');
+  overlay.className = 'lightbox';
+  overlay.innerHTML = `<img src="${src}" alt="${alt || ''}">`;
+  overlay.addEventListener('click', () => overlay.remove());
+  document.addEventListener('keydown', function esc(e) {
+    if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', esc); }
+  }, { once: false });
+  document.body.appendChild(overlay);
 }
 
 // ── Page TOC ──────────────────────────────────────────────────
