@@ -38,7 +38,6 @@ const DOC_SECTIONS = [
       <circle cx="12" cy="13" r="2"/>
     </svg>`,
     docs: [
-      { id: 'WIREGUARD',              slug: 'wireguard',     title: 'WireGuard Integration' },
       { id: 'INTERNAL_PACKET_FILTER', slug: 'packet-filter', title: 'Internal Packet Filter' },
     ]
   },

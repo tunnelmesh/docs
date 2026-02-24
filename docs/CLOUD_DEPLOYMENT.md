@@ -52,8 +52,8 @@ network with exit peers, there's a configuration for you.
 > **Recommended for beginners**: This is the simplest and cheapest deployment. Start here and scale up
 > only when you need regional presence or dedicated services.
 
-**The simplest deployment.** A single $4/month droplet runs everything: coordinator, mesh peer, and WireGuard
-concentrator. Perfect for personal use, small teams, or testing.
+**The simplest deployment.** A single $4/month droplet runs everything: coordinator, mesh peer, and exit peer.
+Perfect for personal use, small teams, or testing.
 
 ```text
                     ┌─────────────────────────────────────┐
@@ -62,7 +62,6 @@ concentrator. Perfect for personal use, small teams, or testing.
                     │                                     │
                     │   ┌─────────────────────────────┐   │
                     │   │    Coordinator + Peer       │   │
-                    │   │    + WireGuard Gateway      │   │
                     │   │    + Exit Peer              │   │
                     │   └─────────────────────────────┘   │
                     │              10.42.0.1              │
@@ -71,9 +70,8 @@ concentrator. Perfect for personal use, small teams, or testing.
            ┌───────────────────────────┼───────────────────────────┐
            │                           │                           │
       ┌────▼────┐                ┌─────▼─────┐              ┌──────▼──────┐
-      │  📱     │                │  💻       │              │  🏠         │
-      │ iPhone  │                │  Laptop   │              │  Home PC    │
-      │ (WG)    │                │  (native) │              │  (native)   │
+      │  💻     │                │  💻       │              │  🏠         │
+      │ Device  │                │  Laptop   │              │  Home PC    │
       └─────────┘                └───────────┘              └─────────────┘
 ```
 
@@ -91,7 +89,6 @@ nodes = {
   "tunnelmesh" = {
     coordinator        = true
     peer               = true
-    wireguard          = true
     allow_exit_traffic = true
   }
 }
@@ -101,58 +98,7 @@ nodes = {
 
 ---
 
-### Scenario 2: Coordinator + WireGuard Gateway
-
-**Separate concerns.** The coordinator handles orchestration while a dedicated peer provides WireGuard access for mobile
-devices. Better isolation and the ability to place the WireGuard endpoint closer to your users.
-
-```text
-┌─────────────────────────────┐          ┌─────────────────────────────┐
-│     tunnelmesh.example.com  │          │       wg.example.com        │
-│     ━━━━━━━━━━━━━━━━━━━━━   │          │       ━━━━━━━━━━━━━━        │
-│                             │          │                             │
-│   ┌─────────────────────┐   │   mesh   │   ┌─────────────────────┐   │
-│   │    Coordinator      │◄──┼──────────┼──►│    WireGuard Peer   │   │
-│   │    (no peer)        │   │  tunnel  │   │                     │   │
-│   └─────────────────────┘   │          │   └─────────────────────┘   │
-│                             │          │          10.42.0.2          │
-└─────────────────────────────┘          └──────────────┬──────────────┘
-                                                        │
-                                              ┌─────────┼─────────┐
-                                              │         │         │
-                                         ┌────▼───┐ ┌───▼───┐ ┌───▼───┐
-                                         │   📱   │ │  📱   │ │  💻   │
-                                         │ Phone  │ │ Tablet│ │Laptop │
-                                         └────────┘ └───────┘ └───────┘
-```
-
-**Use cases:**
-
-- Place WireGuard endpoint in a region closer to mobile users
-- Reduce attack surface on the coordinator
-- Scale WireGuard capacity independently
-
-**Configuration:**
-
-```hcl
-nodes = {
-  "tunnelmesh" = {
-    coordinator = true
-    peer        = true
-  }
-  "tm-wg" = {
-    peer      = true
-    wireguard = true
-    region    = "nyc3"  # Closer to US users
-  }
-}
-```
-
-**Cost:** ~$8/month (2 droplets)
-
----
-
-### Scenario 3: Exit Peer (Split-Tunnel VPN)
+### Scenario 2: Exit Peer (Split-Tunnel VPN)
 
 **Route internet traffic through a specific location.** Your traffic exits from a peer in another region while
 mesh-to-mesh communication stays direct. Great for privacy, accessing geo-restricted content, or compliance
@@ -191,7 +137,6 @@ nodes = {
   "tunnelmesh" = {
     coordinator = true
     peer        = true
-    wireguard   = true
     region      = "ams3"
   }
   "tm-exit-sgp" = {
@@ -216,10 +161,10 @@ sudo tunnelmesh join --config peer.yaml --exit-node tm-exit-sgp --context work
 
 ---
 
-### Scenario 4: Multi-Region Mesh
+### Scenario 3: Multi-Region Mesh
 
-**Global presence.** WireGuard entry points in multiple regions provide low-latency access for a distributed team. Users
-connect to their nearest gateway and gain access to the entire mesh.
+**Global presence.** Mesh peers in multiple regions provide low-latency access for a distributed team. Users
+connect to their nearest peer and gain access to the entire mesh.
 
 ```text
                               ┌─────────────────────────────────┐
@@ -234,7 +179,7 @@ connect to their nearest gateway and gain access to the entire mesh.
               ┌────────────────────────────────┼────────────────────────────────┐
               │                                │                                │
     ┌─────────▼─────────┐          ┌──────────▼──────────┐          ┌──────────▼──────────┐
-    │   WireGuard Peer  │          │   WireGuard Peer    │          │   WireGuard Peer    │
+    │   Mesh Peer       │          │   Mesh Peer         │          │   Mesh Peer         │
     │   New York        │◄─────────►   Frankfurt         │◄─────────►   Singapore         │
     │                   │   mesh   │                     │   mesh   │                     │
     │   10.42.0.2       │          │   10.42.0.3         │          │   10.42.0.4         │
@@ -242,7 +187,7 @@ connect to their nearest gateway and gain access to the entire mesh.
               │                               │                                │
        ┌──────┴──────┐                 ┌──────┴──────┐                 ┌───────┴──────┐
        │   US Team   │                 │   EU Team   │                 │   APAC Team  │
-       │   📱💻💻     │                 │   📱📱💻     │                 │   💻📱        │
+       │   💻💻💻     │                 │   💻💻💻     │                 │   💻💻        │
        └─────────────┘                 └─────────────┘                 └──────────────┘
 ```
 
@@ -260,18 +205,15 @@ nodes = {
   "tunnelmesh" = {
     coordinator = true
     peer        = true
-    wireguard   = true
     region      = "ams3"
   }
   "tm-us" = {
-    peer      = true
-    wireguard = true
-    region    = "nyc3"
+    peer   = true
+    region = "nyc3"
   }
   "tm-asia" = {
-    peer      = true
-    wireguard = true
-    region    = "sgp1"
+    peer   = true
+    region = "sgp1"
   }
 }
 ```
@@ -280,17 +222,17 @@ nodes = {
 
 ---
 
-### Scenario 5: Home Lab Gateway
+### Scenario 4: Home Lab Gateway
 
-**Access your home network from anywhere.** Run a cloud coordinator and connect your home server as a peer. Mobile
-devices connect via WireGuard and can reach everything on your home LAN.
+**Access your home network from anywhere.** Run a cloud coordinator and connect your home server as a peer. Devices
+connect via the native client and can reach everything on your home LAN.
 
 ```text
                           Cloud (DigitalOcean)
         ┌─────────────────────────────────────────────────┐
         │                                                 │
         │   ┌─────────────────────────────────────────┐   │
-        │   │         Coordinator + WireGuard         │   │
+        │   │              Coordinator               │   │
         │   │         tunnelmesh.example.com          │   │
         │   └─────────────────────────────────────────┘   │
         │                        │                        │
@@ -315,8 +257,8 @@ devices connect via WireGuard and can reach everything on your home LAN.
                     ┌────────────┴────────────┐
                     │                         │
                ┌────▼────┐              ┌─────▼─────┐
-               │   📱    │              │    💻     │
-               │ Phone   │              │  Laptop   │
+               │   💻    │              │    💻     │
+               │ Laptop  │              │  Laptop   │
                │(coffee  │              │ (hotel)   │
                │ shop)   │              │           │
                └─────────┘              └───────────┘
@@ -337,7 +279,6 @@ nodes = {
   "tunnelmesh" = {
     coordinator = true
     peer        = true
-    wireguard   = true
   }
 }
 ```
@@ -364,7 +305,7 @@ sudo tunnelmesh service start
 
 ---
 
-### Scenario 6: Development Team Secure Mesh
+### Scenario 5: Development Team Secure Mesh
 
 **Connect developer machines directly.** No VPN concentrator bottleneck. Developers can SSH into each other's machines,
 share local development servers, and collaborate as if on the same LAN.
@@ -416,7 +357,7 @@ sudo tunnelmesh join tunnelmesh.example.com --token team-token --context team
 
 ---
 
-### Scenario 7: Gaming Group Low-Latency Mesh
+### Scenario 6: Gaming Group Low-Latency Mesh
 
 **Direct connections for multiplayer gaming.** Skip the public internet. Peers connect directly via UDP for minimal
 latency. Host game servers on any peer's machine.
@@ -484,7 +425,6 @@ Each peer in the `nodes` map supports these options:
 | -------- | ------ | ------------- |
 | `coordinator` | bool | Enable coordinator services on this peer (coordinators discover each other via P2P) |
 | `peer` | bool | Join mesh as a peer |
-| `wireguard` | bool | Enable WireGuard concentrator for mobile clients |
 
 ### Exit Peer Options
 
@@ -499,7 +439,6 @@ Each peer in the `nodes` map supports these options:
 | -------- | ------ | --------- | ------------- |
 | `region` | string | `ams3` | DigitalOcean region |
 | `size` | string | `s-1vcpu-512mb-10gb` | Droplet size |
-| `wg_port` | number | `51820` | WireGuard UDP port |
 | `ssh_port` | number | `2222` | SSH tunnel port |
 | `tags` | list | `[]` | Additional droplet tags |
 
@@ -541,7 +480,6 @@ export TF_VAR_do_token="dop_v1_xxx"
 | ---------- | --------- | ------------- |
 | `default_region` | `ams3` | Default droplet region |
 | `default_droplet_size` | `s-1vcpu-512mb-10gb` | Default size ($4/mo) |
-| `default_wg_port` | `51820` | Default WireGuard port |
 | `default_ssh_port` | `2222` | Default SSH tunnel port |
 | `external_api_port` | `8443` | HTTPS port for peer connections |
 
@@ -586,7 +524,6 @@ loki_retention_days       = 7
 
 - Peer disconnections
 - Packet drops and error rates
-- WireGuard status
 - Resource utilization
 
 Access Grafana from within the mesh:
@@ -672,14 +609,8 @@ terraform destroy
 ### Peers Can't Connect
 
 1. Check auth tokens match
-2. Verify firewall allows ports 8443 (HTTPS), 2222 (SSH), 51820 (WireGuard)
+2. Verify firewall allows ports 8443 (HTTPS), 2222 (SSH)
 3. Check coordinator logs: `journalctl -u tunnelmesh`
-
-### WireGuard Clients Timeout
-
-1. Verify UDP port 51820 is open
-2. Check WireGuard peer is running: `tunnelmesh status`
-3. Regenerate client config from admin panel
 
 ### High Latency
 
@@ -694,7 +625,7 @@ terraform destroy
 | Configuration | Droplets | Monthly Cost |
 | --------------- | ---------- | -------------- |
 | All-in-One | 1 | ~$4 |
-| Coord + WG Peer | 2 | ~$8 |
+| Coord + Extra Peer | 2 | ~$8 |
 | Multi-Region (3) | 3 | ~$12 |
 | Full Production | 4+ | ~$16+ |
 
@@ -724,7 +655,6 @@ nodes = {
   "tunnelmesh" = {
     coordinator        = true
     peer               = true
-    wireguard          = true
     allow_exit_traffic = true
     region             = "ams3"
   }
@@ -739,10 +669,9 @@ nodes = {
       country   = "US"
     }
   }
-  "tm-wg-asia" = {
-    peer      = true
-    wireguard = true
-    region    = "sgp1"
+  "tm-asia" = {
+    peer   = true
+    region = "sgp1"
   }
 }
 

@@ -62,7 +62,6 @@ The initial release ships with:
 - Mesh DNS resolution (`peer-name.mesh` → `100.64.x.x`)
 - Zero-trust packet filtering (default-deny with rule-based allow)
 - S3-compatible object storage shared across the mesh
-- WireGuard concentrator mode for mobile clients
 - NFS file sharing over the mesh
 - Docker integration with automatic port-forward rules
 - Prometheus metrics + Grafana dashboards
@@ -87,7 +86,6 @@ sudo ./tunnelmesh join --coordinator https://your-coordinator:8443 --token your-
 
 We're actively working on:
 
-- **Mobile-native client** — native iOS/Android apps built on WireGuard
 - **Multi-coordinator federation** — mesh clusters that span organizational boundaries
 - **Improved observability** — per-flow latency histograms and packet loss metrics
 - **Policy-as-code** — declarative filter rules managed through GitOps

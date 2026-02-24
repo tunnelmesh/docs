@@ -145,8 +145,6 @@ _tunnelmesh/
     bindings.json   # Role bindings
   stats/
     history.json    # Stats history
-  wireguard/
-    clients.json    # WireGuard clients
 
 ```
 

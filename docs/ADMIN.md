@@ -196,12 +196,6 @@ Admin access is required for mesh/data plane **configuration and management**:
 - ❌ Set global filter policies
 - ❌ View filter metrics
 
-### WireGuard Management
-
-- ❌ Manage WireGuard clients
-- ❌ Generate client configs and QR codes
-- ❌ Enable/disable WireGuard concentrator
-
 ### Storage Management
 
 - ❌ Create S3 buckets
@@ -231,7 +225,7 @@ Admin access is required for mesh/data plane **configuration and management**:
 
 ### Dashboard Access
 
-- ❌ Access admin panels: peers, logs, wireguard, filter, dns, users, groups, bindings, docker
+- ❌ Access admin panels: peers, logs, filter, dns, users, groups, bindings, docker
 
 > [!NOTE]
 > **Summary**: Admin access is for **configuration**, not for basic mesh usage. If you just need to
@@ -251,7 +245,6 @@ Panels are controlled by the RBAC system:
 | map | mesh | No | N/A (public) |
 | peers | mesh | Yes | Yes (role binding) |
 | logs | mesh | Yes | Yes (role binding) |
-| wireguard | mesh | Yes | Yes (role binding) |
 | filter | mesh | Yes | Yes (role binding) |
 | dns | mesh | Yes | Yes (role binding) |
 | s3 | data | No | N/A (public) |

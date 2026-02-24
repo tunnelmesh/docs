@@ -34,7 +34,6 @@ const ALL_DOCS = [
   { id: 'GETTING_STARTED',       slug: 'getting-started',  title: 'Quick Start Guide' },
   { id: 'ADMIN',                  slug: 'admin',            title: 'Admin Guide' },
   { id: 'USER_IDENTITY',          slug: 'user-identity',    title: 'User Identity & RBAC' },
-  { id: 'WIREGUARD',              slug: 'wireguard',        title: 'WireGuard Integration' },
   { id: 'INTERNAL_PACKET_FILTER', slug: 'packet-filter',    title: 'Internal Packet Filter' },
   { id: 'S3_STORAGE',             slug: 's3-storage',       title: 'S3-Compatible Storage' },
   { id: 'NFS',                    slug: 'nfs',              title: 'NFS File Sharing' },
