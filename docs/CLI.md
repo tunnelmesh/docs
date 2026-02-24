@@ -159,7 +159,6 @@ tunnelmesh join [server-url] [flags]
 |`--token`|`-t`|Authentication token|
 |`--name`|`-n`|Peer name (defaults to hostname)|
 |`--context`||Save/update as named context|
-|`--wireguard`||Enable WireGuard concentrator|
 |`--exit-node`||Route internet through specified peer|
 |`--allow-exit-traffic`||Allow this peer as exit for others|
 |`--latitude`||Manual latitude (-90 to 90)|
@@ -191,14 +190,6 @@ sudo tunnelmesh join tunnelmesh.example.com \
   --latitude 1.3521 \
   --longitude 103.8198 \
   --city Singapore
-```
-
-**Example - Join with WireGuard concentrator:**
-
-```bash
-sudo tunnelmesh join tunnelmesh.example.com \
-  --token your-secure-token \
-  --wireguard
 ```
 
 **Example - Bootstrap coordinator (first node):**
@@ -417,7 +408,7 @@ NAME                 MESH IP         PUBLIC IP            LAST SEEN
 coordinator          10.42.0.1      203.0.113.10         2024-01-15 10:30:45
 my-laptop            10.42.0.5      198.51.100.20        2024-01-15 10:30:42
 server-eu            10.42.0.3      192.0.2.50           2024-01-15 10:30:40
-mobile-client        10.42.0.10     -                    2024-01-15 10:25:00
+home-pc              10.42.0.10     203.0.113.11         2024-01-15 10:25:00
 ```
 
 ---
@@ -816,14 +807,14 @@ psql -h charlie.tunnelmesh mydb
 
 Access home network from anywhere.
 
-#### Step 1: Cloud coordinator with WireGuard
+#### Step 1: Cloud coordinator
 
 ```bash
 # Deploy to cloud (see terraform docs)
 # Or manually:
 tunnelmesh init --peer --output coordinator.yaml
 
-# Edit: set auth_token, enable coordinator.enabled: true, enable wireguard
+# Edit: set auth_token, enable coordinator.enabled: true
 nano coordinator.yaml
 
 sudo tunnelmesh join --token my-secret-token --config coordinator.yaml
@@ -843,12 +834,11 @@ sudo tunnelmesh service install
 sudo tunnelmesh service start
 ```
 
-#### Step 3: Mobile access via WireGuard
+#### Step 3: Remote access
 
 1. Open admin dashboard: `https://cloud.example.com/`
-2. Go to WireGuard > Add Client
-3. Scan QR code with WireGuard app
-4. Connect and access `nas.tunnelmesh`, `plex.tunnelmesh`, etc.
+2. Join the mesh from any device using the native client
+3. Access `nas.tunnelmesh`, `plex.tunnelmesh`, etc.
 
 ---
 
