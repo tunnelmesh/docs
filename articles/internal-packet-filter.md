@@ -30,7 +30,7 @@ Everything else — SSH, HTTP, your database port, your application ports — ne
 
 Rules come from four places, evaluated from most to least specific:
 
-![Rule hierarchy: coordinator config (highest) → per-peer → CLI/admin → service ports](images/rule-hierarchy.svg)
+![Rule hierarchy: coordinator config (highest) → per-peer → CLI/admin → service ports](/articles/images/rule-hierarchy.svg)
 
 The most restrictive rule that matches wins. A coordinator-level deny isn't overridable by a peer-level allow.
 

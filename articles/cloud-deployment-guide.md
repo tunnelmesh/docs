@@ -45,7 +45,7 @@ Coordinator + one peer + monitoring on a single `s-1vcpu-1gb` droplet (~$4/month
 **2. Exit Peer (Split-Tunnel VPN)**
 Coordinator plus an exit peer in a specific region. Traffic from your devices routes through that exit peer. Use this for a stable outbound IP, or to protect traffic on untrusted WiFi.
 
-![Exit peer flow: your laptop sends encrypted traffic to exit peer, which forwards to Internet](images/exit-peer-flow.svg)
+![Exit peer flow: your laptop sends encrypted traffic to exit peer, which forwards to Internet](/articles/images/exit-peer-flow.svg)
 
 **3. Multi-Region Mesh**
 Coordinator in one region, peers in several others. Mesh DNS handles routing between them. Useful when you have services in multiple regions and want them to communicate privately without crossing the public internet.

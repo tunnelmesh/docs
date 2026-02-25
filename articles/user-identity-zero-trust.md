@@ -13,7 +13,7 @@ excerpt: How TunnelMesh thinks about identity — from SSH key derivation to per
 
 Every TunnelMesh peer derives its identity from its SSH key. Run `tunnelmesh init` and it generates an SSH key pair. The public key gets submitted to the coordinator when you join:
 
-![Identity derivation: SSH key pair to Peer ID via SHA-256](images/peer-id-derivation.svg)
+![Identity derivation: SSH key pair to Peer ID via SHA-256](/articles/images/peer-id-derivation.svg)
 
 The peer ID is the stable identifier used in admin configuration, filter rules, and RBAC assignments. Unlike a peer name (which the peer controls and can change), the peer ID is derived from the key — you can't spoof a peer ID without controlling the private key.
 
@@ -23,7 +23,7 @@ Joining a mesh requires a valid enrollment token. The token gets you *on* the me
 
 Capabilities come separately, from an admin:
 
-![Enrollment vs capabilities: joining gives network access only, not API or storage](images/enrollment-capabilities.svg)
+![Enrollment vs capabilities: joining gives network access only, not API or storage](/articles/images/enrollment-capabilities.svg)
 
 This separation means you can give someone a token to try the mesh, and no services are exposed to them until an admin explicitly grants access.
 
@@ -45,7 +45,7 @@ Three built-in groups make bulk assignment easier: `everyone` (all enrolled peer
 
 RBAC covers API and storage access. Network access is enforced separately by the packet filter — a default-deny firewall that runs inside the encrypted tunnel.
 
-![Packet filter flow: decrypted packet → filter decision → allow to OS or drop](images/packet-filter-flow.svg)
+![Packet filter flow: decrypted packet → filter decision → allow to OS or drop](/articles/images/packet-filter-flow.svg)
 
 No rule means no access. ICMP (ping/traceroute) and TunnelMesh's own service ports are automatically allowed so the mesh can function. Everything else — SSH, HTTP, your application ports — needs an explicit rule:
 
