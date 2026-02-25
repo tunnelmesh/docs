@@ -177,25 +177,12 @@ Service users authenticate to S3 like regular users but have their keypair deriv
 
 ### Key Derivation
 
-```text
-SSH Key (id_ed25519)
- |
-       v
-ED25519 Public Key
- |
-       v
-SHA256(public_key)[:8] as hex
- |
-       v
-User ID (16 characters)
-```
+<img src="/docs/images/user-key-derivation.svg" alt="Key derivation chain: SSH Key to ED25519 Public Key, hashed to User ID; Public Key also derives S3 Access Key and Secret Key via HKDF">
 
 S3 credentials are derived from the public key:
 
-```text
-Public Key -> HKDF("s3-access-key") -> Access Key (20 chars)
-Public Key -> HKDF("s3-secret-key") -> Secret Key (40 chars)
-```
+- `Access Key` (20 chars): derived via `HKDF("s3-access-key")`
+- `Secret Key` (40 chars): derived via `HKDF("s3-secret-key")`
 
 ## Security Considerations
 
