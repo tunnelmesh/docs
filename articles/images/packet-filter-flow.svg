@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 340" font-family="'Inter', sans-serif">
+  <rect width="100%" height="100%" fill="#0a1018"/>
+  <defs>
+    <marker id="am" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="rgba(232,234,240,0.35)"/>
+    </marker>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="#00d4b4"/>
+    </marker>
+    <marker id="ar" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="rgba(248,81,73,0.65)"/>
+    </marker>
+  </defs>
+  <!-- Box: Encrypted packet -->
+  <rect x="120" y="16" width="200" height="44" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="220" y="38" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">Encrypted packet</text>
+  <!-- Arrow down + label -->
+  <line x1="220" y1="60" x2="220" y2="104" stroke="rgba(232,234,240,0.35)" stroke-width="1" marker-end="url(#am)"/>
+  <text x="232" y="84" dominant-baseline="middle" fill="rgba(232,234,240,0.35)" font-size="11">decrypted by Noise</text>
+  <!-- Diamond: Packet filter -->
+  <polygon points="220,108 270,148 220,188 170,148" fill="#0c1220" stroke="rgba(0,212,180,0.3)" stroke-width="1.5"/>
+  <text x="220" y="144" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="12">Packet</text>
+  <text x="220" y="160" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="12">filter</text>
+  <!-- Left branch: allow → OS network stack -->
+  <line x1="172" y1="150" x2="96" y2="222" stroke="#00d4b4" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="116" y="188" text-anchor="middle" fill="#00d4b4" font-size="12">allow</text>
+  <!-- OS network stack box -->
+  <rect x="10" y="226" width="180" height="44" rx="6" fill="#0c1220" stroke="rgba(0,212,180,0.3)" stroke-width="1.5"/>
+  <text x="100" y="248" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="13">OS network stack</text>
+  <!-- Right branch: drop -->
+  <line x1="268" y1="150" x2="344" y2="222" stroke="rgba(248,81,73,0.65)" stroke-width="1.5" marker-end="url(#ar)"/>
+  <text x="328" y="188" fill="rgba(248,81,73,0.65)" font-size="12">drop</text>
+  <!-- Drop endpoint indicator -->
+  <rect x="290" y="226" width="140" height="44" rx="6" fill="#0c1220" stroke="rgba(248,81,73,0.3)" stroke-width="1"/>
+  <text x="360" y="244" text-anchor="middle" dominant-baseline="middle" fill="rgba(248,81,73,0.65)" font-size="13">drop</text>
+  <text x="360" y="260" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.35)" font-size="11">(silently)</text>
+</svg>

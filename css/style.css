@@ -849,6 +849,12 @@ body::before {
   cursor: zoom-in;
 }
 
+.doc-article img[src$=".svg"],
+.blog-article-content img[src$=".svg"] {
+  border: none;
+  border-radius: 0;
+}
+
 /* Figure wrapper + caption (rendered by marked for ![alt](src "title") */
 .doc-article figure,
 .blog-article-content figure {

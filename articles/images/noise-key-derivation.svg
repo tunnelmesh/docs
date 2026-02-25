@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 160" font-family="'Inter', sans-serif">
+  <rect width="100%" height="100%" fill="#0a1018"/>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="#00d4b4"/>
+    </marker>
+  </defs>
+  <!-- Box 1: SSH key pair -->
+  <rect x="110" y="10" width="200" height="44" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="210" y="32" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">SSH key pair</text>
+  <!-- Downward accent arrow -->
+  <line x1="210" y1="54" x2="210" y2="102" stroke="#00d4b4" stroke-width="1.5" marker-end="url(#a)"/>
+  <!-- Arrow label: deterministic derivation -->
+  <text x="222" y="82" fill="rgba(232,234,240,0.52)" font-size="12">deterministic derivation</text>
+  <!-- Box 2: Noise static key pair -->
+  <rect x="80" y="106" width="260" height="44" rx="6" fill="#0c1220" stroke="rgba(0,212,180,0.3)" stroke-width="1.5"/>
+  <text x="210" y="128" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">Noise static key pair</text>
+</svg>

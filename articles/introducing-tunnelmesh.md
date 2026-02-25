@@ -1,6 +1,6 @@
 ---
 title: Introducing TunnelMesh: Encrypted Mesh Networking for the Next Frontier
-date: 2025-01-15
+date: 2025-10-28
 author: TunnelMesh Team
 excerpt: Today we're open-sourcing TunnelMesh — a P2P mesh networking tool built in Go that creates encrypted tunnels between nodes using the Noise IKpsk2 protocol with ChaCha20-Poly1305 encryption.
 ---
@@ -27,22 +27,7 @@ All session traffic is encrypted with **ChaCha20-Poly1305**, a modern AEAD ciphe
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Coordinator                           │
-│  • Peer discovery & IP allocation                       │
-│  • Relay fallback (WebSocket)                           │
-│  • Mesh DNS (100.100.x.x → peer.mesh)                  │
-│  • Admin API & web dashboard                            │
-└──────────────────────┬──────────────────────────────────┘
-                       │ coordinator-assisted discovery
-        ┌──────────────┴──────────────┐
-        ▼                             ▼
-   ┌─────────┐    UDP (Noise)    ┌─────────┐
-   │  Peer A │◄────────────────►│  Peer B │
-   │  node   │                  │  node   │
-   └─────────┘                  └─────────┘
-```
+![TunnelMesh architecture: coordinator on top, peers below with direct UDP connection](/articles/images/tunnelmesh-architecture.svg)
 
 Each peer runs a TUN interface that handles transparent IP routing. Packets destined for mesh IPs (`100.64.0.0/10`) are captured by the TUN device and routed through the appropriate encrypted tunnel.
 
@@ -94,4 +79,4 @@ Follow the [GitHub repository](https://github.com/tunnelmesh/tunnelmesh) for upd
 
 ---
 
-*TunnelMesh is released under the MIT License.*
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*
