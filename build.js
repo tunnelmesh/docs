@@ -287,7 +287,9 @@ async function buildBlog(marked) {
   if (!fs.existsSync(manifestPath)) return [];
 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  const articles  = (manifest.articles || []).filter(a => !a.draft);
+  const articles  = (manifest.articles || [])
+    .filter(a => !a.draft)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   // Blog index
   const indexHtml = buildBlogIndexHtml(articles);

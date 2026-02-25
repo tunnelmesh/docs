@@ -451,7 +451,9 @@ async function showBlogIndex() {
   main.innerHTML = `<div class="doc-loading"><div class="loading-spinner"></div><span>Loading…</span></div>`;
 
   const manifest = await loadBlogManifest();
-  const articles = (manifest.articles || []).filter(a => !a.draft);
+  const articles = (manifest.articles || [])
+    .filter(a => !a.draft)
+    .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   if (articles.length === 0) {
     main.innerHTML = `
