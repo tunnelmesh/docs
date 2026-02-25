@@ -1,6 +1,6 @@
 ---
 title: Introducing TunnelMesh: Encrypted Mesh Networking for the Next Frontier
-date: 2025-01-15
+date: 2025-10-28
 author: TunnelMesh Team
 excerpt: Today we're open-sourcing TunnelMesh — a P2P mesh networking tool built in Go that creates encrypted tunnels between nodes using the Noise IKpsk2 protocol with ChaCha20-Poly1305 encryption.
 ---
