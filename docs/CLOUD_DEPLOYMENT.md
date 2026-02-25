@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > Deploy TunnelMesh infrastructure to DigitalOcean using Terraform. This guide covers various deployment
-> scenarios from simple single-node setups (~$4/month) to multi-region mesh networks (~$12+/month).
+> scenarios from simple single-node setups to multi-region mesh networks.
 
 ## Prerequisites
 
@@ -41,7 +41,7 @@ terraform apply
 
 > [!TIP]
 > **Choose your scenario**: Start simple (Scenario 1: All-in-One) and scale up as needed. Each scenario
-> includes cost estimates, use cases, and complete configuration. You can always add more nodes later.
+> includes use cases and complete configuration. You can always add more nodes later.
 
 TunnelMesh is flexible. Whether you need a simple personal VPN, a global team mesh, or a sophisticated multi-region
 network with exit peers, there's a configuration for you.
@@ -52,7 +52,7 @@ network with exit peers, there's a configuration for you.
 > **Recommended for beginners**: This is the simplest and cheapest deployment. Start here and scale up
 > only when you need regional presence or dedicated services.
 
-**The simplest deployment.** A single $4/month droplet runs everything: coordinator, mesh peer, and exit peer.
+**The simplest deployment.** A single droplet runs everything: coordinator, mesh peer, and exit peer.
 Perfect for personal use, small teams, or testing.
 
 <img src="/docs/images/cloud-all-in-one.svg" alt="All-in-one deployment: single cloud server running coordinator, peer, and exit peer, connected to three client devices">
@@ -75,8 +75,6 @@ nodes = {
   }
 }
 ```
-
-**Cost:** ~$4/month
 
 ---
 
@@ -159,8 +157,6 @@ nodes = {
   }
 }
 ```
-
-**Cost:** ~$12/month (3 droplets)
 
 ---
 
@@ -345,7 +341,7 @@ export TF_VAR_do_token="dop_v1_xxx"
 | Variable | Default | Description |
 | ---------- | --------- | ------------- |
 | `default_region` | `ams3` | Default droplet region |
-| `default_droplet_size` | `s-1vcpu-512mb-10gb` | Default size ($4/mo) |
+| `default_droplet_size` | `s-1vcpu-512mb-10gb` | Default droplet size |
 | `default_ssh_port` | `2222` | Default SSH tunnel port |
 | `external_api_port` | `8443` | HTTPS port for peer connections |
 
@@ -485,17 +481,6 @@ terraform destroy
 3. Consider adding regional nodes
 
 ---
-
-## Cost Reference
-
-| Configuration | Droplets | Monthly Cost |
-| --------------- | ---------- | -------------- |
-| All-in-One | 1 | ~$4 |
-| Coord + Extra Peer | 2 | ~$8 |
-| Multi-Region (3) | 3 | ~$12 |
-| Full Production | 4+ | ~$16+ |
-
-All estimates use `s-1vcpu-512mb-10gb` ($4/mo) droplets. Monitoring adds minimal overhead as it runs on existing nodes.
 
 ---
 
