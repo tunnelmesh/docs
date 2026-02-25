@@ -220,3 +220,7 @@ tunnelmesh group members GROUP           # List group members
 tunnelmesh group add-member GROUP USER   # Add user to group
 tunnelmesh group remove-member GROUP USER # Remove user from group
 ```
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

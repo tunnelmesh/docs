@@ -477,3 +477,7 @@ services:
       timeout: 5s
       retries: 3
 ```
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

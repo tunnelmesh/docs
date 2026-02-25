@@ -324,3 +324,7 @@ Enable debug logging to see filter decisions:
 tunnelmesh join --log-level debug
 # Look for "filter" or "dropped" in logs
 ```
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

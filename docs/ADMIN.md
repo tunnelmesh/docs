@@ -170,7 +170,7 @@ All core mesh networking features work for non-admin peers:
 
 ### Dashboard (Limited)
 
-- ✅ View non-admin panels: visualizer, map, s3, shares
+- ✅ View non-admin panels: visualizer, map, alerts, s3, shares
 - ✅ View mesh topology
 - ✅ See geographic map (if location data available)
 
@@ -225,7 +225,7 @@ Admin access is required for mesh/data plane **configuration and management**:
 
 ### Dashboard Access
 
-- ❌ Access admin panels: peers, logs, filter, dns, users, groups, bindings, docker
+- ❌ Access admin panels — Mesh: peers, logs, filter; App: docker; Data: peers-mgmt, groups, bindings, dns
 
 > [!NOTE]
 > **Summary**: Admin access is for **configuration**, not for basic mesh usage. If you just need to
@@ -237,22 +237,35 @@ The admin dashboard is accessible at `https://this.tm/` from within the mesh.
 
 ### Panel Visibility
 
-Panels are controlled by the RBAC system:
+Panels are controlled by the RBAC system. The dashboard has three tabs: **Mesh**, **App**, and **Data**.
 
-| Panel | Tab | Admin Only by Default | Grantable to Non-Admins |
-| ------- | ----- | ---------------------- | ----------------------- |
-| visualizer | mesh | No | N/A (public) |
-| map | mesh | No | N/A (public) |
-| peers | mesh | Yes | Yes (role binding) |
-| logs | mesh | Yes | Yes (role binding) |
-| filter | mesh | Yes | Yes (role binding) |
-| dns | mesh | Yes | Yes (role binding) |
-| s3 | data | No | N/A (public) |
-| shares | data | No | N/A (public) |
-| users | data | Yes | Yes (role binding) |
-| groups | data | Yes | Yes (role binding) |
-| bindings | data | Yes | Yes (role binding) |
-| docker | data | Yes | Yes (role binding) |
+#### Mesh Tab
+
+| Panel ID | Display Name | Admin Only | Grantable to Non-Admins |
+| --- | --- | --- | --- |
+| `visualizer` | Network Topology | No | N/A (public) |
+| `map` | Node Locations | No | N/A (public) |
+| `alerts` | Active Alerts | No | N/A (public) |
+| `peers` | Connected Peers | Yes | Yes (role binding) |
+| `logs` | Peer Logs | Yes | Yes (role binding) |
+| `filter` | Packet Filter | Yes | Yes (role binding) |
+
+#### App Tab
+
+| Panel ID | Display Name | Admin Only | Grantable to Non-Admins |
+| --- | --- | --- | --- |
+| `s3` | Objects | No | N/A (public) |
+| `shares` | Shares | No | N/A (public) |
+| `docker` | Docker Containers | Yes | Yes (role binding) |
+
+#### Data Tab
+
+| Panel ID | Display Name | Admin Only | Grantable to Non-Admins |
+| --- | --- | --- | --- |
+| `peers-mgmt` | Peers | Yes | Yes (role binding) |
+| `groups` | Groups | Yes | Yes (role binding) |
+| `bindings` | Role Bindings | Yes | Yes (role binding) |
+| `dns` | DNS Records | Yes | Yes (role binding) |
 
 ### Granting Panel Access to Non-Admins
 
@@ -644,3 +657,7 @@ This is not an admin issue - it's a connectivity issue. See the
 - ✅ Monitor logs for admin matches and security events
 
 For quick setup: use peer names initially, then switch to peer IDs for production security.
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

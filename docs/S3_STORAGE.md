@@ -340,3 +340,7 @@ tar -xzf s3-backup.tar.gz -C /
 systemctl restart tunnelmesh-server
 
 ```
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

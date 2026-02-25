@@ -535,3 +535,7 @@ monitoring_enabled = true
 prometheus_retention_days = 14
 loki_retention_days       = 7
 ```
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

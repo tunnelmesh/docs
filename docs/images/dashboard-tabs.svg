@@ -1,0 +1,120 @@
+<svg width="680" height="320" viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <style>
+      .bg { fill: #0a1018; }
+      .card { fill: #0c1220; }
+      .tab-active { fill: #0c1220; stroke: #00d4b4; stroke-width: 1.5; }
+      .tab-inactive { fill: #080f18; stroke: rgba(255,255,255,0.12); stroke-width: 1; }
+      .tab-label { fill: #e8eaf0; font-size: 13px; font-weight: 600; }
+      .tab-label-inactive { fill: #6b7280; font-size: 13px; font-weight: 500; }
+      .panel-public { fill: #0c1220; stroke: rgba(0,212,180,0.35); stroke-width: 1.5; rx: 4; }
+      .panel-admin { fill: #0c1220; stroke: rgba(255,255,255,0.12); stroke-width: 1; }
+      .panel-text { fill: #e8eaf0; font-size: 11px; }
+      .panel-id { fill: #00d4b4; font-size: 10px; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+      .panel-id-admin { fill: #6b7280; font-size: 10px; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+      .section-label { fill: #00d4b4; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }
+      .legend-text { fill: #9ca3af; font-size: 11px; }
+      .legend-dot-public { fill: none; stroke: rgba(0,212,180,0.7); stroke-width: 1.5; }
+      .legend-dot-admin { fill: none; stroke: rgba(255,255,255,0.25); stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="680" height="320" class="bg" rx="8"/>
+
+  <!-- Browser chrome -->
+  <rect x="16" y="16" width="648" height="28" rx="4" fill="#080f18" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="32" y="34" fill="#4b5563" font-size="11">https://this.tm/</text>
+
+  <!-- Tab bar -->
+  <!-- Mesh tab (active) -->
+  <rect x="16" y="54" width="106" height="28" class="tab-active" rx="4 4 0 0"/>
+  <text x="69" y="72" class="tab-label" text-anchor="middle">Mesh</text>
+
+  <!-- App tab -->
+  <rect x="126" y="57" width="100" height="25" class="tab-inactive" rx="4 4 0 0"/>
+  <text x="176" y="73" class="tab-label-inactive" text-anchor="middle">App</text>
+
+  <!-- Data tab -->
+  <rect x="230" y="57" width="100" height="25" class="tab-inactive" rx="4 4 0 0"/>
+  <text x="280" y="73" class="tab-label-inactive" text-anchor="middle">Data</text>
+
+  <!-- Panel area border -->
+  <rect x="16" y="82" width="648" height="194" fill="#080f18" stroke="rgba(255,255,255,0.06)" stroke-width="1" rx="0 4 4 4"/>
+
+  <!-- MESH TAB PANELS -->
+  <!-- visualizer - public -->
+  <rect x="32" y="96" width="150" height="40" rx="4" class="panel-public"/>
+  <text x="42" y="112" class="panel-id">visualizer</text>
+  <text x="42" y="127" class="panel-text">Network Topology</text>
+
+  <!-- map - public -->
+  <rect x="32" y="143" width="150" height="40" rx="4" class="panel-public"/>
+  <text x="42" y="159" class="panel-id">map</text>
+  <text x="42" y="174" class="panel-text">Node Locations</text>
+
+  <!-- alerts - public -->
+  <rect x="32" y="190" width="150" height="40" rx="4" class="panel-public"/>
+  <text x="42" y="206" class="panel-id">alerts</text>
+  <text x="42" y="221" class="panel-text">Active Alerts</text>
+
+  <!-- peers - admin -->
+  <rect x="196" y="96" width="150" height="40" rx="4" class="panel-admin"/>
+  <text x="206" y="112" class="panel-id-admin">peers</text>
+  <text x="206" y="127" class="panel-text">Connected Peers</text>
+
+  <!-- logs - admin -->
+  <rect x="196" y="143" width="150" height="40" rx="4" class="panel-admin"/>
+  <text x="206" y="159" class="panel-id-admin">logs</text>
+  <text x="206" y="174" class="panel-text">Peer Logs</text>
+
+  <!-- filter - admin -->
+  <rect x="196" y="190" width="150" height="40" rx="4" class="panel-admin"/>
+  <text x="206" y="206" class="panel-id-admin">filter</text>
+  <text x="206" y="221" class="panel-text">Packet Filter</text>
+
+  <!-- APP TAB PANELS (right side) -->
+  <!-- s3 - public -->
+  <rect x="364" y="96" width="130" height="40" rx="4" class="panel-public"/>
+  <text x="374" y="112" class="panel-id">s3</text>
+  <text x="374" y="127" class="panel-text">Objects</text>
+
+  <!-- shares - public -->
+  <rect x="364" y="143" width="130" height="40" rx="4" class="panel-public"/>
+  <text x="374" y="159" class="panel-id">shares</text>
+  <text x="374" y="174" class="panel-text">Shares</text>
+
+  <!-- docker - admin -->
+  <rect x="364" y="190" width="130" height="40" rx="4" class="panel-admin"/>
+  <text x="374" y="206" class="panel-id-admin">docker</text>
+  <text x="374" y="221" class="panel-text">Docker Containers</text>
+
+  <!-- DATA TAB PANELS -->
+  <!-- peers-mgmt - admin -->
+  <rect x="514" y="96" width="130" height="40" rx="4" class="panel-admin"/>
+  <text x="524" y="112" class="panel-id-admin">peers-mgmt</text>
+  <text x="524" y="127" class="panel-text">Peers</text>
+
+  <!-- groups - admin -->
+  <rect x="514" y="143" width="130" height="40" rx="4" class="panel-admin"/>
+  <text x="524" y="159" class="panel-id-admin">groups</text>
+  <text x="524" y="174" class="panel-text">Groups</text>
+
+  <!-- bindings - admin -->
+  <rect x="514" y="190" width="130" height="40" rx="4" class="panel-admin"/>
+  <text x="524" y="206" class="panel-id-admin">bindings / dns</text>
+  <text x="524" y="221" class="panel-text">Role Bindings / DNS</text>
+
+  <!-- Section labels -->
+  <text x="107" y="246" class="section-label" text-anchor="middle">MESH</text>
+  <text x="271" y="246" class="section-label" text-anchor="middle">MESH (admin)</text>
+  <text x="429" y="246" class="section-label" text-anchor="middle">APP</text>
+  <text x="579" y="246" class="section-label" text-anchor="middle">DATA</text>
+
+  <!-- Legend -->
+  <line x1="16" y1="268" x2="664" y2="268" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <rect x="32" y="280" width="12" height="12" rx="2" fill="none" stroke="rgba(0,212,180,0.7)" stroke-width="1.5"/>
+  <text x="50" y="291" class="legend-text">Public (any authenticated peer)</text>
+  <rect x="260" y="280" width="12" height="12" rx="2" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+  <text x="278" y="291" class="legend-text">Admin only (admin_peers or role binding)</text>
+</svg>
