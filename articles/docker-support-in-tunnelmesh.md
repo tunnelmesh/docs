@@ -1,84 +1,39 @@
 ---
-title: "Docker Integration: Containers as First-Class Mesh Citizens"
+title: "Docker Integration: Managing Containers Across the Mesh"
 date: 2025-12-08
 author: TunnelMesh Team
-excerpt: With Docker integration, containers on the mesh get automatic port-forward rules, mesh DNS, and the same zero-trust filtering as bare-metal nodes.
+excerpt: TunnelMesh's admin panel includes a Docker tab that lets you view, start, stop, and inspect containers running on any mesh node — without SSH-ing into each machine.
 ---
 
-# Docker Integration: Containers as First-Class Mesh Citizens
+# Docker Integration: Managing Containers Across the Mesh
 
-If you're running TunnelMesh, you're probably also running containers. Keeping those two things separate — mesh on the host, containers in their own isolated world — means a lot of manual wiring. TunnelMesh's Docker integration is designed to make containers first-class mesh participants from the start.
+Running containers across a distributed mesh means containers are spread across machines in different locations. The TunnelMesh admin panel's Docker tab pulls them all into one view, letting you manage them without jumping between SSH sessions.
 
-## Getting a Full Mesh Running in Docker
+## What It Does
 
-The TunnelMesh repository ships a complete Compose stack. One command gets you a coordinator, multiple peers, and monitoring:
+From the Docker panel, an admin can:
 
-```bash
-docker compose up -d
+- **View all containers** running on mesh nodes — name, image, status, uptime
+- **Start, stop, and restart** containers remotely
+- **View container stats** — CPU, memory, network I/O
+- **View container logs** — streamed directly in the panel
 
-# Need more peers?
-docker compose up -d --scale peer=3
-```
-
-That's a real working mesh — encrypted tunnels, mesh DNS, packet filtering — all running in containers.
-
-## The Two Things Every Container Needs
-
-A container can't join the mesh unless it has two things:
-
-```yaml
-cap_add:
-  - NET_ADMIN       # permission to create and configure network interfaces
-devices:
-  - /dev/net/tun    # the kernel device TunnelMesh reads and writes packets through
-```
-
-`NET_ADMIN` is a Linux capability that allows the container to modify network interfaces. `/dev/net/tun` is how TunnelMesh intercepts packets at the OS level. Both are explicitly granted in the Compose file — they're not available by default for security reasons.
-
-## Three Ways to Connect Containers to the Mesh
-
-**Bridge network** is the default. Each container gets its own network namespace, and the TUN interface handles mesh traffic:
-
-```
- Container A          Mesh          Container B
-[app process]  ←─ TUN device ─→  [app process]
-[own netns   ]                    [own netns   ]
-```
-
-**Host network** shares the host's network namespace. The container and the host machine share the same mesh IP — useful when you need the mesh address directly accessible on the host:
-
-```yaml
-network_mode: host
-```
-
-**Shared namespace** is a sidecar pattern. One container joins the mesh; others borrow its network namespace. This lets you put apps on the mesh without modifying their container image:
-
-```yaml
-# The mesh peer
-network_mode: service:tunnelmesh-peer
-```
-
-## Checking That It Worked
-
-After `docker compose up`, verify the peers are connected:
+The panel is admin-only by default, but access can be granted to specific peers without giving them full admin rights:
 
 ```bash
-docker compose exec peer tunnelmesh status
-docker compose exec peer tunnelmesh peers
+# Give a peer access to the Docker panel only
+tunnelmesh role bind alice panel-viewer --panel-scope docker
 ```
 
-A healthy peer shows its assigned mesh IP (`100.64.x.x`), lists other peers, and shows which transport each connection is using (direct UDP, SSH relay, or WebSocket relay).
+## Accessing the Panel
 
-## Building the Image
+The admin dashboard is at `https://this.tm/` from within the mesh. The Docker tab is under the **Data** section. If you can see the mesh visualizer but the Docker tab shows "Access Denied", your peer isn't in `admin_peers` — see the [Admin docs](/docs/ADMIN) for how to configure that.
 
-If you need a custom image or want to pin a specific version:
+## Why This Is Useful
 
-```bash
-make docker-build        # build for current platform
-make docker-push         # build multi-arch and push
-```
+The practical case: you have a service container on a remote node that needs a restart, or you want to check its logs to diagnose a problem. Without this, you'd SSH into the machine, run `docker ps`, tail the logs, then SSH into the next machine to check there too.
 
-See the [Docker docs](/docs/DOCKER) for the full configuration reference, including health checks, volume configuration, and production considerations.
+The mesh already connects all your nodes. The Docker panel uses that connectivity to expose the Docker daemon on each node through the admin API, so you get a single pane across all of them.
 
 ---
 
