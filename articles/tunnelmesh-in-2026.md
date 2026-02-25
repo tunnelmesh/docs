@@ -25,7 +25,7 @@ None of these were catastrophic, but all of them were annoying. All fixed.
 
 **The install experience.** Getting a first mesh running requires `tunnelmesh init`, then a coordinator config file, then `tunnelmesh join`. That's three commands and a YAML file before anything happens. We're working on collapsing this into a guided first-run flow.
 
-**Coordinator high availability.** Running the coordinator on a single node is a single point of failure. Workaround exists (external load balancer + shared S3 state + two coordinator instances), but it requires more infrastructure knowledge than it should.
+**Coordinator high availability.** Running multiple coordinators is supported — they discover each other automatically and replicate data peer-to-peer. The setup documentation was lacking; that's now fixed with a dedicated [HA guide](../docs/HIGH_AVAILABILITY.md).
 
 **Windows.** The Windows client works but it's second-class: different TUN code path, rougher service installer, and DNS resolution falls back to hosts-file entries instead of a proper resolver. Windows users are keeping us honest.
 

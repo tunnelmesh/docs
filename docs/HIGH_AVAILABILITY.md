@@ -1,67 +1,31 @@
 # Coordinator High Availability
 
-> [!WARNING]
-> This describes a **manual workaround**, not a built-in HA mode. Native multi-coordinator federation is on the roadmap. This guide documents what works today.
+TunnelMesh supports multiple coordinators natively. Run two or more peers in coordinator mode and they find each other automatically, replicate data between themselves, and rebalance when the cluster topology changes. There is no single point of failure, no external load balancer required, and no shared filesystem.
 
-## The Problem
+## How It Works
 
-A single coordinator is a single point of failure. If the coordinator node goes down:
+Every coordinator is an equal peer — there is no leader, no primary, no replica distinction. When a coordinator joins the mesh it registers with `is_coordinator: true`, and every other coordinator in the cluster is notified and adds it to the replication pool.
 
-- Peers already connected to each other continue to route traffic normally (the mesh is peer-to-peer once established)
-- New peers cannot join until the coordinator recovers
-- Peers that lose their connection cannot re-establish it
-- The admin dashboard becomes inaccessible
-
-For meshes where continuous peer join availability matters, this is a problem.
-
-## The Workaround
-
-You can run two coordinator instances behind an external load balancer with shared persistent storage. This gives you coordinator redundancy without waiting for built-in federation support.
+Data is distributed across coordinators using chunk-level striping: each chunk of each object has a deterministic primary owner (`chunk_index mod num_coordinators`), and replicas are placed on the next N−1 coordinators in the ring. Concurrent writes are reconciled with version vectors, falling back to last-modified timestamp as a tiebreaker.
 
 ```
-          ┌─────────────────────┐
-          │   Load Balancer     │
-          │  (HAProxy / nginx / │
-          │   cloud LB)         │
-          └──────────┬──────────┘
-                     │
-          ┌──────────┴──────────┐
-          │                     │
-   ┌──────┴──────┐       ┌──────┴──────┐
-   │ Coordinator │       │ Coordinator │
-   │     A       │       │     B       │
-   └──────┬──────┘       └──────┬──────┘
-          │                     │
-          └──────────┬──────────┘
-                     │
-          ┌──────────┴──────────┐
-          │   Shared Storage    │
-          │  (NFS / EFS / GFS2) │
-          └─────────────────────┘
+  ┌─────────────┐        ┌─────────────┐
+  │Coordinator A│◄──────►│Coordinator B│
+  │  (peer)     │replicas│  (peer)     │
+  └──────┬──────┘        └──────┬──────┘
+         │                      │
+         └──────────┬───────────┘
+                    │ (peer-to-peer mesh)
+          ┌─────────┼─────────┐
+          │         │         │
+       peer-1    peer-2    peer-3
 ```
 
 ![Coordinator HA architecture](images/coordinator-ha.svg)
 
-### What "Shared State" Means
+## Setup
 
-Both coordinators must point to the same `data_dir`. This directory holds:
-
-- The peer registry and SSH public key store
-- S3 object data and metadata
-- Packet filter rules and DNS records
-
-The simplest shared storage options are:
-
-- **NFS mount** — works anywhere, low operational overhead for small meshes
-- **AWS EFS / DigitalOcean Volumes** — managed NFS for cloud deployments
-- **GlusterFS or Ceph** — if you need higher throughput
-
-> [!CAUTION]
-> Both coordinators writing to the same filesystem simultaneously can cause corruption if the filesystem doesn't provide proper locking. Use NFS with `lockd`, or a distributed filesystem designed for concurrent access. Do **not** use a raw S3 bucket or object storage as the shared filesystem — the coordinator expects a POSIX filesystem.
-
-### Gossip Cluster
-
-The two coordinators should form a gossip cluster using the `memberlist_seeds` config. This lets them share peer state in memory and reduces the load on the shared filesystem.
+Point multiple peers at the same mesh. Configure each with coordinator mode enabled and its own local data directory — replication takes care of distribution, no shared storage needed.
 
 ```yaml
 # coordinator-a.yaml
@@ -70,12 +34,10 @@ name: "coordinator-a"
 coordinator:
   enabled: true
   listen: ":8443"
-  data_dir: "/mnt/shared/tunnelmesh"       # Shared NFS mount
+  data_dir: "/var/lib/tunnelmesh"
   admin_peers:
-    - "a1b2c3d4e5f6g7h8"
-  memberlist_seeds:
-    - "coordinator-b.example.com:7946"     # Coordinator B's gossip address
-  memberlist_bind_addr: ":7946"
+    - "a1b2c3d4e5f6g7h8"   # coordinator-a's peer ID
+    - "b2c3d4e5f6g7h8i9"   # coordinator-b's peer ID
 ```
 
 ```yaml
@@ -85,70 +47,60 @@ name: "coordinator-b"
 coordinator:
   enabled: true
   listen: ":8443"
-  data_dir: "/mnt/shared/tunnelmesh"       # Same shared NFS mount
+  data_dir: "/var/lib/tunnelmesh"
   admin_peers:
     - "a1b2c3d4e5f6g7h8"
-  memberlist_seeds:
-    - "coordinator-a.example.com:7946"     # Coordinator A's gossip address
-  memberlist_bind_addr: ":7946"
+    - "b2c3d4e5f6g7h8i9"
 ```
 
-### Load Balancer Configuration
+Start both coordinators and have them join the same mesh. They discover each other through peer registration — no seed addresses or extra configuration needed.
 
-Configure the load balancer to:
+```bash
+# On host A — bootstraps the mesh
+tunnelmesh join --config coordinator-a.yaml
 
-1. Health-check each coordinator on `GET /health`
-2. Route new peer join requests to whichever coordinator is healthy
-3. Use sticky sessions (session affinity by source IP) so a connected peer doesn't bounce between coordinators mid-session
-
-Example HAProxy configuration:
-
+# On host B — joins the existing mesh
+tunnelmesh join coordinator-a.example.com:8443 --token your-token --config coordinator-b.yaml
 ```
-frontend tunnelmesh
-    bind *:8443
-    default_backend coordinators
 
-backend coordinators
-    balance source              # Sticky by source IP
-    option httpchk GET /health
-    server coord-a coordinator-a.example.com:8443 check
-    server coord-b coordinator-b.example.com:8443 check backup
+Once coordinator-b has joined, coordinator-a receives the registration, sees `is_coordinator: true`, adds coordinator-b to the replication pool, and broadcasts the updated coordinator list to all mesh peers.
+
+## Replication
+
+Replication is asynchronous and queue-based. When an object is written to coordinator-a:
+
+1. The write completes locally and is acknowledged to the client
+2. coordinator-a enqueues a replication task
+3. A background worker sends the chunk(s) to all peer coordinators in parallel (up to 5 concurrent operations, 60s per-peer timeout)
+4. If a coordinator is unreachable, the task retries with exponential backoff (up to 3 attempts)
+5. A periodic safety-net sync runs every 5 minutes: coordinator-a sends a full manifest of locally-owned objects; peers delete anything not in the manifest (handles lost delete messages)
+
+Reads can be served from any coordinator. Clients that connect to coordinator-b while coordinator-a is down continue to operate on the replicated data.
+
+> [!NOTE]
+> TunnelMesh uses **eventual consistency** with deterministic conflict resolution. During a network partition where both coordinators accept writes to the same object, the conflict is resolved when connectivity is restored using version vectors; last-modified timestamp breaks ties.
+
+## Scaling
+
+Add more coordinators the same way — just join additional peers with coordinator mode enabled. The replication pool expands automatically, chunk assignments rebalance within 10 seconds (debounced), and at most 50 MB is transferred per rebalance cycle to avoid saturating the mesh.
+
+```bash
+# Add a third coordinator
+tunnelmesh join coordinator-a.example.com:8443 --token your-token --config coordinator-c.yaml
 ```
 
 > [!TIP]
-> For cloud deployments, use the Terraform modules in [Cloud Deployment](CLOUD_DEPLOYMENT.md) to provision the load balancer and shared volume alongside your coordinator nodes.
+> For cloud deployments, the Terraform modules in [Cloud Deployment](CLOUD_DEPLOYMENT.md) provision coordinator nodes alongside the rest of your infrastructure.
 
-### Peer Configuration
+## What Peers See
 
-Peers should point to the load balancer's address, not directly to a coordinator:
-
-```bash
-# Join via the load balancer
-tunnelmesh join lb.example.com:8443 --token your-token
-```
-
-If you configure DNS round-robin instead of a proper load balancer, be aware that peers will hold their connection to whichever coordinator they initially resolved — a coordinator failure will require peers to reconnect.
-
----
-
-## Limitations
-
-This is a workaround, not a first-class HA deployment. Be aware of:
-
-- **Shared filesystem is a dependency** — if the NFS mount fails, both coordinators fail regardless of their own health
-- **No automatic failover for active sessions** — if coordinator A fails while a peer is mid-handshake, that peer must retry (it will, automatically, after the heartbeat timeout)
-- **Split-brain risk** — if coordinators cannot reach each other's gossip port but can both reach the filesystem, they may serve inconsistent peer lists
-- **Manual setup required** — no tooling yet to automate the NFS mount, coordinator config, or load balancer provisioning end-to-end
-
-For production use, treat the shared storage as the highest-priority component to monitor and protect.
-
----
+Mesh peers receive the full list of coordinator mesh IPs in the `RegisterResponse`. When a coordinator is added or removed, the updated list is broadcast to all peers so they can reconnect through a healthy coordinator without manual reconfiguration.
 
 ## Related Documentation
 
-- **[Cloud Deployment](CLOUD_DEPLOYMENT.md)** — Terraform modules for provisioning coordinators on cloud infrastructure
+- **[Cloud Deployment](CLOUD_DEPLOYMENT.md)** — Terraform provisioning for coordinator nodes
 - **[Admin Guide](ADMIN.md)** — Coordinator configuration reference
-- **[Docker Deployment](DOCKER.md)** — Multi-coordinator Docker Compose setup (useful for testing this configuration locally)
+- **[Docker Deployment](DOCKER.md)** — Multi-coordinator Docker Compose setup for local testing
 
 ---
 
