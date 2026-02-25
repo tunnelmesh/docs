@@ -471,3 +471,7 @@ sudo tunnelmesh service restart
 ```
 
 Internet traffic will now route through the exit peer, while mesh traffic stays direct.
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

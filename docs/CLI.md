@@ -924,3 +924,7 @@ tunnelmesh benchmark peer-name --size 10MB
 | `TUNNELMESH_LOG_LEVEL` | Log level override |
 | `TUNNELMESH_SERVER` | Default coordinator URL |
 | `TUNNELMESH_TOKEN` | Default auth token |
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

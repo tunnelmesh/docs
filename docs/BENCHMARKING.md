@@ -437,3 +437,7 @@ Each story includes:
 4. **Watch Logs**: Monitor S3 server logs during execution
 5. **Check Quotas**: Ensure sufficient storage for test scenario
 6. **Verify Cleanup**: Check object expiration and deletion after test
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

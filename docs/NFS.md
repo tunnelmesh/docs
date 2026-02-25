@@ -217,3 +217,7 @@ The NFS server runs on port 2049 (TCP) on the coordinator's mesh IP.
 - [S3 Storage](S3_STORAGE.md) - S3 API access to the same storage
 - [User Identity](USER_IDENTITY.md) - Certificate-based authentication
 - [Getting Started](GETTING_STARTED.md) - Initial setup
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

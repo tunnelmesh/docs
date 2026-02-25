@@ -33,12 +33,15 @@ const MARKED_FILE = path.join(CACHE, 'marked.min.js');
 const ALL_DOCS = [
   { id: 'GETTING_STARTED',       slug: 'getting-started',  title: 'Quick Start Guide' },
   { id: 'ADMIN',                  slug: 'admin',            title: 'Admin Guide' },
+  { id: 'DASHBOARD',              slug: 'dashboard',        title: 'Dashboard Guide' },
   { id: 'USER_IDENTITY',          slug: 'user-identity',    title: 'User Identity & RBAC' },
   { id: 'INTERNAL_PACKET_FILTER', slug: 'packet-filter',    title: 'Internal Packet Filter' },
   { id: 'S3_STORAGE',             slug: 's3-storage',       title: 'S3-Compatible Storage' },
   { id: 'NFS',                    slug: 'nfs',              title: 'NFS File Sharing' },
   { id: 'DOCKER',                 slug: 'docker',           title: 'Docker Deployment' },
   { id: 'CLOUD_DEPLOYMENT',       slug: 'cloud-deployment', title: 'Cloud Deployment' },
+  { id: 'HIGH_AVAILABILITY',      slug: 'high-availability',title: 'High Availability' },
+  { id: 'WINDOWS',                slug: 'windows',          title: 'Windows Client' },
   { id: 'CLI',                    slug: 'cli',              title: 'CLI Reference' },
   { id: 'BENCHMARKING',           slug: 'benchmarking',     title: 'Benchmarking' },
 ];

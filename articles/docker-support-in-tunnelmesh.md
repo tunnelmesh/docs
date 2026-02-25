@@ -27,7 +27,7 @@ tunnelmesh role bind alice panel-viewer --panel-scope docker
 
 ## Accessing the Panel
 
-The admin dashboard is at `https://this.tm/` from within the mesh. The Docker tab is under the **Data** section. If you can see the mesh visualizer but the Docker tab shows "Access Denied", your peer isn't in `admin_peers` — see the [Admin docs](/docs/ADMIN) for how to configure that.
+The admin dashboard is at `https://this.tm/` from within the mesh. The Docker tab is in the **App** tab. If you can see the mesh visualizer but the Docker tab shows "Access Denied", your peer isn't in `admin_peers` — see the [Admin docs](/docs/ADMIN) for how to configure that.
 
 ## Why This Is Useful
 

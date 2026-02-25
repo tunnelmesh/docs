@@ -1,0 +1,89 @@
+<svg width="580" height="340" viewBox="0 0 580 340" xmlns="http://www.w3.org/2000/svg" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <style>
+      .bg { fill: #0a1018; }
+      .box { fill: #0c1220; }
+      .box-accent { fill: #0c1220; stroke: rgba(0,212,180,0.5); stroke-width: 1.5; }
+      .box-default { fill: #0c1220; stroke: rgba(255,255,255,0.16); stroke-width: 1; }
+      .box-shared { fill: #0c1220; stroke: rgba(0,212,180,0.25); stroke-width: 1.5; stroke-dasharray: 5,3; }
+      .label { fill: #e8eaf0; font-size: 13px; font-weight: 600; text-anchor: middle; }
+      .sublabel { fill: #6b7280; font-size: 10px; text-anchor: middle; }
+      .peer-box { fill: #0c1220; stroke: rgba(255,255,255,0.1); stroke-width: 1; }
+      .peer-label { fill: #9ca3af; font-size: 10px; text-anchor: middle; }
+      .arrow { stroke: rgba(0,212,180,0.5); stroke-width: 1.5; fill: none; marker-end: url(#ah); }
+      .arrow-bidirectional { stroke: rgba(255,255,255,0.2); stroke-width: 1.2; fill: none; marker-end: url(#ahw); marker-start: url(#ahw-r); }
+      .section-label { fill: #4b5563; font-size: 10px; text-anchor: middle; }
+    </style>
+    <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="rgba(0,212,180,0.6)"/>
+    </marker>
+    <marker id="ahw" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L6,3 z" fill="rgba(255,255,255,0.25)"/>
+    </marker>
+    <marker id="ahw-r" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse">
+      <path d="M6,0 L6,6 L0,3 z" fill="rgba(255,255,255,0.25)"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="580" height="340" class="bg" rx="8"/>
+
+  <!-- Load Balancer -->
+  <rect x="190" y="20" width="200" height="50" rx="6" class="box-accent"/>
+  <text x="290" y="43" class="label">Load Balancer</text>
+  <text x="290" y="60" class="sublabel">HAProxy / nginx / cloud LB</text>
+
+  <!-- Arrow: LB → Coord A -->
+  <line x1="240" y1="70" x2="160" y2="130" class="arrow"/>
+  <!-- Arrow: LB → Coord B -->
+  <line x1="340" y1="70" x2="420" y2="130" class="arrow"/>
+
+  <!-- Coordinator A -->
+  <rect x="60" y="130" width="180" height="56" rx="6" class="box-default"/>
+  <text x="150" y="156" class="label">Coordinator A</text>
+  <text x="150" y="175" class="sublabel">coord-a.example.com:8443</text>
+
+  <!-- Coordinator B -->
+  <rect x="340" y="130" width="180" height="56" rx="6" class="box-default"/>
+  <text x="430" y="156" class="label">Coordinator B</text>
+  <text x="430" y="175" class="sublabel">coord-b.example.com:8443</text>
+
+  <!-- Gossip arrow between coordinators -->
+  <line x1="240" y1="158" x2="340" y2="158" class="arrow-bidirectional"/>
+  <text x="290" y="153" class="sublabel" style="fill:#4b5563">gossip :7946</text>
+
+  <!-- Arrows: Coordinators → Shared storage -->
+  <line x1="150" y1="186" x2="220" y2="236" class="arrow"/>
+  <line x1="430" y1="186" x2="360" y2="236" class="arrow"/>
+
+  <!-- Shared S3 State -->
+  <rect x="190" y="236" width="200" height="50" rx="6" class="box-shared"/>
+  <text x="290" y="259" class="label">Shared Storage</text>
+  <text x="290" y="275" class="sublabel">NFS / EFS — same data_dir</text>
+
+  <!-- Peer nodes at bottom -->
+  <rect x="30" y="310" width="70" height="22" rx="4" class="peer-box"/>
+  <text x="65" y="325" class="peer-label">peer-1</text>
+
+  <rect x="120" y="310" width="70" height="22" rx="4" class="peer-box"/>
+  <text x="155" y="325" class="peer-label">peer-2</text>
+
+  <rect x="250" y="310" width="70" height="22" rx="4" class="peer-box"/>
+  <text x="285" y="325" class="peer-label">peer-3</text>
+
+  <rect x="390" y="310" width="70" height="22" rx="4" class="peer-box"/>
+  <text x="425" y="325" class="peer-label">peer-4</text>
+
+  <rect x="480" y="310" width="70" height="22" rx="4" class="peer-box"/>
+  <text x="515" y="325" class="peer-label">peer-5</text>
+
+  <!-- Arrows: peers → LB (clients → LB) -->
+  <line x1="65" y1="310" x2="220" y2="72" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="155" y1="310" x2="250" y2="72" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="285" y1="310" x2="290" y2="72" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="425" y1="310" x2="340" y2="72" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="515" y1="310" x2="370" y2="72" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- Label: Peers join via LB -->
+  <text x="290" y="308" class="section-label">mesh peers join via load balancer</text>
+</svg>
