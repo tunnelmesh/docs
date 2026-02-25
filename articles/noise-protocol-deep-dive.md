@@ -55,7 +55,8 @@ Once the handshake completes, both sides have symmetric session keys. All traffi
 
 The session keys are derived from the handshake transcript, not from the long-term keys directly. This means:
 
-> **If your long-term key is ever compromised, past sessions are still safe.** The session keys are gone and can't be reconstructed.
+> [!NOTE]
+> If your long-term key is ever compromised, past sessions are still safe. The session keys are gone and can't be reconstructed.
 
 This property — called *forward secrecy* — is one of the main reasons to use Noise over simpler approaches.
 

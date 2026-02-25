@@ -59,9 +59,8 @@ tunnelmesh share permissions add my-share --peer laptop --role bucket-read
 tunnelmesh share permissions add my-share --peer build-server --role bucket-write
 ```
 
-## A Note on Locking
-
-Most file operations work as expected. The one gotcha: byte-range locking over a high-latency relay connection isn't reliable. If your application depends on file locks, make sure the peer has a direct UDP connection to the coordinator rather than going through WebSocket relay. Run `tunnelmesh status` to check.
+> [!NOTE]
+> Most file operations work as expected. The one gotcha: byte-range locking over a high-latency relay connection isn't reliable. If your application depends on file locks, make sure the peer has a direct UDP connection to the coordinator rather than going through WebSocket relay. Run `tunnelmesh status` to check.
 
 See the [NFS docs](/docs/NFS) for the full troubleshooting guide.
 
