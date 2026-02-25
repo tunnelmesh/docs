@@ -57,10 +57,10 @@
     {
       "slug": "docker-support-in-tunnelmesh",
       "draft": true,
-      "title": "Docker Containers Are Now First-Class Citizens in TunnelMesh",
+      "title": "Docker Integration: Containers as First-Class Mesh Citizens",
       "date": "2025-12-08",
       "author": "TunnelMesh Team",
-      "excerpt": "We just shipped Docker integration — containers on the mesh get automatic port-forward rules, mesh DNS, and the same zero-trust filtering as bare-metal nodes."
+      "excerpt": "With Docker integration, containers on the mesh get automatic port-forward rules, mesh DNS, and the same zero-trust filtering as bare-metal nodes."
     },
     {
       "slug": "nfs-over-the-mesh",
@@ -84,15 +84,15 @@
       "title": "New Year, New Mesh: Where TunnelMesh Is Going in 2026",
       "date": "2026-01-05",
       "author": "TunnelMesh Team",
-      "excerpt": "We shipped a lot in the last two months. Here's an honest look at what worked, what surprised us, and what we're building next."
+      "excerpt": "An honest look at where the project stands, what's working, what still needs work, and what we're building next."
     },
     {
       "slug": "benchmarking-tunnelmesh",
       "draft": true,
-      "title": "Benchmarking TunnelMesh: Real Numbers from Real Hardware",
+      "title": "Benchmarking TunnelMesh",
       "date": "2026-01-12",
       "author": "TunnelMesh Team",
-      "excerpt": "We ran TunnelMesh against a baseline and against alternatives. Here are the iperf3, latency, and CPU numbers — methodology included so you can reproduce them."
+      "excerpt": "How does TunnelMesh actually perform? We look at throughput, latency, and CPU overhead across transport modes and hardware — methodology included so you can reproduce the results."
     },
     {
       "slug": "user-identity-zero-trust",
@@ -113,10 +113,10 @@
     {
       "slug": "100-nodes-in-the-wild",
       "draft": true,
-      "title": "100 Nodes, 6 Countries: TunnelMesh in the Wild",
+      "title": "TunnelMesh in the Wild: Early Deployment Lessons",
       "date": "2026-02-02",
       "author": "TunnelMesh Team",
-      "excerpt": "Three months after launch, TunnelMesh is running on real infrastructure in six countries. Here's what we learned watching it operate at a scale we didn't fully anticipate."
+      "excerpt": "A few months in, TunnelMesh is running on real infrastructure. Here's what we learned from watching it operate outside our own machines."
     },
     {
       "slug": "internal-packet-filter",

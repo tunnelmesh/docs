@@ -1,8 +1,8 @@
 ---
-title: Docker Containers Are Now First-Class Citizens in TunnelMesh
+title: "Docker Integration: Containers as First-Class Mesh Citizens"
 date: 2025-12-08
 author: TunnelMesh Team
-excerpt: We just shipped Docker integration — containers on the mesh get automatic port-forward rules, mesh DNS, and the same zero-trust filtering as bare-metal nodes.
+excerpt: With Docker integration, containers on the mesh get automatic port-forward rules, mesh DNS, and the same zero-trust filtering as bare-metal nodes.
 ---
 
 # Docker Containers Are Now First-Class Citizens in TunnelMesh

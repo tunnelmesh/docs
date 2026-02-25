@@ -1,11 +1,11 @@
 ---
-title: "Benchmarking TunnelMesh: Real Numbers from Real Hardware"
+title: "Benchmarking TunnelMesh"
 date: 2026-01-12
 author: TunnelMesh Team
-excerpt: We ran TunnelMesh against a baseline and against alternatives. Here are the iperf3, latency, and CPU numbers — methodology included so you can reproduce them.
+excerpt: How does TunnelMesh actually perform? We look at throughput, latency, and CPU overhead across transport modes and hardware — methodology included so you can reproduce the results.
 ---
 
-# Benchmarking TunnelMesh: Real Numbers from Real Hardware
+# Benchmarking TunnelMesh
 
 <!-- TODO: Write this post -->
 <!-- Tone: rigorous and honest. Show methodology, show the numbers that aren't flattering too. Link to raw data if possible. -->

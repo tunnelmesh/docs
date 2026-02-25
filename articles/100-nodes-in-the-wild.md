@@ -1,11 +1,11 @@
 ---
-title: "100 Nodes, 6 Countries: TunnelMesh in the Wild"
+title: "TunnelMesh in the Wild: Early Deployment Lessons"
 date: 2026-02-02
 author: TunnelMesh Team
-excerpt: Three months after launch, TunnelMesh is running on real infrastructure in six countries. Here's what we learned watching it operate at a scale we didn't fully anticipate.
+excerpt: A few months in, TunnelMesh is running on real infrastructure. Here's what we learned from watching it operate outside our own machines.
 ---
 
-# 100 Nodes, 6 Countries: TunnelMesh in the Wild
+# TunnelMesh in the Wild: Early Deployment Lessons
 
 <!-- TODO: Write this post -->
 <!-- Tone: milestone celebration + honest operational lessons. Tell real stories (anonymised if needed). -->

@@ -2,7 +2,7 @@
 title: "New Year, New Mesh: Where TunnelMesh Is Going in 2026"
 date: 2026-01-05
 author: TunnelMesh Team
-excerpt: We shipped a lot in the last two months. Here's an honest look at what worked, what surprised us, and what we're building next.
+excerpt: An honest look at where the project stands, what's working, what still needs work, and what we're building next.
 ---
 
 # New Year, New Mesh: Where TunnelMesh Is Going in 2026
