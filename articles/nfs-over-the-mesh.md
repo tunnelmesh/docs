@@ -23,13 +23,7 @@ TunnelMesh adds one more layer: TLS client certificate authentication on the NFS
 
 TunnelMesh has two ways to share data:
 
-```
-Buckets ──────────────── S3 API only
-                          (AWS CLI, SDK, any S3 tool)
-
-File Shares ──────────── S3 API  +  NFS mount
-                          (same data, two access methods)
-```
+![File shares vs buckets: buckets have S3 API only, file shares add NFS mount](images/shares-vs-buckets.svg)
 
 A file share is a bucket with extra metadata that makes it mountable as a filesystem. The underlying storage is the same either way. Choose the access method that fits your use case.
 

@@ -27,22 +27,7 @@ All session traffic is encrypted with **ChaCha20-Poly1305**, a modern AEAD ciphe
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    Coordinator                           │
-│  • Peer discovery & IP allocation                       │
-│  • Relay fallback (WebSocket)                           │
-│  • Mesh DNS (100.100.x.x → peer.mesh)                  │
-│  • Admin API & web dashboard                            │
-└──────────────────────┬──────────────────────────────────┘
-                       │ coordinator-assisted discovery
-        ┌──────────────┴──────────────┐
-        ▼                             ▼
-   ┌─────────┐    UDP (Noise)    ┌─────────┐
-   │  Peer A │◄────────────────►│  Peer B │
-   │  node   │                  │  node   │
-   └─────────┘                  └─────────┘
-```
+![TunnelMesh architecture: coordinator on top, peers below with direct UDP connection](images/tunnelmesh-architecture.svg)
 
 Each peer runs a TUN interface that handles transparent IP routing. Packets destined for mesh IPs (`100.64.0.0/10`) are captured by the TUN device and routed through the appropriate encrypted tunnel.
 

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 240" font-family="'Inter', sans-serif">
+  <rect width="100%" height="100%" fill="#0a1018"/>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="#00d4b4"/>
+    </marker>
+  </defs>
+  <!-- Laptop A (top-left) -->
+  <rect x="30" y="40" width="140" height="44" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="100" y="62" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">Laptop A</text>
+  <!-- Laptop B (bottom-left) -->
+  <rect x="30" y="156" width="140" height="44" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="100" y="178" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">Laptop B</text>
+  <!-- Hub Server (center-right) -->
+  <rect x="330" y="98" width="160" height="44" rx="6" fill="#0c1220" stroke="rgba(0,212,180,0.3)" stroke-width="1.5"/>
+  <text x="410" y="120" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">Hub Server</text>
+  <!-- Lines from each laptop to hub -->
+  <line x1="170" y1="62" x2="330" y2="120" stroke="#00d4b4" stroke-width="1.5"/>
+  <line x1="170" y1="178" x2="330" y2="120" stroke="#00d4b4" stroke-width="1.5"/>
+  <!-- No direct line between laptops (the hub-and-spoke problem) -->
+  <text x="190" y="130" text-anchor="middle" fill="rgba(232,234,240,0.35)" font-size="11">no direct path</text>
+</svg>

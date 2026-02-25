@@ -43,12 +43,7 @@ That third property is important. Even if an attacker has a valid TunnelMesh key
 
 Every machine in a TunnelMesh network has a *static key* — its long-term identity. Rather than generating a separate set of keys, TunnelMesh derives this from the machine's SSH key:
 
-```
-SSH key pair (already exists)
-       │
-       ▼ deterministic derivation
-Noise static key pair (TunnelMesh identity)
-```
+![Key derivation: SSH key pair to Noise static key pair](images/noise-key-derivation.svg)
 
 `tunnelmesh init` handles this. If you'd rather reuse an existing SSH key, point the config at it.
 

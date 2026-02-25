@@ -36,18 +36,7 @@ Most home routers are restricted cone or port-restricted. Symmetric NAT shows up
 
 For the first three NAT types, TunnelMesh uses a technique called **UDP hole-punching**:
 
-```
-  Your machine                  Coordinator               Remote peer
-       │                             │                         │
-       │──── "my public addr is" ───►│◄─── "my public addr is"─│
-       │                             │                         │
-       │◄──────────────── "remote peer is at A.B.C.D:PORT" ───│
-       │                             │                         │
-       │──────────────── UDP packet ─────────────────────────►│
-       │◄───────────────────────────────── UDP packet ─────────│
-       │                             │                         │
-       │◄────────────── direct connection established ────────►│
-```
+![UDP hole-punching sequence: both peers register with coordinator, then connect directly](images/hole-punching-sequence.svg)
 
 The key is that both peers send at the same time. When your machine sends a UDP packet, your router records an outgoing mapping. When the remote peer's packet arrives a moment later, the router recognises it as a reply to your outgoing packet — and lets it through.
 
@@ -61,15 +50,7 @@ For these situations — and for strict corporate firewalls that block unsolicit
 
 ## The Fallback Chain
 
-```
-  UDP hole-punch     →  fails  →  SSH tunnel (TCP, port 2222)
-                                        │
-                                   fails (port blocked)
-                                        │
-                                        ▼
-                                 WebSocket relay (port 8080)
-                                 (outbound-only, works everywhere)
-```
+![Fallback chain: UDP hole-punch → SSH tunnel → WebSocket relay](images/fallback-chain.svg)
 
 The **SSH tunnel** routes traffic through the coordinator over TCP. Most firewalls allow outbound TCP on port 2222.
 

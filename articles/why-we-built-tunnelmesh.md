@@ -15,15 +15,7 @@ We had a few machines spread across home networks, a VPS, and a rented server. N
 
 Most VPN tools are built around a hub-and-spoke model. Think of it like a wheel:
 
-```
-     Laptop A
-         \
-          \
-      [HUB SERVER]
-          /
-         /
-     Laptop B
-```
+![Hub-and-spoke topology: all traffic routes through the hub server](images/hub-and-spoke.svg)
 
 Every packet between Laptop A and Laptop B travels through the hub, even if they're on the same LAN. That hub is your central server — the one you're paying for, the one that becomes a bottleneck, and the one that takes everything down when it has a bad day.
 

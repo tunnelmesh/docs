@@ -30,18 +30,7 @@ Everything else — SSH, HTTP, your database port, your application ports — ne
 
 Rules come from four places, evaluated from most to least specific:
 
-```
-1. Coordinator config  (mesh-wide, highest authority)
-       │
-       ▼
-2. Per-peer config     (rules for a specific peer)
-       │
-       ▼
-3. CLI / admin panel   (runtime rules, temporary or permanent)
-       │
-       ▼
-4. Service ports       (automatic allows for mesh internals)
-```
+![Rule hierarchy: coordinator config (highest) → per-peer → CLI/admin → service ports](images/rule-hierarchy.svg)
 
 The most restrictive rule that matches wins. A coordinator-level deny isn't overridable by a peer-level allow.
 

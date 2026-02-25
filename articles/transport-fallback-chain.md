@@ -11,22 +11,7 @@ TunnelMesh tries hard to connect you directly to your peers. When that fails, it
 
 ## The Three Levels
 
-```
-Level 1: Direct UDP
-  ├─ Fastest, lowest overhead
-  ├─ Works through most home/office NAT
-  └─ Fails on symmetric NAT and strict firewalls
-
-Level 2: SSH Tunnel (TCP, port 2222)
-  ├─ Coordinator-proxied, one extra hop
-  ├─ Traverses most corporate firewalls
-  └─ Fails if port 2222 is blocked
-
-Level 3: WebSocket Relay (port 8080)
-  ├─ Both peers connect outbound to coordinator
-  ├─ Works through almost anything (HTTP/HTTPS only)
-  └─ Highest latency (two coordinator round trips per RTT)
-```
+![The three transport levels: Direct UDP, SSH Tunnel, WebSocket Relay](images/transport-levels.svg)
 
 The Noise encryption is identical across all three. Changing transport is transparent to your applications — a connection that starts on WebSocket relay and later gets promoted to direct UDP doesn't drop or reconnect.
 
@@ -42,13 +27,7 @@ This works for most home and office NAT. It fails for symmetric NAT, where the r
 
 When UDP hole-punching fails, both peers connect to the coordinator on port 2222 over TCP. The coordinator proxies the traffic between them:
 
-```
-Peer A ──TCP──► Coordinator:2222 ◄──TCP── Peer B
-                      │
-                      │ stitches streams
-                      │
-            Peer A traffic ◄──────────────────────────► Peer B traffic
-```
+![SSH relay flow: Peer A and Peer B connect to Coordinator :2222, coordinator stitches streams](images/ssh-relay-flow.svg)
 
 TCP traverses most corporate firewalls. The cost is latency: every packet now makes a round trip through the coordinator instead of going directly.
 
