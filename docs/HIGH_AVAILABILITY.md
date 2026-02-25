@@ -8,20 +8,7 @@ Every coordinator is an equal peer — there is no leader, no primary, no replic
 
 Data is distributed across coordinators using chunk-level striping: each chunk of each object has a deterministic primary owner (`chunk_index mod num_coordinators`), and replicas are placed on the next N−1 coordinators in the ring. Concurrent writes are reconciled with version vectors, falling back to last-modified timestamp as a tiebreaker.
 
-```
-  ┌─────────────┐        ┌─────────────┐
-  │Coordinator A│◄──────►│Coordinator B│
-  │  (peer)     │replicas│  (peer)     │
-  └──────┬──────┘        └──────┬──────┘
-         │                      │
-         └──────────┬───────────┘
-                    │ (peer-to-peer mesh)
-          ┌─────────┼─────────┐
-          │         │         │
-       peer-1    peer-2    peer-3
-```
-
-![Coordinator HA architecture](images/coordinator-ha.svg)
+<img src="/docs/images/coordinator-ha.svg" alt="Coordinator HA: two coordinator peers connected by chunk replication arrows, with mesh peers fanning out below both">
 
 ## Setup
 

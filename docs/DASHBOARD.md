@@ -8,7 +8,7 @@ This doc is a reference for what lives in the dashboard and how access to each p
 
 The dashboard is divided into three tabs along the top: **Mesh**, **App**, and **Data**.
 
-![Dashboard tab layout](images/dashboard-tabs.svg)
+<img src="/docs/images/dashboard-tabs.svg" alt="Dashboard layout: three tabs (Mesh, App, Data) with panel names shown in each, public panels highlighted with accent border">
 
 - **Mesh** — real-time visibility into the network (topology, alerts, traffic)
 - **App** — storage and container management (objects, shares, Docker)
