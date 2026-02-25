@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 270" font-family="'Inter', sans-serif">
+  <rect width="100%" height="100%" fill="#0a1018"/>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="#00d4b4"/>
+    </marker>
+    <marker id="ab" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto">
+      <polygon points="8 0 0 3 8 6" fill="#00d4b4"/>
+    </marker>
+    <marker id="am" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="rgba(232,234,240,0.35)"/>
+    </marker>
+  </defs>
+  <!-- Your Laptop box -->
+  <rect x="20" y="30" width="170" height="88" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="105" y="63" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">Your Laptop</text>
+  <text x="105" y="83" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">London, UK</text>
+  <!-- Exit Peer box (accent) -->
+  <rect x="380" y="30" width="180" height="88" rx="6" fill="#0c1220" stroke="rgba(0,212,180,0.3)" stroke-width="1.5"/>
+  <text x="470" y="63" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">Exit Peer</text>
+  <text x="470" y="83" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">Singapore</text>
+  <!-- Internet box -->
+  <rect x="590" y="42" width="60" height="64" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+  <text x="620" y="65" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">Internet</text>
+  <text x="620" y="83" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.35)" font-size="11">(SGP IP)</text>
+  <!-- Bidirectional encrypted tunnel arrow -->
+  <text x="285" y="54" text-anchor="middle" fill="rgba(232,234,240,0.52)" font-size="11">Encrypted Mesh Tunnel</text>
+  <line x1="190" y1="74" x2="380" y2="74" stroke="#00d4b4" stroke-width="1.5" marker-start="url(#ab)" marker-end="url(#a)"/>
+  <!-- Arrow from Exit Peer to Internet -->
+  <line x1="560" y1="74" x2="590" y2="74" stroke="rgba(232,234,240,0.35)" stroke-width="1.5" marker-end="url(#am)"/>
+  <!-- Dashed line from Laptop box down to Amsterdam -->
+  <line x1="105" y1="118" x2="105" y2="185" stroke="rgba(232,234,240,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="120" y="156" fill="rgba(232,234,240,0.35)" font-size="11">Mesh traffic stays direct</text>
+  <!-- Other Peer Amsterdam box -->
+  <rect x="20" y="185" width="170" height="68" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="105" y="212" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14">Other Peer</text>
+  <text x="105" y="232" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">Amsterdam</text>
+</svg>

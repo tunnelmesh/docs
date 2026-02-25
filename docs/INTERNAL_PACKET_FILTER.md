@@ -22,32 +22,9 @@
 
 Rules come from four sources, merged with "most restrictive wins" logic:
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│  Coordinator Config (server.yaml)                       │
-│  → Global defaults pushed to ALL peers on connect       │
-└─────────────────────┬───────────────────────────────────┘
-                      ↓
-┌─────────────────────────────────────────────────────────┐
-│  Peer Config (peer.yaml)                                │
-│  → Local rules that extend/override coordinator rules   │
-└─────────────────────┬───────────────────────────────────┘
-                      ↓
-┌─────────────────────────────────────────────────────────┐
-│  CLI / Admin Panel (temporary)                          │
-│  → Runtime overrides, persist until reboot              │
-└─────────────────────┬───────────────────────────────────┘
-                      ↓
-┌─────────────────────────────────────────────────────────┐
-│  Service Ports (auto-generated)                         │
-│  → Auto-allow access to coordinator services            │
-│  → Read-only, cannot be modified                        │
-└─────────────────────────────────────────────────────────┘
+<img src="/articles/images/rule-hierarchy.svg" alt="Four-layer rule hierarchy: Coordinator Config → Peer Config → CLI / Admin Panel → Service Ports">
 
-Conflict Resolution: MOST RESTRICTIVE WINS
-  - If any source says "deny", the port is denied
-  - "allow" only wins if no source denies
-```
+**Conflict resolution: most restrictive wins.** If any source says "deny", the port is denied. "allow" only wins if no source denies.
 
 ## Service Ports
 

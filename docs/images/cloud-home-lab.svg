@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 365" font-family="'Inter', sans-serif">
+  <rect width="100%" height="100%" fill="#0a1018"/>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="#00d4b4"/>
+    </marker>
+  </defs>
+  <!-- Cloud zone box -->
+  <rect x="20" y="16" width="540" height="104" rx="6" fill="#0c1220" stroke="rgba(0,212,180,0.2)" stroke-width="1"/>
+  <text x="32" y="30" dominant-baseline="middle" fill="rgba(232,234,240,0.35)" font-size="11">Cloud (DigitalOcean)</text>
+  <!-- Coordinator inner box -->
+  <rect x="60" y="38" width="460" height="68" rx="6" fill="#0a1018" stroke="rgba(0,212,180,0.3)" stroke-width="1.5"/>
+  <text x="290" y="62" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14" font-weight="bold">Coordinator</text>
+  <text x="290" y="82" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">tunnelmesh.example.com</text>
+  <!-- Encrypted Mesh Tunnel arrow -->
+  <text x="308" y="138" fill="rgba(232,234,240,0.35)" font-size="11">Encrypted Mesh Tunnel</text>
+  <line x1="290" y1="120" x2="290" y2="152" stroke="#00d4b4" stroke-width="1.5" marker-end="url(#a)"/>
+  <!-- Your Home zone box -->
+  <rect x="20" y="152" width="540" height="120" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <text x="32" y="166" dominant-baseline="middle" fill="rgba(232,234,240,0.35)" font-size="11">Your Home</text>
+  <!-- Home Server box -->
+  <rect x="55" y="173" width="148" height="90" rx="6" fill="#0a1018" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="129" y="197" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="13">Home Server</text>
+  <text x="129" y="215" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">(TunnelMesh Peer)</text>
+  <text x="129" y="233" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">10.42.0.2</text>
+  <!-- Connection line between server and LAN -->
+  <line x1="203" y1="218" x2="228" y2="218" stroke="rgba(232,234,240,0.25)" stroke-width="1"/>
+  <!-- Home LAN box -->
+  <rect x="228" y="173" width="208" height="90" rx="6" fill="#0a1018" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="332" y="192" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="13">Home LAN</text>
+  <text x="244" y="210" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">• NAS</text>
+  <text x="244" y="226" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">• Cameras</text>
+  <text x="244" y="242" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">• Smart Home</text>
+  <text x="244" y="256" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">• Printers</text>
+  <!-- Fork structure below home zone -->
+  <line x1="290" y1="272" x2="290" y2="290" stroke="rgba(232,234,240,0.25)" stroke-width="1"/>
+  <line x1="125" y1="290" x2="455" y2="290" stroke="rgba(232,234,240,0.25)" stroke-width="1"/>
+  <line x1="125" y1="290" x2="125" y2="306" stroke="rgba(232,234,240,0.25)" stroke-width="1"/>
+  <line x1="455" y1="290" x2="455" y2="306" stroke="rgba(232,234,240,0.25)" stroke-width="1"/>
+  <!-- Laptop boxes -->
+  <rect x="55"  y="306" width="140" height="48" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="125" y="323" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="13">Laptop</text>
+  <text x="125" y="340" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">(coffee shop)</text>
+  <rect x="385" y="306" width="140" height="48" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="455" y="323" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="13">Laptop</text>
+  <text x="455" y="340" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">(hotel)</text>
+</svg>

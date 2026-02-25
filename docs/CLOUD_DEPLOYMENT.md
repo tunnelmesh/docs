@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > Deploy TunnelMesh infrastructure to DigitalOcean using Terraform. This guide covers various deployment
-> scenarios from simple single-node setups (~$4/month) to multi-region mesh networks (~$12+/month).
+> scenarios from simple single-node setups to multi-region mesh networks.
 
 ## Prerequisites
 
@@ -41,7 +41,7 @@ terraform apply
 
 > [!TIP]
 > **Choose your scenario**: Start simple (Scenario 1: All-in-One) and scale up as needed. Each scenario
-> includes cost estimates, use cases, and complete configuration. You can always add more nodes later.
+> includes use cases and complete configuration. You can always add more nodes later.
 
 TunnelMesh is flexible. Whether you need a simple personal VPN, a global team mesh, or a sophisticated multi-region
 network with exit peers, there's a configuration for you.
@@ -52,28 +52,10 @@ network with exit peers, there's a configuration for you.
 > **Recommended for beginners**: This is the simplest and cheapest deployment. Start here and scale up
 > only when you need regional presence or dedicated services.
 
-**The simplest deployment.** A single $4/month droplet runs everything: coordinator, mesh peer, and exit peer.
+**The simplest deployment.** A single droplet runs everything: coordinator, mesh peer, and exit peer.
 Perfect for personal use, small teams, or testing.
 
-```text
-                    ┌─────────────────────────────────────┐
-                    │         tunnelmesh.example.com      │
-                    │         ━━━━━━━━━━━━━━━━━━━━━       │
-                    │                                     │
-                    │   ┌─────────────────────────────┐   │
-                    │   │    Coordinator + Peer       │   │
-                    │   │    + Exit Peer              │   │
-                    │   └─────────────────────────────┘   │
-                    │              10.42.0.1              │
-                    └──────────────────┬──────────────────┘
-                                       │
-           ┌───────────────────────────┼───────────────────────────┐
-           │                           │                           │
-      ┌────▼────┐                ┌─────▼─────┐              ┌──────▼──────┐
-      │  💻     │                │  💻       │              │  🏠         │
-      │ Device  │                │  Laptop   │              │  Home PC    │
-      └─────────┘                └───────────┘              └─────────────┘
-```
+<img src="/docs/images/cloud-all-in-one.svg" alt="All-in-one deployment: single cloud server running coordinator, peer, and exit peer, connected to three client devices">
 
 **Use cases:**
 
@@ -94,8 +76,6 @@ nodes = {
 }
 ```
 
-**Cost:** ~$4/month
-
 ---
 
 ### Scenario 2: Exit Peer (Split-Tunnel VPN)
@@ -104,24 +84,7 @@ nodes = {
 mesh-to-mesh communication stays direct. Great for privacy, accessing geo-restricted content, or compliance
 requirements.
 
-```text
-┌──────────────────┐                               ┌──────────────────┐
-│   Your Laptop    │                               │   Exit Peer      │
-│   London, UK     │                               │   Singapore      │
-│                  │        Encrypted Mesh         │                  │
-│  ┌────────────┐  │◄──────────────────────────────│  ┌────────────┐  │
-│  │ TUN Device │  │          Tunnel               │  │ NAT/Egress │──┼──► Internet
-│  └────────────┘  │                               │  └────────────┘  │   (appears as
-│                  │                               │                  │    Singapore IP)
-└──────────────────┘                               └──────────────────┘
-
-         │ Mesh traffic stays direct
-         ▼
-┌──────────────────┐
-│   Other Peer     │
-│   Amsterdam      │
-└──────────────────┘
-```
+<img src="/docs/images/cloud-exit-peer.svg" alt="Exit peer topology: laptop in London connects via encrypted mesh tunnel to exit peer in Singapore, which routes traffic to the internet with a Singapore IP; other peer in Amsterdam connects directly">
 
 **Use cases:**
 
@@ -166,30 +129,7 @@ sudo tunnelmesh join --config peer.yaml --exit-node tm-exit-sgp --context work
 **Global presence.** Mesh peers in multiple regions provide low-latency access for a distributed team. Users
 connect to their nearest peer and gain access to the entire mesh.
 
-```text
-                              ┌─────────────────────────────────┐
-                              │         Coordinator             │
-                              │         Amsterdam               │
-                              │                                 │
-                              │   • Peer registry               │
-                              │   • IP allocation               │
-                              │   • Admin dashboard             │
-                              └────────────────┬────────────────┘
-                                               │
-              ┌────────────────────────────────┼────────────────────────────────┐
-              │                                │                                │
-    ┌─────────▼─────────┐          ┌──────────▼──────────┐          ┌──────────▼──────────┐
-    │   Mesh Peer       │          │   Mesh Peer         │          │   Mesh Peer         │
-    │   New York        │◄─────────►   Frankfurt         │◄─────────►   Singapore         │
-    │                   │   mesh   │                     │   mesh   │                     │
-    │   10.42.0.2       │          │   10.42.0.3         │          │   10.42.0.4         │
-    └─────────┬─────────┘          └──────────┬──────────┘          └──────────┬──────────┘
-              │                               │                                │
-       ┌──────┴──────┐                 ┌──────┴──────┐                 ┌───────┴──────┐
-       │   US Team   │                 │   EU Team   │                 │   APAC Team  │
-       │   💻💻💻     │                 │   💻💻💻     │                 │   💻💻        │
-       └─────────────┘                 └─────────────┘                 └──────────────┘
-```
+<img src="/docs/images/cloud-multi-region.svg" alt="Multi-region mesh: coordinator in Amsterdam with three mesh peers in New York, Frankfurt, and Singapore, directly interconnected with mesh tunnels">
 
 **Use cases:**
 
@@ -218,8 +158,6 @@ nodes = {
 }
 ```
 
-**Cost:** ~$12/month (3 droplets)
-
 ---
 
 ### Scenario 4: Home Lab Gateway
@@ -227,42 +165,7 @@ nodes = {
 **Access your home network from anywhere.** Run a cloud coordinator and connect your home server as a peer. Devices
 connect via the native client and can reach everything on your home LAN.
 
-```text
-                          Cloud (DigitalOcean)
-        ┌─────────────────────────────────────────────────┐
-        │                                                 │
-        │   ┌─────────────────────────────────────────┐   │
-        │   │              Coordinator               │   │
-        │   │         tunnelmesh.example.com          │   │
-        │   └─────────────────────────────────────────┘   │
-        │                        │                        │
-        └────────────────────────┼────────────────────────┘
-                                 │
-                    Encrypted Mesh Tunnel
-                                 │
-                                 ▼
-        ┌─────────────────────────────────────────────────┐
-        │                  Your Home                      │
-        │                                                 │
-        │   ┌─────────────┐      ┌───────────────────┐    │
-        │   │ Home Server │──────│  Home LAN         │    │
-        │   │ (TunnelMesh │      │  • NAS            │    │
-        │   │  Peer)      │      │  • Cameras        │    │
-        │   │ 10.42.0.2   │      │  • Smart Home     │    │
-        │   └─────────────┘      │  • Printers       │    │
-        │                        └───────────────────┘    │
-        └─────────────────────────────────────────────────┘
-                                 ▲
-                                 │
-                    ┌────────────┴────────────┐
-                    │                         │
-               ┌────▼────┐              ┌─────▼─────┐
-               │   💻    │              │    💻     │
-               │ Laptop  │              │  Laptop   │
-               │(coffee  │              │ (hotel)   │
-               │ shop)   │              │           │
-               └─────────┘              └───────────┘
-```
+<img src="/docs/images/cloud-home-lab.svg" alt="Home lab gateway: cloud coordinator connects via encrypted tunnel to home server, which provides access to the home LAN; two laptops connect from outside">
 
 **Use cases:**
 
@@ -310,26 +213,7 @@ sudo tunnelmesh service start
 **Connect developer machines directly.** No VPN concentrator bottleneck. Developers can SSH into each other's machines,
 share local development servers, and collaborate as if on the same LAN.
 
-```text
-                              ┌─────────────────────────────────┐
-                              │         Coordinator             │
-                              │    (minimal cloud instance)     │
-                              └────────────────┬────────────────┘
-                                               │
-       ┌───────────────────────────────────────┼───────────────────────────────────────┐
-       │                       │               │               │                       │
-       │                       │               │               │                       │
-┌──────▼──────┐         ┌──────▼──────┐ ┌──────▼──────┐ ┌──────▼──────┐         ┌──────▼──────┐
-│   alice     │◄───────►│    bob      │ │   charlie   │ │   david     │◄───────►│   eve       │
-│  (MacBook)  │  direct │  (Linux)    │ │  (Windows)  │ │  (MacBook)  │  direct │  (Linux)    │
-│             │  tunnel │             │ │             │ │             │  tunnel │             │
-│ 10.42.0.2   │         │ 10.42.0.3   │ │ 10.42.0.4   │ │ 10.42.0.5   │         │ 10.42.0.6   │
-└─────────────┘         └─────────────┘ └─────────────┘ └─────────────┘         └─────────────┘
-       │                                                                               │
-       │  alice$ ssh bob.tunnelmesh                                                    │
-       │  alice$ curl http://eve.tunnelmesh:3000   # Access Eve's dev server           │
-       │  eve$ psql -h alice.tunnelmesh            # Connect to Alice's local Postgres │
-```
+<img src="/docs/images/cloud-dev-team.svg" alt="Developer team mesh: minimal coordinator with five developer peers (alice, bob, charlie, david, eve), with direct tunnels between alice-bob and david-eve">
 
 **Use cases:**
 
@@ -362,29 +246,7 @@ sudo tunnelmesh join tunnelmesh.example.com --token team-token --context team
 **Direct connections for multiplayer gaming.** Skip the public internet. Peers connect directly via UDP for minimal
 latency. Host game servers on any peer's machine.
 
-```text
-                              ┌─────────────────────────────────┐
-                              │         Coordinator             │
-                              │    (handles discovery only)     │
-                              └────────────────┬────────────────┘
-                                               │
-                                               │ (control plane only)
-       ┌───────────────────────────────────────┼───────────────────────────────────────┐
-       │                                       │                                       │
-       │                                       │                                       │
-┌──────▼──────┐                         ┌──────▼──────┐                         ┌──────▼──────┐
-│   Player 1  │◄═══════════════════════►│  Player 2   │◄═══════════════════════►│  Player 3   │
-│  California │      UDP Tunnel         │   Texas     │      UDP Tunnel         │  Florida    │
-│             │      (low latency)      │             │      (low latency)      │             │
-│ 10.42.0.2   │                         │ 10.42.0.3   │                         │ 10.42.0.4   │
-│             │                         │             │                         │             │
-│ Game Server │◄════════════════════════│ ═══════════ │════════════════════════►│             │
-│ 192.168.x.x │      Direct Connect     │             │      Direct Connect     │             │
-└─────────────┘                         └─────────────┘                         └─────────────┘
-
-                    ═════  UDP tunnel (game traffic, ~10-30ms between peers)
-                    ─────  Control plane (HTTPS to coordinator)
-```
+<img src="/docs/images/cloud-gaming.svg" alt="Gaming group mesh: coordinator handles discovery only; three player peers in California, Texas, and Florida connect via direct UDP tunnels for low-latency game traffic">
 
 **Use cases:**
 
@@ -479,7 +341,7 @@ export TF_VAR_do_token="dop_v1_xxx"
 | Variable | Default | Description |
 | ---------- | --------- | ------------- |
 | `default_region` | `ams3` | Default droplet region |
-| `default_droplet_size` | `s-1vcpu-512mb-10gb` | Default size ($4/mo) |
+| `default_droplet_size` | `s-1vcpu-512mb-10gb` | Default droplet size |
 | `default_ssh_port` | `2222` | Default SSH tunnel port |
 | `external_api_port` | `8443` | HTTPS port for peer connections |
 
@@ -619,17 +481,6 @@ terraform destroy
 3. Consider adding regional nodes
 
 ---
-
-## Cost Reference
-
-| Configuration | Droplets | Monthly Cost |
-| --------------- | ---------- | -------------- |
-| All-in-One | 1 | ~$4 |
-| Coord + Extra Peer | 2 | ~$8 |
-| Multi-Region (3) | 3 | ~$12 |
-| Full Production | 4+ | ~$16+ |
-
-All estimates use `s-1vcpu-512mb-10gb` ($4/mo) droplets. Monitoring adds minimal overhead as it runs on existing nodes.
 
 ---
 
