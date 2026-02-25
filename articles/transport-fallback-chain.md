@@ -7,33 +7,80 @@ excerpt: A technical walkthrough of how TunnelMesh selects, negotiates, and prom
 
 # Inside the Transport Fallback Chain: UDP, SSH, and WebSocket Relay
 
-<!-- TODO: Write this post -->
-<!-- Tone: engineering deep dive. Include state diagrams and/or sequence diagrams. This is one of the more technically interesting parts of the system. -->
+TunnelMesh tries hard to connect you directly to your peers. When that fails, it falls back gracefully. When conditions improve, it upgrades automatically. Here's how the whole chain works.
 
-## The fundamental challenge
+## The Three Levels
 
-<!-- Reminder of why this is hard: NAT, firewalls, asymmetric connectivity. What "best path" means and why it's dynamic. -->
+```
+Level 1: Direct UDP
+  ├─ Fastest, lowest overhead
+  ├─ Works through most home/office NAT
+  └─ Fails on symmetric NAT and strict firewalls
 
-## Level 1: Direct UDP with hole-punching
+Level 2: SSH Tunnel (TCP, port 2222)
+  ├─ Coordinator-proxied, one extra hop
+  ├─ Traverses most corporate firewalls
+  └─ Fails if port 2222 is blocked
 
-<!-- The happy path. Initiating a hole-punch attempt, the exchange of candidates via the coordinator, what success looks like. Latency profile. When this fails (symmetric NAT, aggressive firewalls). -->
+Level 3: WebSocket Relay (port 8080)
+  ├─ Both peers connect outbound to coordinator
+  ├─ Works through almost anything (HTTP/HTTPS only)
+  └─ Highest latency (two coordinator round trips per RTT)
+```
 
-## Level 2: SSH tunnelling
+The Noise encryption is identical across all three. Changing transport is transparent to your applications — a connection that starts on WebSocket relay and later gets promoted to direct UDP doesn't drop or reconnect.
 
-<!-- Why SSH as TCP fallback? Port 22 usually open outbound, existing SSH daemons common on nodes, ProxyJump semantics. How TunnelMesh sets up the tunnel, what the user needs to configure. Performance trade-off vs UDP. -->
+## Level 1: Direct UDP and Hole-Punching
 
-## Level 3: WebSocket relay through the coordinator
+When two peers want to connect, they both tell the coordinator their public-facing address (the IP and port their router presents to the outside world). The coordinator passes this information between them and signals both sides to fire simultaneously.
 
-<!-- The last resort. How WebSocket relay works: both peers connect outbound to coordinator, coordinator stitches the streams. Bandwidth and latency implications. When does this trigger? -->
+Both peers send a UDP packet to each other's public address at the same time. Each outbound packet punches a temporary hole through the sender's NAT — and the incoming packet from the other side arrives while that hole is still open.
 
-## Path selection state machine
+This works for most home and office NAT. It fails for symmetric NAT, where the router assigns a different external port for each destination, making the shared address stale by the time the other side uses it.
 
-<!-- Diagram: PROBING → DIRECT / RELAY, promotion logic (if direct path becomes available, switch), keepalive probes, hysteresis to avoid flapping. -->
+## Level 2: SSH Tunnel
 
-## Monitoring the active path
+When UDP hole-punching fails, both peers connect to the coordinator on port 2222 over TCP. The coordinator proxies the traffic between them:
 
-<!-- How to tell which transport a peer is using (CLI, metrics). Prometheus metric names. What flapping looks like in logs. -->
+```
+Peer A ──TCP──► Coordinator:2222 ◄──TCP── Peer B
+                      │
+                      │ stitches streams
+                      │
+            Peer A traffic ◄──────────────────────────► Peer B traffic
+```
 
-## Future: QUIC as an alternative path
+TCP traverses most corporate firewalls. The cost is latency: every packet now makes a round trip through the coordinator instead of going directly.
 
-<!-- Brief mention of QUIC's potential benefits here: built-in multiplexing, connection migration. Status and timeline if known. -->
+If you're running the coordinator, you'll need port 2222 open for inbound TCP:
+
+```
+TCP 2222 inbound to coordinator  (SSH relay fallback)
+TCP 8080 inbound to coordinator  (coordinator API + WebSocket relay)
+```
+
+## Level 3: WebSocket Relay
+
+If port 2222 is also blocked, TunnelMesh falls back to WebSocket relay on port 8080. Both peers make outbound HTTP connections to the coordinator — no inbound connections required from either peer. The coordinator stitches the two WebSocket streams together.
+
+This works through corporate HTTP proxies, strict egress firewalls, and anything else that allows outbound HTTP/HTTPS. The latency hit is significant — useful as a last resort, not for performance-sensitive workloads.
+
+## Path Promotion
+
+TunnelMesh doesn't stay on a slower path once it's found one. It continuously probes for better options:
+
+- If a relay connection is active, it still tries direct UDP hole-punching in the background
+- When a probe succeeds, the connection is promoted to the faster path — no reconnect, no interruption
+- Promotions are gated on a few consecutive successes to avoid flapping on unstable networks
+
+## Checking Which Path Is Active
+
+```bash
+tunnelmesh status
+```
+
+The output labels each peer as `direct`, `ssh-relay`, or `ws-relay`. If a peer you'd expect to reach directly is showing `ws-relay`, check that port 2222 is reachable on the coordinator.
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

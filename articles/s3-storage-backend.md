@@ -7,29 +7,84 @@ excerpt: TunnelMesh can expose a shared S3-compatible object store to all mesh n
 
 # The S3 Storage Backend: Sharing Object Storage Across the Mesh
 
-<!-- TODO: Write this post -->
-<!-- Tone: feature explainer + practical guide. Include a real example of something useful to store. -->
+Every TunnelMesh coordinator runs an S3-compatible object store. It's mesh-only — bound to the coordinator's mesh IP, not reachable from outside. Any tool that speaks S3 — the AWS CLI, boto3, the Go AWS SDK — works with it without modification.
 
-## Why object storage on the mesh?
+## What It's Good For
 
-<!-- Use cases: shared build artifacts, config distribution, log aggregation, backups from edge nodes. The common thread: structured data that doesn't need a filesystem. -->
+Object storage across the mesh opens up some useful patterns:
 
-## Architecture
+- **Build artifacts**: a CI runner in one cloud uploads a binary; runners in other regions download it without a public registry
+- **Configuration distribution**: services pull their config from a shared bucket rather than a git clone or a config management system
+- **Edge node backups**: nodes with local data push backups to the coordinator, where they're available to any mesh peer
+- **Log aggregation**: services on mesh nodes write logs to S3; a central collector pulls from one place
 
-<!-- Where the S3 backend runs (coordinator or dedicated node), the S3-compatible API surface (which AWS S3 operations are supported), how credentials are scoped per-peer. Diagram of a read request through the mesh. -->
+The key distinction from NFS: object storage has no filesystem semantics. There's no concept of "currently open" files, no locking. If your use case is "share files I want to browse and edit", use NFS. If your use case is "move blobs reliably between services", use S3.
 
-## Under the hood
+## Connecting to It
 
-<!-- What backs the storage: local disk, passthrough to a real S3 bucket, or something else. How data is routed through the mesh (it uses the encrypted TUN path like any other traffic). -->
+The coordinator exposes the S3 API at `http://coordinator.mesh:8080/s3`. Three authentication methods work:
 
-## Setting it up
+- **AWS Signature V4** — the standard AWS auth scheme, used by the CLI and all SDKs
+- **Basic Auth** — useful for quick scripts
+- **Bearer token** — your TunnelMesh mesh token works directly
 
-<!-- Step-by-step: enabling in coordinator config, creating buckets, configuring an access key for a mesh node, using the AWS CLI or an SDK to verify it works. -->
+The easiest way to test it is the AWS CLI pointed at the mesh endpoint:
 
-## Using it from your applications
+```bash
+aws configure set aws_access_key_id your-peer-id
+aws configure set aws_secret_access_key your-mesh-token
+aws configure set default.endpoint_url http://coordinator.mesh:8080/s3
 
-<!-- AWS SDK configuration to point at the mesh S3 endpoint. A Python/Go/Node example. S3FS or Mountpoint for mounting as a filesystem. -->
+# Verify the connection
+aws s3 ls
+```
 
-## Limitations and when to use NFS instead
+## Basic Operations
 
-<!-- Object storage vs filesystem trade-offs. Latency for small files, no locking, eventual consistency model. -->
+```bash
+# Create a bucket
+tunnelmesh bucket create build-artifacts
+
+# Upload something
+aws s3 cp ./dist/myapp s3://build-artifacts/v1.0/myapp
+
+# Download from another peer
+aws s3 cp s3://build-artifacts/v1.0/myapp ./myapp
+
+# List bucket contents
+aws s3 ls s3://build-artifacts/
+```
+
+Supported operations: `ListBuckets`, `CreateBucket`, `DeleteBucket`, `PutObject`, `GetObject`, `DeleteObject`, `ListObjectsV2`, `HeadObject`, `CopyObject`. Enough to cover the common S3 use cases.
+
+## The System Bucket
+
+`_tunnelmesh` is a reserved bucket — don't write to it. The coordinator uses it to store peer registration data, network configuration, and NFS share metadata. It's the coordinator's source of truth.
+
+Back this bucket up. It's everything the coordinator needs to recover from a restart or migration.
+
+## Storage Quotas
+
+To avoid any single bucket consuming all available space:
+
+```bash
+# Set a 1GB quota
+tunnelmesh bucket quota set build-artifacts 1GB
+
+# Check usage
+tunnelmesh bucket usage build-artifacts
+```
+
+Storage is configured in `coordinator.yaml`:
+
+```yaml
+s3:
+  data_dir: /var/lib/tunnelmesh/s3
+  max_size: 10GB
+```
+
+See the [S3 Storage docs](/docs/S3_STORAGE) for the full API reference and Go/Python SDK examples.
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

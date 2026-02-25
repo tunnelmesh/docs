@@ -94,4 +94,4 @@ Follow the [GitHub repository](https://github.com/tunnelmesh/tunnelmesh) for upd
 
 ---
 
-*TunnelMesh is released under the MIT License.*
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

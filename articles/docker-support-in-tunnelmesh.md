@@ -5,31 +5,81 @@ author: TunnelMesh Team
 excerpt: With Docker integration, containers on the mesh get automatic port-forward rules, mesh DNS, and the same zero-trust filtering as bare-metal nodes.
 ---
 
-# Docker Containers Are Now First-Class Citizens in TunnelMesh
+# Docker Integration: Containers as First-Class Mesh Citizens
 
-<!-- TODO: Write this post -->
-<!-- Tone: feature announcement + practical guide. Start with the user problem, end with a quick demo. -->
+If you're running TunnelMesh, you're probably also running containers. Keeping those two things separate — mesh on the host, containers in their own isolated world — means a lot of manual wiring. TunnelMesh's Docker integration is designed to make containers first-class mesh participants from the start.
 
-## The problem with containers and mesh networks
+## Getting a Full Mesh Running in Docker
 
-<!-- Before this: containers run in their own network namespace, didn't inherit TUN routes, no mesh DNS for containers, had to manually configure port-forwards. -->
+The TunnelMesh repository ships a complete Compose stack. One command gets you a coordinator, multiple peers, and monitoring:
 
-## What we built
+```bash
+docker compose up -d
 
-<!-- Overview of the Docker integration: automatic detection of running containers, port-forward rule injection, mesh DNS entries for containers, lifecycle hooks on start/stop. -->
+# Need more peers?
+docker compose up -d --scale peer=3
+```
 
-## How it works under the hood
+That's a real working mesh — encrypted tunnels, mesh DNS, packet filtering — all running in containers.
 
-<!-- Docker socket event listening, netfilter/iptables rules for port-forwards, how container IPs get published to the coordinator, DNS record management. -->
+## The Two Things Every Container Needs
 
-## Setting it up
+A container can't join the mesh unless it has two things:
 
-<!-- Step-by-step: enabling Docker integration in coordinator.yaml / node config. What labels/compose options are available. A docker-compose.yml example. -->
+```yaml
+cap_add:
+  - NET_ADMIN       # permission to create and configure network interfaces
+devices:
+  - /dev/net/tun    # the kernel device TunnelMesh reads and writes packets through
+```
 
-## Demo: a containerised web service on the mesh
+`NET_ADMIN` is a Linux capability that allows the container to modify network interfaces. `/dev/net/tun` is how TunnelMesh intercepts packets at the OS level. Both are explicitly granted in the Compose file — they're not available by default for security reasons.
 
-<!-- Walk through deploying a simple service and accessing it from another node by name. -->
+## Three Ways to Connect Containers to the Mesh
 
-## What's not supported yet
+**Bridge network** is the default. Each container gets its own network namespace, and the TUN interface handles mesh traffic:
 
-<!-- Kubernetes, Podman, rootless Docker caveats, IPv6 containers. Be honest about current limitations. -->
+```
+ Container A          Mesh          Container B
+[app process]  ←─ TUN device ─→  [app process]
+[own netns   ]                    [own netns   ]
+```
+
+**Host network** shares the host's network namespace. The container and the host machine share the same mesh IP — useful when you need the mesh address directly accessible on the host:
+
+```yaml
+network_mode: host
+```
+
+**Shared namespace** is a sidecar pattern. One container joins the mesh; others borrow its network namespace. This lets you put apps on the mesh without modifying their container image:
+
+```yaml
+# The mesh peer
+network_mode: service:tunnelmesh-peer
+```
+
+## Checking That It Worked
+
+After `docker compose up`, verify the peers are connected:
+
+```bash
+docker compose exec peer tunnelmesh status
+docker compose exec peer tunnelmesh peers
+```
+
+A healthy peer shows its assigned mesh IP (`100.64.x.x`), lists other peers, and shows which transport each connection is using (direct UDP, SSH relay, or WebSocket relay).
+
+## Building the Image
+
+If you need a custom image or want to pin a specific version:
+
+```bash
+make docker-build        # build for current platform
+make docker-push         # build multi-arch and push
+```
+
+See the [Docker docs](/docs/DOCKER) for the full configuration reference, including health checks, volume configuration, and production considerations.
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

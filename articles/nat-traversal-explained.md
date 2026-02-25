@@ -7,33 +7,76 @@ excerpt: Getting two machines behind NAT to talk directly is harder than it shou
 
 # NAT Traversal: The Dark Art of Making Peers Find Each Other
 
-<!-- TODO: Write this post -->
-<!-- Tone: technical storytelling. The author has clearly suffered through this problem. Wry humour welcome. -->
+Your laptop doesn't have a real IP address. Neither does the server in your home lab. Neither does your friend's machine across town. They all live behind routers that hand out private addresses — `192.168.x.x`, `10.x.x.x` — that mean nothing on the public internet.
 
-## Why NAT is the enemy
+This is NAT, and it's the reason making two machines talk directly to each other is surprisingly hard.
 
-<!-- Explain the basic problem: both peers have private IPs, no public address, router rewrites ports. Why direct connectivity matters for performance. -->
+## What NAT Does (and Why It's a Problem)
 
-## A taxonomy of NAT types
+Think of your router as a receptionist. When you make an outbound call (open a connection), the receptionist logs it: "Machine A on the inside sent a packet to Server B on the outside." When the reply comes back, the receptionist knows to route it to Machine A.
 
-<!-- Full-cone, restricted-cone, port-restricted, symmetric. Which types hole-punching works with, which it doesn't. A table would work well here. -->
+The problem: if a stranger calls in from outside asking for Machine A — without Machine A having called first — the receptionist doesn't have a record of it and hangs up.
 
-## STUN and the reflexive address trick
+Now imagine both sides are behind their own receptionist. Neither can call the other directly. This is the problem TunnelMesh has to solve every time two peers try to connect.
 
-<!-- How peers learn their public IP:port. How TunnelMesh's coordinator acts as a lightweight STUN server. -->
+## Four Flavours of NAT
 
-## UDP hole punching in practice
+Not all routers behave identically. They range from permissive to very strict:
 
-<!-- The classic technique: simultaneous sends to open a pinhole. Walk through the timing and message exchange. Common failure modes. -->
+| NAT type | What it allows | Hole-punching? |
+|---|---|---|
+| Full cone | Anyone can send once you've sent anywhere | ✓ |
+| Restricted cone | Only hosts you've already sent to | ✓ |
+| Port-restricted | Only the exact IP:port you've sent to | ✓ |
+| Symmetric | Different external port per destination | ✗ |
 
-## The SSH TCP fallback
+Most home routers are restricted cone or port-restricted. Symmetric NAT shows up in corporate networks and some mobile carriers — and it's where simple hole-punching breaks down.
 
-<!-- When UDP hole-punching fails, TunnelMesh falls back to SSH tunnelling. Explain why TCP is harder than UDP for NAT traversal, and why SSH specifically. -->
+## The Hole-Punching Trick
 
-## WebSocket relay: last resort
+For the first three NAT types, TunnelMesh uses a technique called **UDP hole-punching**:
 
-<!-- Symmetric NAT and corporate firewalls block everything else. How the coordinator WebSocket relay works, and the performance trade-off. -->
+```
+  Your machine                  Coordinator               Remote peer
+       │                             │                         │
+       │──── "my public addr is" ───►│◄─── "my public addr is"─│
+       │                             │                         │
+       │◄──────────────── "remote peer is at A.B.C.D:PORT" ───│
+       │                             │                         │
+       │──────────────── UDP packet ─────────────────────────►│
+       │◄───────────────────────────────── UDP packet ─────────│
+       │                             │                         │
+       │◄────────────── direct connection established ────────►│
+```
 
-## Automatic path selection and promotion
+The key is that both peers send at the same time. When your machine sends a UDP packet, your router records an outgoing mapping. When the remote peer's packet arrives a moment later, the router recognises it as a reply to your outgoing packet — and lets it through.
 
-<!-- How TunnelMesh continuously tries to upgrade to a better path. Include state machine diagram if possible. -->
+Timing matters. The coordinator signals both peers simultaneously so neither side fires too early or too late.
+
+## When It Doesn't Work
+
+Symmetric NAT breaks this. When your machine sends a packet to the coordinator, your router assigns it one external port. When it sends to the remote peer, it assigns a *different* external port. The address you told the coordinator is already wrong by the time the remote peer tries to use it.
+
+For these situations — and for strict corporate firewalls that block unsolicited UDP entirely — TunnelMesh has fallbacks.
+
+## The Fallback Chain
+
+```
+  UDP hole-punch     →  fails  →  SSH tunnel (TCP, port 2222)
+                                        │
+                                   fails (port blocked)
+                                        │
+                                        ▼
+                                 WebSocket relay (port 8080)
+                                 (outbound-only, works everywhere)
+```
+
+The **SSH tunnel** routes traffic through the coordinator over TCP. Most firewalls allow outbound TCP on port 2222.
+
+The **WebSocket relay** is the last resort — both peers connect outbound to the coordinator, which stitches them together. Outbound HTTP/HTTPS connections work through almost anything, including corporate proxies.
+
+TunnelMesh doesn't give up on better paths once it's fallen back. If a direct UDP connection becomes possible later — because you moved to a different network, or a firewall rule changed — it will be promoted automatically.
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

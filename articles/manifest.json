@@ -16,7 +16,6 @@
     },
     {
       "slug": "why-we-built-tunnelmesh",
-      "draft": true,
       "title": "Why We Built TunnelMesh",
       "date": "2025-11-03",
       "author": "TunnelMesh Team",
@@ -24,7 +23,6 @@
     },
     {
       "slug": "noise-protocol-deep-dive",
-      "draft": true,
       "title": "The Noise Protocol: How TunnelMesh Handles Encryption",
       "date": "2025-11-10",
       "author": "TunnelMesh Team",
@@ -32,7 +30,6 @@
     },
     {
       "slug": "nat-traversal-explained",
-      "draft": true,
       "title": "NAT Traversal: The Dark Art of Making Peers Find Each Other",
       "date": "2025-11-17",
       "author": "TunnelMesh Team",
@@ -40,7 +37,6 @@
     },
     {
       "slug": "building-in-go-first-lessons",
-      "draft": true,
       "title": "Building in Go: What a Month of TunnelMesh Taught Us",
       "date": "2025-11-24",
       "author": "TunnelMesh Team",
@@ -48,15 +44,13 @@
     },
     {
       "slug": "chacha20-poly1305-cipher",
-      "draft": true,
       "title": "ChaCha20-Poly1305: The Cipher Powering TunnelMesh",
       "date": "2025-12-01",
       "author": "TunnelMesh Team",
-      "excerpt": "A deep dive into why we chose ChaCha20-Poly1305 over AES-GCM, how AEAD ciphers work, and what the performance profile looks like on the hardware TunnelMesh actually runs on."
+      "excerpt": "A deep dive into why we chose ChaCha20-Poly1305 over AES-GCM, how AEAD ciphers work, and what the performance profile looks like on hardware without AES acceleration."
     },
     {
       "slug": "docker-support-in-tunnelmesh",
-      "draft": true,
       "title": "Docker Integration: Containers as First-Class Mesh Citizens",
       "date": "2025-12-08",
       "author": "TunnelMesh Team",
@@ -64,7 +58,6 @@
     },
     {
       "slug": "nfs-over-the-mesh",
-      "draft": true,
       "title": "NFS Over TunnelMesh: Secure File Sharing Across the Mesh",
       "date": "2025-12-15",
       "author": "TunnelMesh Team",
@@ -72,7 +65,6 @@
     },
     {
       "slug": "transport-fallback-chain",
-      "draft": true,
       "title": "Inside the Transport Fallback Chain: UDP, SSH, and WebSocket Relay",
       "date": "2025-12-22",
       "author": "TunnelMesh Team",
@@ -80,7 +72,6 @@
     },
     {
       "slug": "tunnelmesh-in-2026",
-      "draft": true,
       "title": "New Year, New Mesh: Where TunnelMesh Is Going in 2026",
       "date": "2026-01-05",
       "author": "TunnelMesh Team",
@@ -88,7 +79,6 @@
     },
     {
       "slug": "benchmarking-tunnelmesh",
-      "draft": true,
       "title": "Benchmarking TunnelMesh",
       "date": "2026-01-12",
       "author": "TunnelMesh Team",
@@ -96,7 +86,6 @@
     },
     {
       "slug": "user-identity-zero-trust",
-      "draft": true,
       "title": "User Identity and Zero Trust in TunnelMesh",
       "date": "2026-01-19",
       "author": "TunnelMesh Team",
@@ -104,7 +93,6 @@
     },
     {
       "slug": "s3-storage-backend",
-      "draft": true,
       "title": "The S3 Storage Backend: Sharing Object Storage Across the Mesh",
       "date": "2026-01-26",
       "author": "TunnelMesh Team",
@@ -112,7 +100,6 @@
     },
     {
       "slug": "100-nodes-in-the-wild",
-      "draft": true,
       "title": "TunnelMesh in the Wild: Early Deployment Lessons",
       "date": "2026-02-02",
       "author": "TunnelMesh Team",
@@ -120,7 +107,6 @@
     },
     {
       "slug": "internal-packet-filter",
-      "draft": true,
       "title": "The Internal Packet Filter: Fine-Grained ACLs for Mesh Networks",
       "date": "2026-02-09",
       "author": "TunnelMesh Team",
@@ -128,11 +114,10 @@
     },
     {
       "slug": "cloud-deployment-guide",
-      "draft": true,
-      "title": "Deploying TunnelMesh on AWS, GCP, and Hetzner: A Field Guide",
+      "title": "Deploying TunnelMesh on DigitalOcean with Terraform",
       "date": "2026-02-16",
       "author": "TunnelMesh Team",
-      "excerpt": "Practical deployment notes for running TunnelMesh coordinators and nodes on the three cloud providers we use most — with Terraform snippets for each."
+      "excerpt": "A field guide to the six Terraform deployment scenarios — from a $4/month single-node setup to a multi-region mesh with monitoring, exit peers, and HA coordinators."
     }
   ]
 }

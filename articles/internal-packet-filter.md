@@ -7,33 +7,100 @@ excerpt: A deep dive into TunnelMesh's packet filter — the default-deny firewa
 
 # The Internal Packet Filter: Fine-Grained ACLs for Mesh Networks
 
-<!-- TODO: Write this post -->
-<!-- Tone: technical deep dive. This is a core security feature — be precise. Include rule syntax examples. -->
+Traditional VPNs treat the VPN network as trusted. Once you're connected, you can reach any machine, any port. TunnelMesh doesn't do this.
 
-## Why an in-process packet filter?
+The packet filter sits between the Noise decryption layer and the OS network stack. Every decrypted packet passes through it before touching anything else. The default verdict is **drop**.
 
-<!-- The problem with relying on host firewalls: they're external to TunnelMesh, inconsistent across OSes, and don't understand mesh identity. The filter runs inside the TUN layer and enforces policy before packets hit the host network stack. -->
+## Why Default-Deny?
 
-## The default-deny stance
+Being on a network doesn't mean you should trust everything on it. A mesh might include developer laptops, CI runners, production servers, and IoT devices — they shouldn't all have equal access to each other.
 
-<!-- Explain why default-deny matters: being on the mesh doesn't grant access to everything. Every flow must be explicitly permitted. How this differs from traditional VPN models. -->
+Default-deny flips the model: instead of "block what you don't want," you say "allow exactly what you need." It's more work to set up the first time, but it's much harder to accidentally expose something.
 
-## Filter rule anatomy
+## What's Always Allowed
 
-<!-- Syntax breakdown: source peer/group, destination peer/group, protocol, port, action (allow/drop/reject). Show 3-4 concrete examples — SSH access, service port, ICMP, default rule. -->
+Two categories bypass the filter automatically:
 
-## Rule evaluation order
+1. **ICMP** — ping and traceroute always work. You need diagnostic tools to function regardless of policy.
+2. **TunnelMesh service ports** — the ports the coordinator and peers use to operate the mesh itself. Without these, the mesh can't function.
 
-<!-- How rules are matched: first-match, last-match, or priority-based? What happens when no rule matches. How to debug a dropped packet. -->
+Everything else — SSH, HTTP, your database port, your application ports — needs an explicit rule.
 
-## Groups and identity tags
+## The Rule Hierarchy
 
-<!-- Grouping peers by role (e.g., "ci-runners", "admin-nodes"). How groups are defined, how they map to filter rules. Benefits for managing larger meshes. -->
+Rules come from four places, evaluated from most to least specific:
 
-## Performance impact
+```
+1. Coordinator config  (mesh-wide, highest authority)
+       │
+       ▼
+2. Per-peer config     (rules for a specific peer)
+       │
+       ▼
+3. CLI / admin panel   (runtime rules, temporary or permanent)
+       │
+       ▼
+4. Service ports       (automatic allows for mesh internals)
+```
 
-<!-- Filter rules are in the hot path of every packet. Benchmark numbers: overhead per packet, rule table size impact, optimisations (hash-based lookup, early exits). -->
+The most restrictive rule that matches wins. A coordinator-level deny isn't overridable by a peer-level allow.
 
-## Integration with the audit log
+## Writing Rules
 
-<!-- How to enable packet filter logging, what gets logged (allowed and denied), using logs for debugging vs security audit. -->
+Rules specify who's sending, who's receiving, what protocol, what port, and what to do:
+
+```bash
+# Allow SSH from admin peers to everyone
+tunnelmesh filter add \
+  --src all_admin_users \
+  --dst everyone \
+  --proto tcp --port 22 \
+  --action allow
+
+# Allow a specific peer to reach a service port
+tunnelmesh filter add \
+  --src laptop \
+  --dst build-server \
+  --proto tcp --port 8080 \
+  --action allow
+
+# Block a specific peer from a sensitive host
+tunnelmesh filter add \
+  --src untrusted-node \
+  --dst database-server \
+  --action deny
+```
+
+`--src` and `--dst` accept peer names, peer IDs, or group names (`everyone`, `all_admin_users`, or custom groups you define). For coordinator-level rules, use peer IDs — they're stable across renames.
+
+## Temporary Rules
+
+Useful for debugging without permanently changing policy:
+
+```bash
+# Allow access for 10 minutes, then it expires
+tunnelmesh filter add --src laptop --dst build-server --proto tcp --port 8080 --action allow --ttl 10m
+
+# See all active rules
+tunnelmesh filter list
+
+# Remove a rule by ID
+tunnelmesh filter remove <rule-id>
+```
+
+## Monitoring the Filter
+
+The filter exports Prometheus metrics for every evaluation:
+
+```
+tunnelmesh_filter_packets_allowed_total  (labelled by src/dst peer)
+tunnelmesh_filter_packets_dropped_total  (labelled by src/dst peer and rule)
+```
+
+An unexpected spike in `dropped_total` for a specific peer pair is almost always a misconfigured rule. `tunnelmesh filter list` shows which rule matched last for any given flow.
+
+See the [Internal Packet Filter docs](/docs/INTERNAL_PACKET_FILTER) for the full configuration reference.
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*

@@ -7,31 +7,38 @@ excerpt: An honest look at where the project stands, what's working, what still 
 
 # New Year, New Mesh: Where TunnelMesh Is Going in 2026
 
-<!-- TODO: Write this post -->
-<!-- Tone: personal, reflective, forward-looking. This is the "state of the project" post. Be honest about rough edges. -->
+Three months since the initial release. Good time to take stock.
 
-## What shipped in the last two months
+## What Shipped
 
-<!-- Quick recap of the major features since launch: Docker integration, NFS support, transport fallback improvements. Link to the relevant posts. -->
+The October release had more in it than we originally planned: full P2P mesh networking, NAT traversal, NFS, S3-compatible storage, Docker, Prometheus metrics, and Terraform deployment modules. That was too much to ship at once, and the documentation showed it — some sections thorough, some skeletal.
 
-## What surprised us
+Since then, we've been fixing the things that broke in the wild:
 
-<!-- Things you didn't expect: user feedback, unexpected use cases, performance results that differed from assumptions. Keep it genuine. -->
+- A bug in the SSH relay fallback that caused connections to stall (rather than fail cleanly) under high packet loss
+- NFS mounts going stale after coordinator restarts, requiring manual remounts
+- DNS caching interactions on systems running systemd-resolved
 
-## What we're still not happy with
+None of these were catastrophic, but all of them were annoying. All fixed.
 
-<!-- Honest admission of current pain points: install experience, coordinator HA, anything the docs don't cover well. -->
+## What We're Still Not Happy With
 
-## The 2026 roadmap
+**The install experience.** Getting a first mesh running requires `tunnelmesh init`, then a coordinator config file, then `tunnelmesh join`. That's three commands and a YAML file before anything happens. We're working on collapsing this into a guided first-run flow.
 
-<!-- What's coming. Suggested items (adjust to what's actually planned):
-- Multi-coordinator federation
-- Improved observability (per-flow metrics)
-- Policy-as-code (GitOps for filter rules)
-- Kubernetes CNI plugin
-- Better Windows support
-Be specific about what's near-term vs aspirational. -->
+**Coordinator high availability.** Running the coordinator on a single node is a single point of failure. Workaround exists (external load balancer + shared S3 state + two coordinator instances), but it requires more infrastructure knowledge than it should.
 
-## How to follow along
+**Windows.** The Windows client works but it's second-class: different TUN code path, rougher service installer, and DNS resolution falls back to hosts-file entries instead of a proper resolver. Windows users are keeping us honest.
 
-<!-- GitHub repo, this blog, any community channels (Discord, mailing list, etc.). -->
+## What We're Building Next
+
+**Policy-as-code.** Packet filter rules currently live in coordinator YAML and get poked via the CLI. We want rules to be declarative, version-controlled, and applied by a reconciler — the same way you'd manage Kubernetes RBAC. This also makes changes reviewable and auditable.
+
+**Multi-coordinator federation.** The current model is one coordinator per mesh. Federation lets two separate meshes peer with each other — useful when two teams or organisations want to share specific services without merging their entire networks.
+
+**Better observability.** The Prometheus integration exists, but the metrics are coarse. Per-flow latency histograms and per-peer packet loss rates are in progress.
+
+The [GitHub repository](https://github.com/tunnelmesh/tunnelmesh) is where releases happen. Issues and feature requests are welcome.
+
+---
+
+*TunnelMesh is released under the [AGPL-3.0 License](https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE).*
