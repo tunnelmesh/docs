@@ -15,19 +15,7 @@ You now have five separate systems, each with their own auth, their own config, 
 
 For decades, a typical data center looked like this:
 
-```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   Compute   │    │   Storage   │    │  Networking │
-│   (servers) │    │   (SAN/NAS) │    │ (switches)  │
-│             │    │             │    │             │
-│  managed by │    │  managed by │    │  managed by │
-│  VMware     │    │  NetApp     │    │  Cisco      │
-└─────────────┘    └─────────────┘    └─────────────┘
-       │                  │                  │
-       └──────────────────┴──────────────────┘
-                    "the integration layer"
-                    (your problem now)
-```
+![Three separate silos — Compute managed by VMware, Storage by NetApp, Networking by Cisco — all feeding down into a shared integration layer labeled "your problem now"](/articles/images/infrastructure-silos.svg)
 
 Separate vendor, separate management plane, separate failure domain for each concern. Provisioning a new server meant coordinating three teams and three ticketing systems.
 
@@ -52,24 +40,7 @@ TunnelMesh is HCI for distributed, internet-connected infrastructure. The nodes 
 
 Here's what gets converged:
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                    TunnelMesh Node                      │
-│                                                         │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐ │
-│  │  Networking │  │   Storage   │  │    Identity &   │ │
-│  │             │  │             │  │    Compute Mgmt │ │
-│  │  Encrypted  │  │  S3 object  │  │                 │ │
-│  │  mesh, NAT  │  │  store +    │  │  Zero-trust,    │ │
-│  │  traversal, │  │  NFS file   │  │  RBAC, Docker   │ │
-│  │  mesh DNS,  │  │  shares     │  │  visibility     │ │
-│  │  pkt filter │  │             │  │                 │ │
-│  └─────────────┘  └─────────────┘  └─────────────────┘ │
-│                                                         │
-│              One binary. One config file.               │
-│              One dashboard. One auth system.            │
-└─────────────────────────────────────────────────────────┘
-```
+![TunnelMesh Node: one outer container holding three inner boxes — Networking (encrypted mesh, NAT traversal, DNS, packet filter), Storage (S3 object store, NFS file shares, replication), and Identity & Mgmt (zero-trust RBAC, Noise protocol auth, Docker visibility) — with the caption "One binary · One config · One dashboard · One auth system"](/articles/images/tunnelmesh-hci-converged.svg)
 
 The networking layer (mesh overlay, NAT traversal, DNS) already knows the identity of every peer — it uses the Noise protocol with SSH-derived keys to mutually authenticate before any data flows. The storage layer (S3 and NFS) inherits that trust: when a peer mounts an NFS share, the TLS certificate was issued at mesh join time. No separate credential to provision.
 
@@ -87,14 +58,7 @@ Everything shares the same seam. That's the convergence.
 
 TunnelMesh isn't trying to replace VM clusters. Its niche is the space where traditional HCI doesn't reach:
 
-```
-                        │ Geographic distribution
-                        │
-   Traditional HCI  ────┤──── TunnelMesh's territory
-   (one data center)    │     (any node, anywhere)
-                        │
-                    WAN boundary
-```
+![Territory diagram: Traditional HCI confined to one data center rack on the left, separated by a WAN boundary line, with TunnelMesh peer nodes scattered across EU, US-East, Asia, home lab, and US-West on the right connected by mesh lines](/articles/images/hci-territory.svg)
 
 When your nodes are in different buildings, clouds, or countries, the hardware-appliance model breaks. TunnelMesh was designed to treat WAN latency and NAT as normal operating conditions, not edge cases.
 
