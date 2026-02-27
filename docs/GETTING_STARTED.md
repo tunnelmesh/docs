@@ -176,8 +176,9 @@ tunnelmesh service start
 tunnelmesh service status
 ```
 
-**Note:** The service name is derived from the context name. The "coordinator" context creates a service named
-"tunnelmesh-coordinator".
+> [!NOTE]
+> The service name is derived from the context name. The "coordinator" context creates a service named
+> "tunnelmesh-coordinator".
 
 ---
 

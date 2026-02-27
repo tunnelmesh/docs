@@ -299,8 +299,9 @@ tunnelmesh context use work
 2. Reconfigures system DNS resolver for the new mesh's domain
 3. CLI commands now target the new context by default
 
-**Note:** Switching contexts doesn't stop running tunnels. Multiple meshes can run simultaneously—only the DNS "focus"
-changes.
+> [!NOTE]
+> Switching contexts doesn't stop running tunnels. Multiple meshes can run simultaneously—only the DNS "focus"
+> changes.
 
 ---
 
@@ -447,8 +448,9 @@ Deregister from the mesh network.
 tunnelmesh leave
 ```
 
-**Note:** This removes your peer record from the coordinator. Your mesh IP will be released and may be assigned to
-another peer. Use this when permanently leaving the mesh, not for temporary disconnects.
+> [!NOTE]
+> This removes your peer record from the coordinator. Your mesh IP will be released and may be assigned to
+> another peer. Use this when permanently leaving the mesh, not for temporary disconnects.
 
 ---
 
