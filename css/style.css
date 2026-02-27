@@ -1300,3 +1300,12 @@ body::before {
   .doc-pagination { flex-direction: column; }
   .doc-pagination a { max-width: 100%; }
 }
+
+/* ── Site footer ── */
+.site-footer {
+  text-align: center;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-faint);
+  font-size: 0.75rem;
+}
