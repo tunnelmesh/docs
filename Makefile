@@ -10,7 +10,7 @@ build:
 
 # Build then serve dist/ — mirrors GitHub Pages (clean URLs, index.html fallback)
 preview: build
-	python3 serve-dist.py 8081
+	python3 serve-dist.py 8084
 
 install-hooks:
 	cp hooks/pre-commit .git/hooks/pre-commit
