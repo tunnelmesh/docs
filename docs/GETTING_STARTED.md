@@ -9,7 +9,7 @@ This guide walks you through setting up a TunnelMesh network from scratch. You'l
 
 The coordinator is an admin peer with coordination services enabled
 (`coordinator.enabled: true`). It provides discovery and admin services but
-doesn't route traffic—peers connect directly to each other.
+doesn't route traffic; peers connect directly to each other.
 
 ### Linux (amd64)
 
@@ -305,7 +305,7 @@ tunnelmesh peers
 ping otherpeer.tunnelmesh
 ```
 
-Check the admin dashboard on the server—your peer should now appear in the list.
+Check the admin dashboard on the server; your peer should now appear in the list.
 
 ---
 
@@ -357,7 +357,7 @@ tunnelmesh context use work
 ```
 
 This changes which mesh's DNS resolver handles `.tunnelmesh` domains. The previous mesh's
-tunnels remain active—only the "focus" changes.
+tunnels remain active; only the "focus" changes.
 
 ### Start/stop individual contexts
 

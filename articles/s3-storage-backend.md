@@ -7,7 +7,7 @@ excerpt: TunnelMesh can expose a shared S3-compatible object store to all mesh n
 
 # The S3 Storage Backend: Sharing Object Storage Across the Mesh
 
-Every TunnelMesh coordinator runs an S3-compatible object store. It's mesh-only — bound to the coordinator's mesh IP, not reachable from outside. Any tool that speaks S3 — the AWS CLI, boto3, the Go AWS SDK — works with it without modification.
+Every TunnelMesh coordinator runs an S3-compatible object store. It's mesh-only: bound to the coordinator's mesh IP, not reachable from outside. Any tool that speaks S3 (the AWS CLI, boto3, the Go AWS SDK) works with it without modification.
 
 ## What It's Good For
 
@@ -24,9 +24,9 @@ The key distinction from NFS: object storage has no filesystem semantics. There'
 
 The coordinator exposes the S3 API at `http://coordinator.mesh:8080/s3`. Three authentication methods work:
 
-- **AWS Signature V4** — the standard AWS auth scheme, used by the CLI and all SDKs
-- **Basic Auth** — useful for quick scripts
-- **Bearer token** — your TunnelMesh mesh token works directly
+- **AWS Signature V4**: the standard AWS auth scheme, used by the CLI and all SDKs
+- **Basic Auth**: useful for quick scripts
+- **Bearer token**: your TunnelMesh mesh token works directly
 
 The easiest way to test it is the AWS CLI pointed at the mesh endpoint:
 
@@ -59,7 +59,7 @@ Supported operations: `ListBuckets`, `CreateBucket`, `DeleteBucket`, `PutObject`
 
 ## The System Bucket
 
-`_tunnelmesh` is a reserved bucket — don't write to it. The coordinator uses it to store peer registration data, network configuration, and NFS share metadata. It's the coordinator's source of truth.
+`_tunnelmesh` is a reserved bucket; don't write to it. The coordinator uses it to store peer registration data, network configuration, and NFS share metadata. It's the coordinator's source of truth.
 
 Back this bucket up. It's everything the coordinator needs to recover from a restart or migration.
 

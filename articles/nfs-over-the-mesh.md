@@ -2,14 +2,14 @@
 title: "NFS Over TunnelMesh: Secure File Sharing Across the Mesh"
 date: 2025-12-15
 author: TunnelMesh Team
-excerpt: NFS was designed for trusted local networks. TunnelMesh makes the mesh a trusted local network — here's how we use that to share files securely across geographically distributed nodes.
+excerpt: NFS was designed for trusted local networks. TunnelMesh makes the mesh a trusted local network; here's how we use that to share files securely across geographically distributed nodes.
 ---
 
 # NFS Over TunnelMesh: Secure File Sharing Across the Mesh
 
 S3-compatible object storage is great for a lot of things: build artifacts, backups, config blobs. But sometimes you just want to `ls` a directory, open a file in your editor, or point an application at a path. That's what NFS is for.
 
-TunnelMesh includes an NFS v3 server. Create a file share, and any authorised mesh peer can mount it like any other network filesystem — no TunnelMesh-specific client code, no extra tools.
+TunnelMesh includes an NFS v3 server. Create a file share, and any authorised mesh peer can mount it like any other network filesystem, with no TunnelMesh-specific client code or extra tools.
 
 ## "But Isn't NFS Wildly Insecure?"
 
@@ -40,7 +40,7 @@ sudo mount_nfs -o vers=3 coordinator.mesh:/shares/my-share /mnt/my-share
 coordinator.mesh:/shares/my-share  /mnt/my-share  nfs  vers=3,_netdev  0  0
 ```
 
-`coordinator.mesh` resolves automatically via TunnelMesh's built-in DNS — no `/etc/hosts` needed.
+`coordinator.mesh` resolves automatically via TunnelMesh's built-in DNS; no `/etc/hosts` entry is needed.
 
 ## Controlling Who Can Access What
 

@@ -1,6 +1,6 @@
 # Admin Dashboard Guide
 
-The TunnelMesh admin dashboard is your central view of the mesh. Every peer running in the mesh can reach it at `https://this.tm/` — a special hostname that always resolves to the coordinator node regardless of where you are in the mesh.
+The TunnelMesh admin dashboard is your central view of the mesh. Every peer running in the mesh can reach it at `https://this.tm/`, a special hostname that always resolves to the coordinator node regardless of where you are in the mesh.
 
 This doc is a reference for what lives in the dashboard and how access to each panel is controlled. For the underlying RBAC model, see [User Identity & RBAC](USER_IDENTITY.md).
 
@@ -10,9 +10,9 @@ The dashboard is divided into three tabs along the top: **Mesh**, **App**, and *
 
 <img src="/docs/images/dashboard-tabs.svg" alt="Dashboard layout: three tabs (Mesh, App, Data) with panel names shown in each, public panels highlighted with accent border">
 
-- **Mesh** — real-time visibility into the network (topology, alerts, traffic)
-- **App** — storage and container management (objects, shares, Docker)
-- **Data** — administrative configuration (peer management, groups, DNS, RBAC)
+- **Mesh**: real-time visibility into the network (topology, alerts, traffic)
+- **App**: storage and container management (objects, shares, Docker)
+- **Data**: administrative configuration (peer management, groups, DNS, RBAC)
 
 > [!NOTE]
 > Public panels are visible to any authenticated mesh peer without additional RBAC grants. Admin-only panels require the peer to be listed in `admin_peers` or have an explicit role binding.
@@ -38,7 +38,7 @@ The dashboard is divided into three tabs along the top: **Mesh**, **App**, and *
 | --- | --- | --- | --- |
 | `s3` | Objects | ✅ yes | S3-compatible object browser. Peers can see buckets and objects they have RBAC access to. |
 | `shares` | Shares | ✅ yes | File share browser. Lists shares the current peer is allowed to access. |
-| `docker` | Docker Containers | admin only | View containers running on any mesh node. Start, stop, restart, and stream logs — without SSH-ing into each machine. |
+| `docker` | Docker Containers | admin only | View containers running on any mesh node. Start, stop, restart, and stream logs, without SSH-ing into each machine. |
 
 ### Data Tab
 
@@ -55,7 +55,7 @@ The dashboard is divided into three tabs along the top: **Mesh**, **App**, and *
 
 Panel visibility is governed by the same RBAC system used for everything else in TunnelMesh. Concretely:
 
-**Public panels** (`visualizer`, `map`, `alerts`, `s3`, `shares`) are visible to every peer that is successfully connected to the mesh — no additional configuration needed.
+**Public panels** (`visualizer`, `map`, `alerts`, `s3`, `shares`) are visible to every peer that is successfully connected to the mesh. No additional configuration is needed.
 
 **Admin panels** are visible to peers listed in `admin_peers` in the coordinator config. These peers get the full admin role, which includes all panels.
 
@@ -98,7 +98,7 @@ tunnelmesh panel list --external
 Plugin panels appear in the tab they registered under. Admins can control their visibility using the same `--panel-scope` mechanism as built-in panels.
 
 > [!NOTE]
-> Plugin panels cannot override built-in panels — registering a panel with an existing built-in ID returns an error. Use distinct IDs for plugin panels.
+> Plugin panels cannot override built-in panels; registering a panel with an existing built-in ID returns an error. Use distinct IDs for plugin panels.
 
 ---
 

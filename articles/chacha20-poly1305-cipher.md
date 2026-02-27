@@ -7,13 +7,13 @@ excerpt: A deep dive into why we chose ChaCha20-Poly1305 over AES-GCM, how AEAD 
 
 # ChaCha20-Poly1305: The Cipher Powering TunnelMesh
 
-Every packet that flows through a TunnelMesh tunnel is scrambled so that only the intended recipient can unscramble it — and any attempt to tamper with it in transit will be detected. This is the job of the cipher.
+Every packet that flows through a TunnelMesh tunnel is scrambled so that only the intended recipient can unscramble it, and any attempt to tamper with it in transit will be detected. This is the job of the cipher.
 
 TunnelMesh uses **ChaCha20-Poly1305**. Here's what that means and why we chose it over the alternatives.
 
 ## Encryption vs. Authenticated Encryption
 
-Plain encryption gives you *confidentiality*: an eavesdropper can't read the packet. But it doesn't stop them from flipping bits in the ciphertext — they won't know what they changed, but neither will you. On the receiving end, you'd decrypt corrupted garbage and have no idea.
+Plain encryption gives you *confidentiality*: an eavesdropper can't read the packet. But it doesn't stop them from flipping bits in the ciphertext; they won't know what they changed, but neither will you. On the receiving end, you'd decrypt corrupted garbage and have no idea.
 
 **AEAD** (Authenticated Encryption with Associated Data) solves this by bundling encryption and a tamper-detection code in one operation. Every TunnelMesh packet has a 16-byte tag appended to it. If the ciphertext or headers are modified in any way, the tag check fails and the packet is silently dropped before it ever reaches your application.
 
@@ -23,13 +23,13 @@ Think of it like a sealed envelope with a wax stamp: you can read the writing in
 
 ChaCha20 is a *stream cipher*. It takes a key and a nonce (a one-time number), and generates a stream of pseudorandom bytes. XOR that stream with your plaintext and you get ciphertext.
 
-The internals use only three operations — **A**dd, **R**otate, **X**OR — applied in a fixed pattern. This is called an ARX construction, and it has a useful property: it runs at the same speed regardless of the input data. No timing variations that an attacker could exploit.
+The internals use only three operations (**A**dd, **R**otate, **X**OR) applied in a fixed pattern. This is called an ARX construction, and it has a useful property: it runs at the same speed regardless of the input data. No timing variations that an attacker could exploit.
 
 ## Poly1305: The Authentication Half
 
-Poly1305 is a message authentication code — it produces a short fingerprint of the encrypted data. The fingerprint key is derived from ChaCha20 itself: the first 32 bytes of the keystream are used as the MAC key and immediately discarded.
+Poly1305 is a message authentication code: it produces a short fingerprint of the encrypted data. The fingerprint key is derived from ChaCha20 itself: the first 32 bytes of the keystream are used as the MAC key and immediately discarded.
 
-This means the MAC key is always fresh and can never be recovered from the ciphertext — a neat bit of construction that eliminates a whole class of attack.
+This means the MAC key is always fresh and can never be recovered from the ciphertext, a neat bit of construction that eliminates a whole class of attack.
 
 ## Why Not AES?
 
@@ -38,12 +38,12 @@ AES is excellent. It's the standard choice in TLS, and on modern Intel/AMD proce
 The problem is hardware without AES-NI:
 
 ```
-Raspberry Pi 3 (ARM Cortex-A53)  — no AES-NI
-Older cloud VMs (some vCPU types) — AES-NI not exposed
-Many embedded/router SoCs         — no AES-NI
+Raspberry Pi 3 (ARM Cortex-A53): no AES-NI
+Older cloud VMs (some vCPU types): AES-NI not exposed
+Many embedded/router SoCs: no AES-NI
 ```
 
-On these platforms, software AES is slow *and* hard to implement safely. Naive implementations leak timing information based on input data — a side-channel attack. ChaCha20's ARX construction is inherently constant-time regardless of the hardware.
+On these platforms, software AES is slow *and* hard to implement safely. Naive implementations leak timing information based on input data, a known side-channel attack. ChaCha20's ARX construction is inherently constant-time regardless of the hardware.
 
 On a modern laptop with AES-NI, AES-GCM will edge out ChaCha20-Poly1305 in raw throughput. On the full range of hardware TunnelMesh runs on, ChaCha20-Poly1305 wins on consistency and safety.
 
