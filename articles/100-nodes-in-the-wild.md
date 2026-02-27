@@ -13,9 +13,9 @@ Here's what we learned from the gap.
 
 ## The Use Cases We Didn't Anticipate
 
-We built TunnelMesh for distributed homelab and cloud workloads — the mesh-as-infrastructure use case. That's not the primary thing people are using it for.
+We built TunnelMesh for distributed homelab and cloud workloads (the mesh-as-infrastructure use case). That's not the primary thing people are using it for.
 
-**Remote access** is the entry point for most people. The exit peer feature — routing all internet traffic from a device through a specific mesh node — turns TunnelMesh into a self-hosted VPN. Users care about one thing: "I want to browse from my home IP while travelling, and I don't want to trust a third party with my traffic." TunnelMesh happens to do this well.
+**Remote access** is the entry point for most people. The exit peer feature (routing all internet traffic from a device through a specific mesh node) turns TunnelMesh into a self-hosted VPN. Users care about one thing: "I want to browse from my home IP while travelling, and I don't want to trust a third party with my traffic." TunnelMesh happens to do this well.
 
 **CI/CD runner meshes** came up repeatedly. Runners in different clouds can reach internal services (private git servers, artifact registries, databases) without punching firewall holes between clouds. The packet filter handles which runners reach which services. The coordinator keeps the membership list.
 
@@ -27,7 +27,7 @@ We built TunnelMesh for distributed homelab and cloud workloads — the mesh-as-
 
 **Coordinator restart behaviour.** When the coordinator restarts, peers re-establish connections quickly. NFS mounts taken during the brief reconnect window sometimes go stale instead of healing automatically. The workaround is to remount; the proper fix (keeping mounts alive through coordinator reconnects) is in progress.
 
-**The metrics port collision.** TunnelMesh exposes a metrics server on a default port. If you run a coordinator and a peer on the same machine — which is common for single-node setups — the ports collide. The docs now say this clearly. It shouldn't have been a surprise.
+**The metrics port collision.** TunnelMesh exposes a metrics server on a default port. If you run a coordinator and a peer on the same machine (which is common for single-node setups), the ports collide. The docs now say this clearly. It shouldn't have been a surprise.
 
 ## What Held Up
 

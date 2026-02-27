@@ -2,7 +2,7 @@
 title: "The Internal Packet Filter: Fine-Grained ACLs for Mesh Networks"
 date: 2026-02-09
 author: TunnelMesh Team
-excerpt: A deep dive into TunnelMesh's packet filter — the default-deny firewall that lives inside the tunnel and gives you per-peer, per-protocol access control without touching the host firewall.
+excerpt: A deep dive into TunnelMesh's packet filter, the default-deny firewall that lives inside the tunnel, giving you per-peer, per-protocol access control without touching the host firewall.
 ---
 
 # The Internal Packet Filter: Fine-Grained ACLs for Mesh Networks
@@ -13,7 +13,7 @@ The packet filter sits between the Noise decryption layer and the OS network sta
 
 ## Why Default-Deny?
 
-Being on a network doesn't mean you should trust everything on it. A mesh might include developer laptops, CI runners, production servers, and IoT devices — they shouldn't all have equal access to each other.
+Being on a network doesn't mean you should trust everything on it. A mesh might include developer laptops, CI runners, production servers, and IoT devices; they shouldn't all have equal access to each other.
 
 Default-deny flips the model: instead of "block what you don't want," you say "allow exactly what you need." It's more work to set up the first time, but it's much harder to accidentally expose something.
 
@@ -21,10 +21,10 @@ Default-deny flips the model: instead of "block what you don't want," you say "a
 
 Two categories bypass the filter automatically:
 
-1. **ICMP** — ping and traceroute always work. You need diagnostic tools to function regardless of policy.
-2. **TunnelMesh service ports** — the ports the coordinator and peers use to operate the mesh itself. Without these, the mesh can't function.
+1. **ICMP**: ping and traceroute always work. You need diagnostic tools to function regardless of policy.
+2. **TunnelMesh service ports**: the ports the coordinator and peers use to operate the mesh itself. Without these, the mesh can't function.
 
-Everything else — SSH, HTTP, your database port, your application ports — needs an explicit rule.
+Everything else (SSH, HTTP, your database port, your application ports) needs an explicit rule.
 
 ## The Rule Hierarchy
 
@@ -60,7 +60,7 @@ tunnelmesh filter add \
   --action deny
 ```
 
-`--src` and `--dst` accept peer names, peer IDs, or group names (`everyone`, `all_admin_users`, or custom groups you define). For coordinator-level rules, use peer IDs — they're stable across renames.
+`--src` and `--dst` accept peer names, peer IDs, or group names (`everyone`, `all_admin_users`, or custom groups you define). For coordinator-level rules, use peer IDs; they're stable across renames.
 
 ## Temporary Rules
 

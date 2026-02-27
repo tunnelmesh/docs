@@ -225,7 +225,7 @@ Admin access is required for mesh/data plane **configuration and management**:
 
 ### Dashboard Access
 
-- ❌ Access admin panels — Mesh: peers, logs, filter; App: docker; Data: peers-mgmt, groups, bindings, dns
+- ❌ Access admin panels (Mesh: peers, logs, filter; App: docker; Data: peers-mgmt, groups, bindings, dns)
 
 > [!NOTE]
 > **Summary**: Admin access is for **configuration**, not for basic mesh usage. If you just need to

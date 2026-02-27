@@ -1,14 +1,14 @@
 # Windows Client Guide
 
 > [!NOTE]
-> The Windows client works, but it's second-class compared to the Linux and macOS clients. This page is honest about the rough edges and what to expect. Windows users are keeping us accountable — please [file issues](https://github.com/tunnelmesh/tunnelmesh/issues) for anything you hit.
+> The Windows client works, but it's second-class compared to the Linux and macOS clients. This page is honest about the rough edges and what to expect. Windows users are keeping us accountable; please [file issues](https://github.com/tunnelmesh/tunnelmesh/issues) for anything you hit.
 
 ## Installation
 
 Download the Windows binary from the [GitHub releases page](https://github.com/tunnelmesh/tunnelmesh/releases). There are two files:
 
-- `tunnelmesh-windows-amd64.exe` — the main binary
-- `tunnelmesh-service-installer.exe` — installs TunnelMesh as a Windows service
+- `tunnelmesh-windows-amd64.exe`: the main binary
+- `tunnelmesh-service-installer.exe`: installs TunnelMesh as a Windows service
 
 ### Service Installer
 
@@ -44,14 +44,14 @@ You can also run the binary directly without the service installer, which is use
 
 ## TUN Driver: Wintun
 
-On Linux and macOS, TunnelMesh uses the kernel's built-in TUN interface. On Windows, the kernel doesn't expose a TUN device the same way, so TunnelMesh uses **[Wintun](https://www.wintun.net/)** — a userspace TUN driver maintained by the WireGuard project.
+On Linux and macOS, TunnelMesh uses the kernel's built-in TUN interface. On Windows, the kernel doesn't expose a TUN device the same way, so TunnelMesh uses **[Wintun](https://www.wintun.net/)**, a userspace TUN driver maintained by the WireGuard project.
 
 Wintun ships bundled with the Windows binary (`wintun.dll`). Keep the DLL in the same directory as the executable.
 
 > [!WARNING]
 > Wintun requires administrator privileges to create a network adapter. The TunnelMesh service runs as `LocalSystem` by default, which has the required privileges. If you're running the binary manually, open your terminal as Administrator.
 
-The Wintun code path is separate from the Linux TUN code path. It behaves the same at the network level — packets go in, packets come out — but the implementation is different, which means:
+The Wintun code path is separate from the Linux TUN code path. It behaves the same at the network level: packets go in, packets come out, but the implementation is different, which means:
 
 - Bugs that only appear on Windows may not reproduce on Linux
 - Performance characteristics differ slightly from the Linux TUN path
@@ -137,7 +137,7 @@ log_level: "info"
 | --- | --- | --- |
 | DNS via hosts file only | Known, roadmap | Use mesh IPs directly or local DNS forwarder |
 | Wintun requires admin rights | By design | Run service as LocalSystem (default) |
-| Service installer is not signed | Known | You'll see a SmartScreen warning — dismiss and run anyway |
+| Service installer is not signed | Known | You'll see a SmartScreen warning; dismiss and run anyway |
 | No MSI/WinGet package yet | Roadmap | Manual download from GitHub releases |
 | Windows Firewall may block TUN | Known | Add inbound rule for the tunnelmesh adapter |
 | Ctrl+C in PowerShell sometimes leaves adapter up | Known | `sc stop tunnelmesh` to clean up |
@@ -158,7 +158,7 @@ New-NetFirewallRule -DisplayName "TunnelMesh" `
 
 ## Reporting Windows-Specific Issues
 
-Windows bugs are worth filing even if you're not sure they're bugs — the issue tracker helps us track platform coverage. When filing:
+Windows bugs are worth filing even if you're not sure they're bugs; the issue tracker helps us track platform coverage. When filing:
 
 1. Include your Windows version (`winver` output)
 2. Attach the service logs or a `tunnelmesh-windows-amd64.exe status` output

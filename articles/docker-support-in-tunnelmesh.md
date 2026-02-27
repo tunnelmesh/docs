@@ -2,7 +2,7 @@
 title: "Docker Integration: Managing Containers Across the Mesh"
 date: 2025-12-08
 author: TunnelMesh Team
-excerpt: TunnelMesh's admin panel includes a Docker tab that lets you view, start, stop, and inspect containers running on any mesh node — without SSH-ing into each machine.
+excerpt: TunnelMesh's admin panel includes a Docker tab that lets you view, start, stop, and inspect containers running on any mesh node, without SSH-ing into each machine.
 ---
 
 # Docker Integration: Managing Containers Across the Mesh
@@ -13,10 +13,10 @@ Running containers across a distributed mesh means containers are spread across 
 
 From the Docker panel, an admin can:
 
-- **View all containers** running on mesh nodes — name, image, status, uptime
+- **View all containers** running on mesh nodes: name, image, status, uptime
 - **Start, stop, and restart** containers remotely
-- **View container stats** — CPU, memory, network I/O
-- **View container logs** — streamed directly in the panel
+- **View container stats**: CPU, memory, network I/O
+- **View container logs**: streamed directly in the panel
 
 The panel is admin-only by default, but access can be granted to specific peers without giving them full admin rights:
 
@@ -27,7 +27,7 @@ tunnelmesh role bind alice panel-viewer --panel-scope docker
 
 ## Accessing the Panel
 
-The admin dashboard is at `https://this.tm/` from within the mesh. The Docker tab is in the **App** tab. If you can see the mesh visualizer but the Docker tab shows "Access Denied", your peer isn't in `admin_peers` — see the [Admin docs](/docs/ADMIN) for how to configure that.
+The admin dashboard is at `https://this.tm/` from within the mesh. The Docker tab is in the **App** tab. If you can see the mesh visualizer but the Docker tab shows "Access Denied", your peer isn't in `admin_peers`. See the [Admin docs](/docs/ADMIN) for how to configure that.
 
 ## Why This Is Useful
 

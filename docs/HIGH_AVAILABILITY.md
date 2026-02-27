@@ -4,7 +4,7 @@ TunnelMesh supports multiple coordinators natively. Run two or more peers in coo
 
 ## How It Works
 
-Every coordinator is an equal peer — there is no leader, no primary, no replica distinction. When a coordinator joins the mesh it registers with `is_coordinator: true`, and every other coordinator in the cluster is notified and adds it to the replication pool.
+Every coordinator is an equal peer: there is no leader, no primary, no replica distinction. When a coordinator joins the mesh it registers with `is_coordinator: true`, and every other coordinator in the cluster is notified and adds it to the replication pool.
 
 Data is distributed across coordinators using chunk-level striping: each chunk of each object has a deterministic primary owner (`chunk_index mod num_coordinators`), and replicas are placed on the next N−1 coordinators in the ring. Concurrent writes are reconciled with version vectors, falling back to last-modified timestamp as a tiebreaker.
 
@@ -12,7 +12,7 @@ Data is distributed across coordinators using chunk-level striping: each chunk o
 
 ## Setup
 
-Point multiple peers at the same mesh. Configure each with coordinator mode enabled and its own local data directory — replication takes care of distribution, no shared storage needed.
+Point multiple peers at the same mesh. Configure each with coordinator mode enabled and its own local data directory; replication takes care of distribution, with no shared storage needed.
 
 ```yaml
 # coordinator-a.yaml
@@ -40,7 +40,7 @@ coordinator:
     - "b2c3d4e5f6g7h8i9"
 ```
 
-Start both coordinators and have them join the same mesh. They discover each other through peer registration — no seed addresses or extra configuration needed.
+Start both coordinators and have them join the same mesh. They discover each other through peer registration. No seed addresses or extra configuration are needed.
 
 ```bash
 # On host A — bootstraps the mesh
@@ -69,7 +69,7 @@ Reads can be served from any coordinator. Clients that connect to coordinator-b 
 
 ## Scaling
 
-Add more coordinators the same way — just join additional peers with coordinator mode enabled. The replication pool expands automatically, chunk assignments rebalance within 10 seconds (debounced), and at most 50 MB is transferred per rebalance cycle to avoid saturating the mesh.
+Add more coordinators the same way: just join additional peers with coordinator mode enabled. The replication pool expands automatically, chunk assignments rebalance within 10 seconds (debounced), and at most 50 MB is transferred per rebalance cycle to avoid saturating the mesh.
 
 ```bash
 # Add a third coordinator
@@ -85,9 +85,9 @@ Mesh peers receive the full list of coordinator mesh IPs in the `RegisterRespons
 
 ## Related Documentation
 
-- **[Cloud Deployment](CLOUD_DEPLOYMENT.md)** — Terraform provisioning for coordinator nodes
-- **[Admin Guide](ADMIN.md)** — Coordinator configuration reference
-- **[Docker Deployment](DOCKER.md)** — Multi-coordinator Docker Compose setup for local testing
+- **[Cloud Deployment](CLOUD_DEPLOYMENT.md)**: Terraform provisioning for coordinator nodes
+- **[Admin Guide](ADMIN.md)**: Coordinator configuration reference
+- **[Docker Deployment](DOCKER.md)**: Multi-coordinator Docker Compose setup for local testing
 
 ---
 

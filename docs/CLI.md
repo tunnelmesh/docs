@@ -46,7 +46,7 @@ sudo tunnelmesh service start
 
 > [!TIP]
 > **Contexts simplify management:** After joining with `--context`, TunnelMesh remembers your
-> configuration. Subsequent commands use the active context automatically—no need to specify `-c`
+> configuration. Subsequent commands use the active context automatically, so there is no need to specify `-c`
 > every time. Perfect for managing multiple meshes (work, home, dev).
 >
 > Commands that work without a context: `init`, `version`, and `context` subcommands.
