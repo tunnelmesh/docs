@@ -143,8 +143,9 @@ tunnelmesh filter remove --port 22 --protocol tcp
 tunnelmesh filter remove --port 22 --protocol tcp --source-peer badpeer
 ```
 
-**Note**: Only temporary rules (added via CLI or admin panel) can be removed. Rules from config files must be removed by
-editing the config.
+> [!NOTE]
+> Only temporary rules (added via CLI or admin panel) can be removed. Rules from config files must be removed by
+> editing the config.
 
 ## Admin Dashboard
 

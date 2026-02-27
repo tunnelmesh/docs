@@ -475,7 +475,8 @@ coordinator:
     - "desktop"
 ```
 
-**Warning**: Name matching is convenient but less secure. Only use in development/testing environments.
+> [!WARNING]
+> Name matching is convenient but less secure. Only use in development/testing environments.
 
 ### Example 4: No Admins (Public Mesh)
 

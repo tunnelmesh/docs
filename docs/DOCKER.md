@@ -98,9 +98,10 @@ docker compose logs coordinator | grep -i replication
 | Grafana | <http://localhost:3000> | Metrics dashboards (first coordinator) |
 | Prometheus | <http://localhost:9090> | Raw metrics (first coordinator) |
 
-**Note:** The admin panel is accessible from any coordinator node within the mesh. Monitoring stacks
-(Grafana/Prometheus) are exposed from the first coordinator replica via port mapping. Each coordinator runs its own
-isolated monitoring stack with tmpfs storage.
+> [!NOTE]
+> The admin panel is accessible from any coordinator node within the mesh. Monitoring stacks
+> (Grafana/Prometheus) are exposed from the first coordinator replica via port mapping. Each coordinator runs its own
+> isolated monitoring stack with tmpfs storage.
 
 ## Container Requirements
 
@@ -134,7 +135,8 @@ services:
 
 ## Configuration
 
-> **Note:** Context management (`tunnelmesh context`) is designed for host-based installations
+> [!NOTE]
+> Context management (`tunnelmesh context`) is designed for host-based installations
 > where you run multiple meshes from one machine. In Docker deployments, each container is
 > typically dedicated to a single mesh and receives its config directly via volume mount or
 > environment variables.
@@ -213,8 +215,9 @@ services:
     network_mode: "service:coordinator"
 ```
 
-**Note:** Each coordinator replica runs its own monitoring stack. All monitoring containers share their respective
-coordinator's network namespace.
+> [!NOTE]
+> Each coordinator replica runs its own monitoring stack. All monitoring containers share their respective
+> coordinator's network namespace.
 
 ## Volumes
 
