@@ -7,13 +7,13 @@ excerpt: "Hyperconverged infrastructure" sounds like buzzword soup, but the idea
 
 # TunnelMesh Is HCI: What Hyperconverged Infrastructure Means for Distributed Systems
 
-Picture this: you have five servers spread across two clouds and a home lab. You need them to talk to each other securely. So you set up WireGuard. Then you realize you need shared object storage, so you install MinIO on one of the servers. Then a service needs filesystem access, so you bolt on NFS. Then you want to see your Docker containers from one place, so you spin up Portainer. Then you need each tool to trust the others somehow, so you start writing glue scripts.
+Picture this: you have five servers spread across two clouds and a home lab. You need them to talk to each other securely. So you set up WireGuard. Then you realise you need shared object storage, so you install MinIO on one of the servers. Then a service needs filesystem access, so you bolt on NFS. Then you want to see your Docker containers from one place, so you spin up Portainer. Then you need each tool to trust the others somehow, so you start writing glue scripts.
 
-You now have five separate systems, each with their own auth, their own config, their own failure modes. Congratulations — you've reinvented the infrastructure silo problem that the entire data center industry spent a decade trying to escape.
+You now have five separate systems, each with their own auth, their own config, their own failure modes. Congratulations — you've reinvented the infrastructure silo problem that the entire data centre industry spent a decade trying to escape.
 
 ## The Silo Problem, And How HCI Solved It
 
-For decades, a typical data center looked like this:
+For decades, a typical data centre looked like this:
 
 ![Three separate silos — Compute managed by VMware, Storage by NetApp, Networking by Cisco — all feeding down into a shared integration layer labeled "your problem now"](/articles/images/infrastructure-silos.svg)
 
@@ -32,7 +32,7 @@ To understand what TunnelMesh does, it helps to be concrete about what tradition
 - **Networking**: Software-defined virtual networks with policy enforcement
 - **Identity**: A shared auth system so the same credential works across all layers
 
-Traditional HCI vendors run this on rack-mountable appliances in your data center. If you want three nodes of redundancy, you buy three appliances. The magic is that they find each other and self-organize; you don't wire them together manually.
+Traditional HCI vendors run this on rack-mountable appliances in your data centre. If you want three nodes of redundancy, you buy three appliances. The magic is that they find each other and self-organise; you don't wire them together manually.
 
 ## TunnelMesh Does the Same Thing, Differently
 
@@ -50,7 +50,7 @@ Everything shares the same seam. That's the convergence.
 
 ## How It Compares to the Big Names
 
-**Nutanix** and **VMware vSAN** are the gold standard for enterprise HCI. They're excellent if you're in a data center, running VMware workloads, and have a vendor support contract budget. They're less useful when your "cluster" spans DigitalOcean, AWS, and a Raspberry Pi on your desk.
+**Nutanix** and **VMware vSAN** are the gold standard for enterprise HCI. They're excellent if you're in a data centre, running VMware workloads, and have a vendor support contract budget. They're less useful when your "cluster" spans DigitalOcean, AWS, and a Raspberry Pi on your desk.
 
 **Azure Stack HCI** is Microsoft's version — purpose-built hardware running a Hyper-V cluster with Azure-managed control plane. Powerful, but you're committed to the Azure ecosystem and the hardware SKUs they certify.
 
@@ -58,7 +58,7 @@ Everything shares the same seam. That's the convergence.
 
 TunnelMesh isn't trying to replace VM clusters. Its niche is the space where traditional HCI doesn't reach:
 
-![Territory diagram: Traditional HCI confined to one data center rack on the left, separated by a WAN boundary line, with TunnelMesh peer nodes scattered across EU, US-East, Asia, home lab, and US-West on the right connected by mesh lines](/articles/images/hci-territory.svg)
+![Territory diagram: Traditional HCI confined to one data centre rack on the left, separated by a WAN boundary line, with TunnelMesh peer nodes scattered across EU, US-East, Asia, home lab, and US-West on the right connected by mesh lines](/articles/images/hci-territory.svg)
 
 When your nodes are in different buildings, clouds, or countries, the hardware-appliance model breaks. TunnelMesh was designed to treat WAN latency and NAT as normal operating conditions, not edge cases.
 

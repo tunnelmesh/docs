@@ -1,13 +1,13 @@
 # TunnelMesh Admin Guide
 
-This guide explains how admin authorization works in TunnelMesh, what functionality requires admin access,
+This guide explains how admin authorisation works in TunnelMesh, what functionality requires admin access,
 and security best practices.
 
 ## Overview
 
 > [!IMPORTANT]
 > TunnelMesh uses a **configuration-based admin model** where admin privileges are granted via the
-> coordinator's `admin_peers` field. There is **no "first user becomes admin" behavior** - admins must be
+> coordinator's `admin_peers` field. There is **no "first user becomes admin" behaviour** - admins must be
 > explicitly configured.
 
 **Key points:**
@@ -117,7 +117,7 @@ ssh-keygen -l -f ~/.tunnelmesh/id_ed25519.pub | awk '{print $2}' | \
 
 This gives you the 16-character peer ID before the peer joins.
 
-## How Admin Authorization Works
+## How Admin Authorisation Works
 
 When a peer joins the mesh, the coordinator performs the following steps:
 
@@ -356,7 +356,7 @@ Now admin access is tied to the SSH key, not the mutable peer name.
 
 > [!CAUTION]
 > **Protect your coordinator config file**: The admin_peers list controls who gets admin access.
-> Set restrictive permissions to prevent unauthorized modifications.
+> Set restrictive permissions to prevent unauthorised modifications.
 
 ```bash
 # Set restrictive permissions

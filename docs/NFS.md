@@ -196,7 +196,7 @@ sudo umount /mnt/myshare && sudo mount ...
 
 - All NFS traffic is encrypted via TLS
 - Authentication uses the same certificates as other mesh services
-- Authorization is enforced per-operation via RBAC
+- Authorisation is enforced per-operation via RBAC
 - The NFS server is only accessible from within the mesh
 
 ## API Reference

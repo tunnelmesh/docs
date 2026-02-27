@@ -45,7 +45,7 @@ chunk-level replication:
 | `coordinator` | Coordinator peer with admin UI (2 replicas by default) |
 | `client` | Mesh peer (5 replicas by default) |
 | `prometheus` | Metrics collection (one per coordinator) |
-| `grafana` | Dashboards and visualization (one per coordinator) |
+| `grafana` | Dashboards and visualisation (one per coordinator) |
 | `loki` | Log aggregation (one per coordinator) |
 | `sd-generator` | Prometheus service discovery |
 | `benchmarker` | Automated performance testing |

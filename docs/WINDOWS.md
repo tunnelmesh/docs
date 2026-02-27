@@ -63,7 +63,7 @@ The Wintun code path is separate from the Linux TUN code path. It behaves the sa
 
 On Linux and macOS, TunnelMesh installs a local DNS resolver that intercepts `.tunnelmesh` queries. On Windows, this integration is rougher.
 
-**Current behavior**: TunnelMesh writes entries to the Windows hosts file (`C:\Windows\System32\drivers\etc\hosts`) for each known mesh peer. This means:
+**Current behaviour**: TunnelMesh writes entries to the Windows hosts file (`C:\Windows\System32\drivers\etc\hosts`) for each known mesh peer. This means:
 
 - `ping coordinator.tunnelmesh` works
 - `curl https://this.tm/` works

@@ -21,3 +21,7 @@ Articles should **not** read like documentation extensions. The docs cover the "
 - **End with a practical pointer** — a CLI command to try, a doc link, a next step
 
 The target reader understands software but may not be a networking or cryptography expert.
+
+## Language
+
+Write in British English (UK). Use British spellings throughout prose, headings, and descriptions — e.g. `authorisation` not `authorization`, `behaviour` not `behavior`, `organise` not `organize`, `centre` not `center`, `colour` not `color`, `visualisation` not `visualization`, `enrolment` not `enrollment`, `dialogue` not `dialog`, `realise` not `realize`, `initialise` not `initialize`. Exception: do not change spellings that are part of technical standards (HTTP headers, protocol names, code identifiers, CLI flag output).

@@ -7,9 +7,9 @@ TunnelMesh provides automatic identity management with Kubernetes-style RBAC for
 Your user identity is **derived from your peer's SSH key** - the same key used for mesh networking. This means:
 
 - **Automatic Identity**: No separate user setup needed - just `join` the mesh
-- **Admin Authorization**: Admins are configured via coordinator's admin_peers list (peer ID or name)
+- **Admin Authorisation**: Admins are configured via coordinator's admin_peers list (peer ID or name)
 - **Share Across Devices**: Copy `~/.tunnelmesh/id_ed25519` to use the same identity on multiple machines
-- **RBAC Authorization**: Fine-grained access control for S3 buckets and dashboard panels
+- **RBAC Authorisation**: Fine-grained access control for S3 buckets and dashboard panels
 
 ## How Identity Works
 
@@ -18,7 +18,7 @@ When you run `tunnelmesh join`, your identity is automatically created:
 1. **SSH Key Generated**: On first join, an ED25519 keypair is created at `~/.tunnelmesh/id_ed25519`
 2. **User ID Derived**: `SHA256(public_key)[:8]` as hex (16 characters)
 3. **Auto-Registered**: Added to the "everyone" group with default permissions
-4. **Admin Authorization**: If your peer is in coordinator's admin_peers list, you get admin privileges
+4. **Admin Authorisation**: If your peer is in coordinator's admin_peers list, you get admin privileges
 
 ```bash
 # Join the mesh - identity is automatic
@@ -32,7 +32,7 @@ tunnelmesh status
 
 > [!IMPORTANT]
 > Admin privileges are granted via the coordinator's `admin_peers` configuration - there is no
-> automatic "first user becomes admin" behavior.
+> automatic "first user becomes admin" behaviour.
 
 ```yaml
 # coordinator.yaml
