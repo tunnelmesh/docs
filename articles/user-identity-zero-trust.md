@@ -17,13 +17,13 @@ Every TunnelMesh peer derives its identity from its SSH key. Run `tunnelmesh ini
 
 The peer ID is the stable identifier used in admin configuration, filter rules, and RBAC assignments. Unlike a peer name (which the peer controls and can change), the peer ID is derived from the key — you can't spoof a peer ID without controlling the private key.
 
-## Enrollment vs. Capabilities
+## Enrolment vs. Capabilities
 
-Joining a mesh requires a valid enrollment token. The token gets you *on* the mesh — a mesh IP, a DNS record, connectivity to other peers. It doesn't get you access to anything.
+Joining a mesh requires a valid enrolment token. The token gets you *on* the mesh — a mesh IP, a DNS record, connectivity to other peers. It doesn't get you access to anything.
 
 Capabilities come separately, from an admin:
 
-![Enrollment vs capabilities: joining gives network access only, not API or storage](/articles/images/enrollment-capabilities.svg)
+![Enrolment vs capabilities: joining gives network access only, not API or storage](/articles/images/enrollment-capabilities.svg)
 
 This separation means you can give someone a token to try the mesh, and no services are exposed to them until an admin explicitly grants access.
 

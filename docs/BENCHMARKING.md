@@ -129,15 +129,15 @@ tunnelmesh benchmark peer-1 --size 50MB --packet-loss 5 --output with-loss.json
 > **Aggressive stress testing**: The Docker benchmarker runs continuous benchmarks with 3-6 simultaneous
 > transfers at all times. This keeps the mesh under constant load. Use in development/testing, not production.
 
-The Docker benchmarker runs **aggressive continuous benchmarks** with multiple concurrent transfers and randomized chaos
+The Docker benchmarker runs **aggressive continuous benchmarks** with multiple concurrent transfers and randomised chaos
 settings. The mesh is always under load.
 
-### Default Behavior
+### Default Behaviour
 
 - **Interval:** New batch every 30 seconds
 - **Concurrency:** 3 simultaneous transfers per batch
 - **Size:** 100MB per transfer
-- **Direction:** 70% uploads, 30% downloads (randomized)
+- **Direction:** 70% uploads, 30% downloads (randomised)
 - **Chaos:** Randomly selected preset per transfer
 
 With overlapping batches, you'll typically have 3-6 active transfers at any time.
@@ -341,7 +341,7 @@ Each story includes:
 - **Characters**: Users with different roles and clearance levels
 - **Departments**: File shares with quotas and access control
 - **Workflows**: Realistic document creation, editing, collaboration
-- **Adversaries**: Users who attempt unauthorized access or data exfiltration
+- **Adversaries**: Users who attempt unauthorised access or data exfiltration
 
 ### What It Tests
 
@@ -354,7 +354,7 @@ Each story includes:
 | **Mesh Dynamics** | Users joining/leaving mesh network |
 | **Quota Limits** | Storage limits and over-quota handling |
 | **Expiration** | Automatic cleanup of old objects |
-| **Permissions** | Authorization enforcement for all operations |
+| **Permissions** | Authorisation enforcement for all operations |
 
 ### Flags
 

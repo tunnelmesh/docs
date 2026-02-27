@@ -122,7 +122,7 @@ These flags work with all commands:
 
 ### tunnelmesh init
 
-Initialize TunnelMesh by generating SSH keys.
+Initialise TunnelMesh by generating SSH keys.
 
 ```bash
 tunnelmesh init

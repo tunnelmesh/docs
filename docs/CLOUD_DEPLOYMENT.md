@@ -349,7 +349,7 @@ export TF_VAR_do_token="dop_v1_xxx"
 
 | Variable | Default | Description |
 | ---------- | --------- | ------------- |
-| `locations_enabled` | `false` | Geographic peer visualization (uses ip-api.com) |
+| `locations_enabled` | `false` | Geographic peer visualisation (uses ip-api.com) |
 | `monitoring_enabled` | `false` | Prometheus/Grafana/Loki stack |
 | `auto_update_enabled` | `true` | Automatic binary updates |
 | `auto_update_schedule` | `hourly` | Update check frequency |
@@ -398,7 +398,7 @@ https://tunnelmesh.example.com/grafana/
 
 ## Node Location Tracking
 
-The `locations_enabled` flag enables a world map visualization showing where your mesh peers are located.
+The `locations_enabled` flag enables a world map visualisation showing where your mesh peers are located.
 
 **Disabled by default** because it:
 

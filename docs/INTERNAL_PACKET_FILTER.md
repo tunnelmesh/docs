@@ -163,7 +163,7 @@ Rules pushed via admin panel take effect immediately on the target peer(s).
 
 **Important notes:**
 
-- When pushing to "All peers", a confirmation dialog is shown
+- When pushing to "All peers", a confirmation dialogue is shown
 - A peer cannot create a rule filtering traffic from itself (self-targeting is prevented)
 - A warning banner appears when temporary rules exist, reminding that they won't persist after peer restart
 
