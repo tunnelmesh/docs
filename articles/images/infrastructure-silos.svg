@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 205" font-family="'Inter', system-ui, sans-serif">
+  <rect width="100%" height="100%" fill="#0a1018"/>
+
+  <!-- Box 1: Compute -->
+  <rect x="20" y="20" width="150" height="68" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="95" y="49" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14" font-weight="500">Compute</text>
+  <text x="95" y="67" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.40)" font-size="11">managed by VMware</text>
+
+  <!-- Box 2: Storage -->
+  <rect x="205" y="20" width="150" height="68" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="280" y="49" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14" font-weight="500">Storage</text>
+  <text x="280" y="67" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.40)" font-size="11">managed by NetApp</text>
+
+  <!-- Box 3: Networking -->
+  <rect x="390" y="20" width="150" height="68" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="465" y="49" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14" font-weight="500">Networking</text>
+  <text x="465" y="67" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.40)" font-size="11">managed by Cisco</text>
+
+  <!-- Vertical drop lines from box bottoms -->
+  <line x1="95"  y1="88" x2="95"  y2="148" stroke="rgba(232,234,240,0.18)" stroke-width="1.5"/>
+  <line x1="280" y1="88" x2="280" y2="148" stroke="rgba(232,234,240,0.18)" stroke-width="1.5"/>
+  <line x1="465" y1="88" x2="465" y2="148" stroke="rgba(232,234,240,0.18)" stroke-width="1.5"/>
+
+  <!-- Horizontal bar connecting them -->
+  <line x1="95" y1="148" x2="465" y2="148" stroke="rgba(232,234,240,0.18)" stroke-width="1.5"/>
+
+  <!-- Integration layer box -->
+  <rect x="148" y="155" width="264" height="36" rx="5" fill="#0c1220" stroke="rgba(220,80,80,0.38)" stroke-width="1"/>
+  <text x="280" y="168" text-anchor="middle" dominant-baseline="middle" fill="rgba(220,140,140,0.75)" font-size="12">"the integration layer"</text>
+  <text x="280" y="182" text-anchor="middle" dominant-baseline="middle" fill="rgba(220,140,140,0.50)" font-size="11">your problem now</text>
+</svg>

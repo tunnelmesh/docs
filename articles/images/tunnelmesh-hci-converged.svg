@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 220" font-family="'Inter', system-ui, sans-serif">
+  <rect width="100%" height="100%" fill="#0a1018"/>
+
+  <!-- Outer container -->
+  <rect x="10" y="10" width="600" height="200" rx="8" fill="#0c1220" stroke="rgba(0,212,180,0.35)" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="310" y="34" text-anchor="middle" dominant-baseline="middle" fill="#00d4b4" font-size="13" font-weight="600" letter-spacing="0.4">TunnelMesh Node</text>
+
+  <!-- Divider under title -->
+  <line x1="30" y1="48" x2="590" y2="48" stroke="rgba(0,212,180,0.15)" stroke-width="1"/>
+
+  <!-- Inner box 1: Networking -->
+  <rect x="28" y="57" width="176" height="110" rx="6" fill="#0a1018" stroke="rgba(0,212,180,0.28)" stroke-width="1"/>
+  <text x="116" y="82"  text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="13" font-weight="500">Networking</text>
+  <text x="116" y="103" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">Encrypted mesh overlay</text>
+  <text x="116" y="119" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">NAT traversal · DNS</text>
+  <text x="116" y="135" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">Packet filter</text>
+
+  <!-- Inner box 2: Storage -->
+  <rect x="222" y="57" width="176" height="110" rx="6" fill="#0a1018" stroke="rgba(0,212,180,0.28)" stroke-width="1"/>
+  <text x="310" y="82"  text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="13" font-weight="500">Storage</text>
+  <text x="310" y="103" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">S3 object store</text>
+  <text x="310" y="119" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">NFS file shares</text>
+  <text x="310" y="135" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">Quotas · replication</text>
+
+  <!-- Inner box 3: Identity & Mgmt -->
+  <rect x="416" y="57" width="176" height="110" rx="6" fill="#0a1018" stroke="rgba(0,212,180,0.28)" stroke-width="1"/>
+  <text x="504" y="82"  text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="13" font-weight="500">Identity &amp; Mgmt</text>
+  <text x="504" y="103" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">Zero-trust RBAC</text>
+  <text x="504" y="119" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">Noise protocol auth</text>
+  <text x="504" y="135" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.45)" font-size="11">Docker visibility</text>
+
+  <!-- Footer caption -->
+  <text x="310" y="184" text-anchor="middle" dominant-baseline="middle" fill="rgba(0,212,180,0.50)" font-size="11">One binary · One config · One dashboard · One auth system</text>
+</svg>

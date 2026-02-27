@@ -118,6 +118,13 @@
       "date": "2026-02-16",
       "author": "TunnelMesh Team",
       "excerpt": "A field guide to the six Terraform deployment scenarios — from a $4/month single-node setup to a multi-region mesh with monitoring, exit peers, and HA coordinators."
+    },
+    {
+      "slug": "tunnelmesh-hyperconverged",
+      "title": "TunnelMesh Is HCI: What Hyperconverged Infrastructure Means for Distributed Systems",
+      "date": "2026-02-27",
+      "author": "TunnelMesh Team",
+      "excerpt": "\"Hyperconverged infrastructure\" sounds like buzzword soup, but the idea behind it is genuinely useful — and TunnelMesh is a pure software expression of that idea for distributed, encrypted networks."
     }
   ]
 }
