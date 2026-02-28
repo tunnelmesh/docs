@@ -1,0 +1,130 @@
+{
+  "articles": [
+    {
+      "slug": "welcome",
+      "title": "Welcome to the TunnelMesh Blog",
+      "date": "2025-10-20",
+      "author": "TunnelMesh Team",
+      "excerpt": "A place for engineering notes, release announcements, and deep-dives on encrypted mesh networking."
+    },
+    {
+      "slug": "introducing-tunnelmesh",
+      "title": "Introducing TunnelMesh: Encrypted Mesh Networking for the Next Frontier",
+      "date": "2025-10-28",
+      "author": "TunnelMesh Team",
+      "excerpt": "Today we're open-sourcing TunnelMesh — a P2P mesh networking tool built in Go that creates encrypted tunnels between nodes using the Noise IKpsk2 protocol with ChaCha20-Poly1305 encryption."
+    },
+    {
+      "slug": "why-we-built-tunnelmesh",
+      "title": "Why We Built TunnelMesh",
+      "date": "2025-11-03",
+      "author": "TunnelMesh Team",
+      "excerpt": "Every side project starts with a frustration. Ours started with a weekend of fighting WireGuard configs, broken NAT traversal, and the realisation that none of the existing tools did exactly what we needed."
+    },
+    {
+      "slug": "noise-protocol-deep-dive",
+      "title": "The Noise Protocol: How TunnelMesh Handles Encryption",
+      "date": "2025-11-10",
+      "author": "TunnelMesh Team",
+      "excerpt": "A practical walkthrough of the Noise IKpsk2 handshake pattern — why we chose it, what it gives us for free, and what the handshake actually looks like on the wire."
+    },
+    {
+      "slug": "nat-traversal-explained",
+      "title": "NAT Traversal: The Dark Art of Making Peers Find Each Other",
+      "date": "2025-11-17",
+      "author": "TunnelMesh Team",
+      "excerpt": "Getting two machines behind NAT to talk directly is harder than it should be. Here's how TunnelMesh does it — and what happens when it can't."
+    },
+    {
+      "slug": "building-in-go-first-lessons",
+      "title": "Building in Go: What a Month of TunnelMesh Taught Us",
+      "date": "2025-11-24",
+      "author": "TunnelMesh Team",
+      "excerpt": "A month into writing a networking tool in Go — what the language got right, where we hit walls, and the libraries that saved us."
+    },
+    {
+      "slug": "chacha20-poly1305-cipher",
+      "title": "ChaCha20-Poly1305: The Cipher Powering TunnelMesh",
+      "date": "2025-12-01",
+      "author": "TunnelMesh Team",
+      "excerpt": "A deep dive into why we chose ChaCha20-Poly1305 over AES-GCM, how AEAD ciphers work, and what the performance profile looks like on hardware without AES acceleration."
+    },
+    {
+      "slug": "docker-support-in-tunnelmesh",
+      "title": "Docker Integration: Managing Containers Across the Mesh",
+      "date": "2025-12-08",
+      "author": "TunnelMesh Team",
+      "excerpt": "TunnelMesh's admin panel includes a Docker tab that lets you view, start, stop, and inspect containers running on any mesh node — without SSH-ing into each machine."
+    },
+    {
+      "slug": "nfs-over-the-mesh",
+      "title": "NFS Over TunnelMesh: Secure File Sharing Across the Mesh",
+      "date": "2025-12-15",
+      "author": "TunnelMesh Team",
+      "excerpt": "NFS was designed for trusted local networks. TunnelMesh makes the mesh a trusted local network — here's how we use that to share files securely across geographically distributed nodes."
+    },
+    {
+      "slug": "transport-fallback-chain",
+      "title": "Inside the Transport Fallback Chain: UDP, SSH, and WebSocket Relay",
+      "date": "2025-12-22",
+      "author": "TunnelMesh Team",
+      "excerpt": "A technical walkthrough of how TunnelMesh selects, negotiates, and promotes transport paths between peers — and the engineering decisions behind the three-level fallback."
+    },
+    {
+      "slug": "tunnelmesh-in-2026",
+      "title": "New Year, New Mesh: Where TunnelMesh Is Going in 2026",
+      "date": "2026-01-05",
+      "author": "TunnelMesh Team",
+      "excerpt": "An honest look at where the project stands, what's working, what still needs work, and what we're building next."
+    },
+    {
+      "slug": "benchmarking-tunnelmesh",
+      "title": "Benchmarking TunnelMesh",
+      "date": "2026-01-12",
+      "author": "TunnelMesh Team",
+      "excerpt": "How does TunnelMesh actually perform? We look at throughput, latency, and CPU overhead across transport modes and hardware — methodology included so you can reproduce the results."
+    },
+    {
+      "slug": "user-identity-zero-trust",
+      "title": "User Identity and Zero Trust in TunnelMesh",
+      "date": "2026-01-19",
+      "author": "TunnelMesh Team",
+      "excerpt": "How TunnelMesh thinks about identity — from SSH key derivation to per-user packet filtering — and what \"zero trust\" actually means in a mesh network you control."
+    },
+    {
+      "slug": "s3-storage-backend",
+      "title": "The S3 Storage Backend: Sharing Object Storage Across the Mesh",
+      "date": "2026-01-26",
+      "author": "TunnelMesh Team",
+      "excerpt": "TunnelMesh can expose a shared S3-compatible object store to all mesh nodes. Here's the architecture, the use cases it solves, and how to set it up."
+    },
+    {
+      "slug": "100-nodes-in-the-wild",
+      "title": "TunnelMesh in the Wild: Early Deployment Lessons",
+      "date": "2026-02-02",
+      "author": "TunnelMesh Team",
+      "excerpt": "A few months in, TunnelMesh is running on real infrastructure. Here's what we learned from watching it operate outside our own machines."
+    },
+    {
+      "slug": "internal-packet-filter",
+      "title": "The Internal Packet Filter: Fine-Grained ACLs for Mesh Networks",
+      "date": "2026-02-09",
+      "author": "TunnelMesh Team",
+      "excerpt": "A deep dive into TunnelMesh's packet filter — the default-deny firewall that lives inside the tunnel and gives you per-peer, per-protocol access control without touching the host firewall."
+    },
+    {
+      "slug": "cloud-deployment-guide",
+      "title": "Deploying TunnelMesh on DigitalOcean with Terraform",
+      "date": "2026-02-16",
+      "author": "TunnelMesh Team",
+      "excerpt": "A field guide to the six Terraform deployment scenarios — from a $4/month single-node setup to a multi-region mesh with monitoring, exit peers, and HA coordinators."
+    },
+    {
+      "slug": "tunnelmesh-hyperconverged",
+      "title": "TunnelMesh Is HCI: What Hyperconverged Infrastructure Means for Distributed Systems",
+      "date": "2026-02-27",
+      "author": "TunnelMesh Team",
+      "excerpt": "\"Hyperconverged infrastructure\" sounds like buzzword soup, but the idea behind it is genuinely useful — and TunnelMesh is a pure software expression of that idea for distributed, encrypted networks."
+    }
+  ]
+}

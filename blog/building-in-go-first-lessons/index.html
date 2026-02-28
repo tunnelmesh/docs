@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building in Go: What a Month of TunnelMesh Taught Us — TunnelMesh Blog</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="A month into writing a networking tool in Go — what the language got right, where we hit walls, and the libraries that saved us.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/blog/building-in-go-first-lessons/">
+  <meta property="og:title" content="Building in Go: What a Month of TunnelMesh Taught Us — TunnelMesh Blog">
+  <meta property="og:description" content="A month into writing a networking tool in Go — what the language got right, where we hit walls, and the libraries that saved us.">
+  <meta property="og:url" content="https://read.tunnelmesh.io/blog/building-in-go-first-lessons/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite">
+          <div class="doc-loading">
+            <div class="loading-spinner"></div>
+            <span>Loading…</span>
+          </div>
+        </article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite"><div class="blog-article-wrap">
+  <a class="blog-back" href="/blog/">&#8592; All articles</a>
+  <div class="blog-article-meta">
+    <span class="meta-date">November 24, 2025</span>
+    <span>· TunnelMesh Team</span>
+  </div>
+  <div class="blog-article-content" id="blog-article-inner"><h1 id="building-in-go-what-a-month-of-tunnelmesh-taught-us">Building in Go: What a Month of TunnelMesh Taught Us</h1>
+<p>TunnelMesh is written in Go. A month in, that decision looked smart in some places and painful in others. Here&#39;s the honest version.</p>
+<h2 id="why-go">Why Go?</h2>
+<p>The core of TunnelMesh is a lot of things happening at once: managing connections to dozens of peers, reading packets from a virtual network interface, running a DNS server, probing NAT, sending metrics. In Python you&#39;d be fighting the event loop. In C you&#39;d be managing threads manually. In Go you just start goroutines and let the scheduler handle it.</p>
+<p>The other reason: one binary that runs on Linux, macOS, and Windows, for x86_64 and ARM, built with a single <code>go build</code> command. For a tool that needs to run on everything from a Raspberry Pi to a cloud VM, that&#39;s worth a lot.</p>
+<h2 id="the-tun-interface-is-not-plug-and-play">The TUN Interface Is Not Plug and Play</h2>
+<p>The TUN device is how TunnelMesh intercepts packets. It&#39;s a virtual network interface: your OS routes packets destined for mesh IPs into it, TunnelMesh reads them, encrypts them, and sends them to the right peer. Packets coming back from peers get decrypted and written back to the same device.</p>
+<p>Go&#39;s standard library doesn&#39;t touch any of this. You need root privileges (<code>CAP_NET_ADMIN</code> on Linux), access to <code>/dev/net/tun</code>, and a library that handles the platform differences.</p>
+<p>We use the TUN library from the WireGuard project. It&#39;s well-tested, handles Linux, macOS, and Windows, and the edge cases are already worked out.</p>
+<p>The tricky part: testing this in CI. You can&#39;t create TUN devices in a normal test environment. Our solution was Docker containers with <code>NET_ADMIN</code> capability and the TUN device explicitly added, the same setup the production Docker docs describe.</p>
+<h2 id="dont-write-your-own-noise-implementation">Don&#39;t Write Your Own Noise Implementation</h2>
+<p>We did. It was a mistake.</p>
+<p>The Noise handshake involves key derivation, hashing, cipher operations, and careful sequencing of operations. Getting it right means your implementation matches the spec exactly, and the spec has test vectors you can check against, but only if you know to look.</p>
+<p>We found <a href="https://github.com/flynn/noise">flynn/noise</a> about three weeks in, after our implementation was mostly working but had subtle divergences from the spec in error-path handling. Replacing it with the library was a day&#39;s work and removed several hundred lines of code we&#39;d never have to worry about again.</p>
+<p>The lesson: for cryptographic primitives, use a library. The bugs in hand-rolled crypto are the kind that look fine in testing and are catastrophic in production.</p>
+<h2 id="goroutine-lifecycle-is-harder-than-it-looks">Goroutine Lifecycle Is Harder Than It Looks</h2>
+<p>Go makes it trivially easy to start goroutines. It does not make it trivially easy to stop them.</p>
+<p>The pattern (pass a <code>context.Context</code>, check <code>ctx.Done()</code> in select statements, signal completion via a <code>sync.WaitGroup</code>) is well-known. The failure mode is goroutines that block on I/O and don&#39;t check the context. They keep running after shutdown, holding file descriptors and preventing clean restarts.</p>
+<p>The fix is defensive: set deadlines on all I/O, put <code>ctx.Done()</code> in every <code>select</code>. It&#39;s tedious but mechanical once you know to do it.</p>
+<h2 id="testing-network-code">Testing Network Code</h2>
+<p>Unit tests cover deterministic logic: packet filter rule evaluation, key derivation, config parsing. These are fast and catch regressions.</p>
+<p>For anything involving actual networking (NAT traversal, relay fallback, the full peer handshake), we use Docker integration tests. A Compose stack spins up a coordinator and multiple peers, deliberately misconfigured to force the fallback chain to engage, and verifies end-to-end connectivity. These are the tests that catch the real bugs.</p>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</div>
+</div></main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"blog-article","slug":"building-in-go-first-lessons"};</script>
+</body>
+</html>

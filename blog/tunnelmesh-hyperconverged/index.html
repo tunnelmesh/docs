@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TunnelMesh Is HCI: What Hyperconverged Infrastructure Means for Distributed Systems — TunnelMesh Blog</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="&quot;Hyperconverged infrastructure&quot; sounds like buzzword soup, but the idea behind it is genuinely useful — and TunnelMesh is a pure software expression of that idea for distributed, encrypted networks.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/blog/tunnelmesh-hyperconverged/">
+  <meta property="og:title" content="TunnelMesh Is HCI: What Hyperconverged Infrastructure Means for Distributed Systems — TunnelMesh Blog">
+  <meta property="og:description" content="&quot;Hyperconverged infrastructure&quot; sounds like buzzword soup, but the idea behind it is genuinely useful — and TunnelMesh is a pure software expression of that idea for distributed, encrypted networks.">
+  <meta property="og:url" content="https://read.tunnelmesh.io/blog/tunnelmesh-hyperconverged/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite">
+          <div class="doc-loading">
+            <div class="loading-spinner"></div>
+            <span>Loading…</span>
+          </div>
+        </article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite"><div class="blog-article-wrap">
+  <a class="blog-back" href="/blog/">&#8592; All articles</a>
+  <div class="blog-article-meta">
+    <span class="meta-date">February 27, 2026</span>
+    <span>· TunnelMesh Team</span>
+  </div>
+  <div class="blog-article-content" id="blog-article-inner"><h1 id="tunnelmesh-is-hci-what-hyperconverged-infrastructure-means-for-distributed-systems">TunnelMesh Is HCI: What Hyperconverged Infrastructure Means for Distributed Systems</h1>
+<p>Picture this: you have five servers spread across two clouds and a home lab. You need them to talk to each other securely. So you set up WireGuard. Then you realise you need shared object storage, so you install MinIO on one of the servers. Then a service needs filesystem access, so you bolt on NFS. Then you want to see your Docker containers from one place, so you spin up Portainer. Then you need each tool to trust the others somehow, so you start writing glue scripts.</p>
+<p>You now have five separate systems, each with their own auth, their own config, their own failure modes. Congratulations: you&#39;ve reinvented the infrastructure silo problem that the entire data centre industry spent a decade trying to escape.</p>
+<h2 id="the-silo-problem-and-how-hci-solved-it">The Silo Problem, And How HCI Solved It</h2>
+<p>For decades, a typical data centre looked like this:</p>
+<p><img src="/articles/images/infrastructure-silos.svg" alt="Three separate silos (Compute managed by VMware, Storage by NetApp, Networking by Cisco) all feeding down into a shared integration layer labeled &quot;your problem now&quot;"></p>
+<p>Separate vendor, separate management plane, separate failure domain for each concern. Provisioning a new server meant coordinating three teams and three ticketing systems.</p>
+<p><strong>Hyperconverged infrastructure</strong> (HCI) was the industry&#39;s answer. Tools like Nutanix, VMware vSAN, and Azure Stack HCI collapse those three columns into one. Compute, storage, and networking run on the same commodity hardware, managed by a single control plane. You add a node to the cluster, and it automatically joins all three layers.</p>
+<p>The key insight isn&#39;t &quot;put everything on one machine.&quot; It&#39;s <strong>eliminate the seams</strong>: the places where separate systems have to negotiate with each other.</p>
+<h2 id="what-gets-converged-in-traditional-hci">What Gets Converged in Traditional HCI</h2>
+<p>To understand what TunnelMesh does, it helps to be concrete about what traditional HCI converges:</p>
+<ul>
+<li><strong>Compute</strong>: VMs or containers that can live-migrate between nodes</li>
+<li><strong>Storage</strong>: Distributed block/object/file storage that spans the cluster (Nutanix AFS, vSAN datastore)</li>
+<li><strong>Networking</strong>: Software-defined virtual networks with policy enforcement</li>
+<li><strong>Identity</strong>: A shared auth system so the same credential works across all layers</li>
+</ul>
+<p>Traditional HCI vendors run this on rack-mountable appliances in your data centre. If you want three nodes of redundancy, you buy three appliances. The magic is that they find each other and self-organise; you don&#39;t wire them together manually.</p>
+<h2 id="tunnelmesh-does-the-same-thing-differently">TunnelMesh Does the Same Thing, Differently</h2>
+<p>TunnelMesh is HCI for distributed, internet-connected infrastructure. The nodes aren&#39;t in one rack; they&#39;re on different continents, behind NAT, on clouds you don&#39;t control. And it&#39;s a single binary that costs nothing.</p>
+<p>Here&#39;s what gets converged:</p>
+<p><img src="/articles/images/tunnelmesh-hci-converged.svg" alt="TunnelMesh Node: one outer container holding three inner boxes (Networking (encrypted mesh, NAT traversal, DNS, packet filter), Storage (S3 object store, NFS file shares, replication), and Identity &amp; Mgmt (zero-trust RBAC, Noise protocol auth, Docker visibility)) with the caption &quot;One binary · One config · One dashboard · One auth system&quot;"></p>
+<p>The networking layer (mesh overlay, NAT traversal, DNS) already knows the identity of every peer; it uses the Noise protocol with SSH-derived keys to mutually authenticate before any data flows. The storage layer (S3 and NFS) inherits that trust: when a peer mounts an NFS share, the TLS certificate was issued at mesh join time. No separate credential to provision.</p>
+<p>The Docker management panel talks to daemons on remote nodes through the same mesh channels. The packet filter layer decides what traffic is allowed using the same peer identity that the handshake established.</p>
+<p>Everything shares the same seam. That&#39;s the convergence.</p>
+<h2 id="how-it-compares-to-the-big-names">How It Compares to the Big Names</h2>
+<p><strong>Nutanix</strong> and <strong>VMware vSAN</strong> are the gold standard for enterprise HCI. They&#39;re excellent if you&#39;re in a data centre, running VMware workloads, and have a vendor support contract budget. They&#39;re less useful when your &quot;cluster&quot; spans DigitalOcean, AWS, and a Raspberry Pi on your desk.</p>
+<p><strong>Azure Stack HCI</strong> is Microsoft&#39;s version: purpose-built hardware running a Hyper-V cluster with Azure-managed control plane. Powerful, but you&#39;re committed to the Azure ecosystem and the hardware SKUs they certify.</p>
+<p><strong>K3s/K8s with add-ons</strong> is the DIY path many distributed teams take: Kubernetes for compute, Longhorn or Rook-Ceph for storage, Calico or Cilium for networking, Vault for secrets. That works, but you&#39;ve just rebuilt the silo problem with open source components. Each layer still has its own auth and its own failure modes.</p>
+<p>TunnelMesh isn&#39;t trying to replace VM clusters. Its niche is the space where traditional HCI doesn&#39;t reach:</p>
+<p><img src="/articles/images/hci-territory.svg" alt="Territory diagram: Traditional HCI confined to one data centre rack on the left, separated by a WAN boundary line, with TunnelMesh peer nodes scattered across EU, US-East, Asia, home lab, and US-West on the right connected by mesh lines"></p>
+<p>When your nodes are in different buildings, clouds, or countries, the hardware-appliance model breaks. TunnelMesh was designed to treat WAN latency and NAT as normal operating conditions, not edge cases.</p>
+<h2 id="what-hci-is-actually-good-for">What HCI Is Actually Good For</h2>
+<p>The real payoff from converging infrastructure layers is <strong>operational leverage</strong>: fewer systems to reason about means more confidence in what you&#39;re changing.</p>
+<p>Specifically:</p>
+<p><strong>Provisioning a new node is atomic.</strong> Join the mesh, and the node is immediately reachable, has access to shared storage, and inherits the security policy. There&#39;s no &quot;now add it to the NFS export list, now configure MinIO replication, now add it to the Portainer agent list&quot; sequence that you can get half-way through.</p>
+<p><strong>Security policy is coherent.</strong> When the networking layer and the storage layer share an identity model, you can say &quot;peers tagged as <code>untrusted</code> get read-only bucket access and no NFS mounts&quot; and have that actually enforced across all layers. With separate systems, policy coherence is aspirational at best.</p>
+<p><strong>Failure modes are predictable.</strong> If the mesh is up, storage is reachable. If a coordinator goes down, the remaining coordinators serve reads from replicated data and the mesh reroutes through the others. You don&#39;t have to debug &quot;is this a networking issue or a storage issue?&quot; because they&#39;re the same thing.</p>
+<p><strong>HA is a consequence, not a feature you add later.</strong> TunnelMesh&#39;s multi-coordinator replication (chunk striping across coordinators, version vectors for conflict resolution, automatic rebalancing when topology changes) isn&#39;t a bolt-on. The leaderless architecture is how coordinators work from the start. Add a second coordinator and you have HA; add a third and you have an N+2 cluster.</p>
+<h2 id="the-part-traditional-hci-still-wins-on">The Part Traditional HCI Still Wins On</h2>
+<p>To be fair: TunnelMesh doesn&#39;t do VM live migration, doesn&#39;t manage compute scheduling, and isn&#39;t a hypervisor. If your workload is &quot;I need to run 500 VMs and migrate them transparently when a host fails,&quot; you want Nutanix or vSAN.</p>
+<p>What TunnelMesh does is provide the infrastructure substrate that everything else runs on top of: the networking, storage, and identity layer that ties distributed nodes together. You still run your own compute (containers, processes, whatever you like). The HCI aspect is that those three cross-cutting concerns are unified rather than siloed.</p>
+<h2 id="try-it">Try It</h2>
+<p>The best way to see the convergence in practice is to join two machines to a mesh and watch them find shared storage automatically:</p>
+<pre><code class="language-bash"># Start a coordinator on host A
+tunnelmesh join --config coordinator.yaml
+
+# Join from host B
+tunnelmesh join coordinator.example.com:8443 --token your-token
+
+# From host B — the S3 endpoint is already there
+aws s3 --endpoint-url http://coordinator.mesh:8080/s3 ls
+
+# Mount the default file share
+sudo mount -t nfs -o vers=3 coordinator.mesh:/shares/default /mnt/mesh
+</code></pre>
+<p>Two commands. No separate storage setup. No separate auth configuration. That&#39;s the converged part.</p>
+<p>The <a href="/docs/GETTING_STARTED">Getting Started guide</a> walks through the full setup, and the <a href="/docs/HIGH_AVAILABILITY">HA docs</a> cover adding a second coordinator if you want to see the replication piece in action.</p>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</div>
+</div></main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"blog-article","slug":"tunnelmesh-hyperconverged"};</script>
+</body>
+</html>

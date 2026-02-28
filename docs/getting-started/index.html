@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Start Guide — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="This guide walks you through setting up a TunnelMesh network from scratch. You&amp;#39;ll create:">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/getting-started/">
+  <meta property="og:title" content="Quick Start Guide — TunnelMesh Docs">
+  <meta property="og:description" content="This guide walks you through setting up a TunnelMesh network from scratch. You&amp;#39;ll create:">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/getting-started/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="getting-started-with-tunnelmesh">Getting Started with TunnelMesh</h1>
+<p>This guide walks you through setting up a TunnelMesh network from scratch. You&#39;ll create:</p>
+<ol>
+<li><strong>A coordinator peer</strong> - Admin peer that manages peer discovery and IP allocation</li>
+<li><strong>Regular peers</strong> - Peers that connect to form the mesh network</li>
+</ol>
+<h2 id="part-1-setting-up-the-coordinator-peer">Part 1: Setting Up the Coordinator Peer</h2>
+<p>The coordinator is an admin peer with coordination services enabled
+(<code>coordinator.enabled: true</code>). It provides discovery and admin services but
+doesn&#39;t route traffic; peers connect directly to each other.</p>
+<h3 id="linux-amd64">Linux (amd64)</h3>
+<pre><code class="language-bash"># Download the latest release
+wget https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-linux-amd64 -O tunnelmesh
+
+# Make executable and move to PATH
+chmod +x tunnelmesh
+sudo mv tunnelmesh /usr/local/bin/
+
+# Verify installation
+tunnelmesh version
+</code></pre>
+<h3 id="linux-arm64">Linux (arm64)</h3>
+<pre><code class="language-bash">wget https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-linux-arm64 -O tunnelmesh
+chmod +x tunnelmesh
+sudo mv tunnelmesh /usr/local/bin/
+</code></pre>
+<h3 id="macos-apple-silicon">macOS (Apple Silicon)</h3>
+<pre><code class="language-bash">curl -L https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-darwin-arm64 -o tunnelmesh
+chmod +x tunnelmesh
+sudo mv tunnelmesh /usr/local/bin/
+</code></pre>
+<h3 id="macos-intel">macOS (Intel)</h3>
+<pre><code class="language-bash">curl -L https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-darwin-amd64 -o tunnelmesh
+chmod +x tunnelmesh
+sudo mv tunnelmesh /usr/local/bin/
+</code></pre>
+<h3 id="windows-powershell-as-administrator">Windows (PowerShell as Administrator)</h3>
+<pre><code class="language-powershell"># Create installation directory
+New-Item -ItemType Directory -Force -Path &quot;C:\Program Files\TunnelMesh&quot;
+
+# Download the binary
+Invoke-WebRequest -Uri &quot;https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-windows-amd64.exe&quot; -OutFile &quot;C:\Program Files\TunnelMesh\tunnelmesh.exe&quot;
+
+# Add to PATH (requires restart of terminal)
+[Environment]::SetEnvironmentVariable(&quot;Path&quot;, $env:Path + &quot;;C:\Program Files\TunnelMesh&quot;, &quot;Machine&quot;)
+
+# Verify installation (in new terminal)
+tunnelmesh version
+</code></pre>
+<hr>
+<h3 id="create-the-coordinator-configuration">Create the Coordinator Configuration</h3>
+<h4 id="coordinator-config-linuxmacos">Coordinator Config - Linux/macOS</h4>
+<pre><code class="language-bash"># Create config directory
+sudo mkdir -p /etc/tunnelmesh
+
+# Generate coordinator configuration
+tunnelmesh init --peer --output /etc/tunnelmesh/coordinator.yaml
+
+# Edit: set a secure auth_token and enable coordinator.enabled: true
+sudo nano /etc/tunnelmesh/coordinator.yaml
+</code></pre>
+<h3 id="configure-admin-peers">Configure Admin Peers</h3>
+<div class="callout important">
+  <div class="callout-title"><span>Important</span></div>
+  <div class="callout-body"><p><strong>Admin access is not automatic</strong>: You must explicitly configure which peers have admin access
+via the <code>admin_peers</code> field in the coordinator config.</p></div>
+</div>
+<p>Edit the coordinator config to specify which peers should have admin access:</p>
+<pre><code class="language-bash">sudo nano /etc/tunnelmesh/coordinator.yaml
+</code></pre>
+<p>Add the admin_peers field:</p>
+<pre><code class="language-yaml">coordinator:
+  enabled: true
+  listen: &quot;:8443&quot;
+  admin_peers:
+    - &quot;coordinator&quot;  # Coordinator peer itself
+    - &quot;alice&quot;        # Add other admin peer names
+</code></pre>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Security Best Practice</strong>: Use Peer IDs (not names) for better security. Peer IDs are immutable
+and tied to SSH keys, while peer names can be changed by users.</p></div>
+</div>
+<p><strong>Steps to use peer IDs</strong>:</p>
+<ol>
+<li>Start the coordinator once to generate peer keys</li>
+<li>View the peer ID: <code>tunnelmesh status</code></li>
+<li>Update config with peer IDs instead of names:</li>
+</ol>
+<pre><code class="language-yaml">coordinator:
+  admin_peers:
+    - &quot;a1b2c3d4e5f6g7h8&quot;  # SHA256 of SSH key (first 8 bytes = 16 hex chars)
+</code></pre>
+<p>Peer IDs are immutable and derived from SSH keys, making them more secure than peer names.</p>
+<h4 id="coordinator-config-windows">Coordinator Config - Windows</h4>
+<pre><code class="language-powershell"># Create config directory
+New-Item -ItemType Directory -Force -Path &quot;C:\ProgramData\TunnelMesh&quot;
+
+# Generate coordinator configuration
+tunnelmesh init --peer --output &quot;C:\ProgramData\TunnelMesh\coordinator.yaml&quot;
+
+# Edit: set a secure auth_token and enable coordinator.enabled: true
+notepad &quot;C:\ProgramData\TunnelMesh\coordinator.yaml&quot;
+</code></pre>
+<hr>
+<h3 id="create-a-context-and-install-the-coordinator-service">Create a Context and Install the Coordinator Service</h3>
+<p>TunnelMesh uses <strong>contexts</strong> to manage multiple mesh configurations. Each context tracks a config file, allocated IP,
+and service status.</p>
+<h4 id="install-coordinator-service-linuxmacos">Install Coordinator Service - Linux/macOS</h4>
+<pre><code class="language-bash"># Create a context for the coordinator
+tunnelmesh context create coordinator --config /etc/tunnelmesh/coordinator.yaml
+
+# Install and start as a system service
+sudo tunnelmesh service install
+sudo tunnelmesh service start
+
+# Check status
+tunnelmesh service status
+
+# View logs
+tunnelmesh service logs --follow
+</code></pre>
+<h4 id="install-coordinator-service-windows">Install Coordinator Service - Windows</h4>
+<pre><code class="language-powershell"># Create a context for the coordinator
+tunnelmesh context create coordinator --config &quot;C:\ProgramData\TunnelMesh\coordinator.yaml&quot;
+
+# Install as a Windows service
+tunnelmesh service install
+
+# Start the service
+tunnelmesh service start
+
+# Check status
+tunnelmesh service status
+</code></pre>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>The service name is derived from the context name. The &quot;coordinator&quot; context creates a service named
+&quot;tunnelmesh-coordinator&quot;.</p></div>
+</div>
+<hr>
+<h3 id="verify-the-coordinator">Verify the Coordinator</h3>
+<p>The coordinator is now running and will self-register as a peer. The admin
+dashboard is accessible via HTTPS from within the mesh at <code>https://this.tm/</code>
+once you join other peers. Verify it&#39;s running by checking the service status
+and logs.</p>
+<hr>
+<h2 id="part-2-setting-up-peers">Part 2: Setting Up Peers</h2>
+<p>Peers are the peers that form the mesh network. Each peer:</p>
+<ul>
+<li>Registers with the coordination server</li>
+<li>Gets assigned a mesh IP address</li>
+<li>Establishes direct SSH tunnels with other peers</li>
+</ul>
+<h3 id="install-tunnelmesh-on-each-peer">Install TunnelMesh on Each Peer</h3>
+<p>Follow the same download steps as the server (see Part 1) for your platform.</p>
+<hr>
+<h3 id="generate-ssh-keys">Generate SSH Keys</h3>
+<p>Each peer needs an SSH keypair for secure connections:</p>
+<pre><code class="language-bash">tunnelmesh init
+</code></pre>
+<p>This creates:</p>
+<ul>
+<li><code>~/.tunnelmesh/id_ed25519</code> (private key)</li>
+<li><code>~/.tunnelmesh/id_ed25519.pub</code> (public key)</li>
+</ul>
+<hr>
+<h3 id="create-the-peer-configuration">Create the Peer Configuration</h3>
+<h4 id="peer-config-linuxmacos">Peer Config - Linux/macOS</h4>
+<pre><code class="language-bash"># Create config directory
+sudo mkdir -p /etc/tunnelmesh
+
+# Generate peer configuration
+tunnelmesh init --peer --output /etc/tunnelmesh/peer.yaml
+
+# Edit config if needed (most settings are optional)
+# Server URL and auth token are passed via CLI, not config
+sudo nano /etc/tunnelmesh/peer.yaml
+
+#### Peer Config - Windows
+
+```powershell
+# Create config directory
+New-Item -ItemType Directory -Force -Path &quot;C:\ProgramData\TunnelMesh&quot;
+
+# Generate peer configuration
+tunnelmesh init --peer --output &quot;C:\ProgramData\TunnelMesh\peer.yaml&quot;
+
+# Edit config if needed (most settings are optional)
+# Server URL and auth token are passed via CLI, not config
+notepad &quot;C:\ProgramData\TunnelMesh\peer.yaml&quot;
+</code></pre>
+<hr>
+<h3 id="create-a-context-and-install-the-peer-service">Create a Context and Install the Peer Service</h3>
+<p>Each peer should have its own context. This allows you to manage multiple mesh memberships and switch between them easily.</p>
+<h4 id="install-peer-service-linuxmacos">Install Peer Service - Linux/macOS</h4>
+<pre><code class="language-bash"># Join the mesh and create a context (this also prompts to install CA cert if missing)
+sudo tunnelmesh join --config /etc/tunnelmesh/peer.yaml --context home
+
+# The context is now active. Install as a system service:
+sudo tunnelmesh service install
+sudo tunnelmesh service start
+
+# Check status
+tunnelmesh service status
+
+# View logs
+tunnelmesh service logs --follow
+</code></pre>
+<h4 id="install-peer-service-windows">Install Peer Service - Windows</h4>
+<pre><code class="language-powershell"># Join the mesh and create a context
+tunnelmesh join --config &quot;C:\ProgramData\TunnelMesh\peer.yaml&quot; --context home
+
+# Install as a Windows service
+tunnelmesh service install
+
+# Start the service
+tunnelmesh service start
+
+# Check status
+tunnelmesh service status
+</code></pre>
+<p><strong>Tip:</strong> When joining, if the mesh CA certificate isn&#39;t installed, TunnelMesh will prompt you
+to install it for HTTPS access to mesh services.</p>
+<hr>
+<h3 id="verify-peer-connectivity">Verify Peer Connectivity</h3>
+<pre><code class="language-bash"># Check peer status
+tunnelmesh status
+
+# List connected peers
+tunnelmesh peers
+
+# Once other peers are connected, ping them by name
+ping otherpeer.tunnelmesh
+</code></pre>
+<p>Check the admin dashboard on the server; your peer should now appear in the list.</p>
+<hr>
+<h2 id="firewall-configuration">Firewall Configuration</h2>
+<h3 id="coordination-server">Coordination Server</h3>
+<p>Open port <strong>8080</strong> (or your configured port) for:</p>
+<ul>
+<li>Peer registration (HTTP)</li>
+<li>Admin dashboard access</li>
+</ul>
+<h3 id="peers">Peers</h3>
+<p>Open port <strong>2222</strong> (or your configured <code>ssh_port</code>) for:</p>
+<ul>
+<li>Incoming SSH tunnel connections from other peers</li>
+</ul>
+<p>If a peer is behind NAT and cannot receive incoming connections, TunnelMesh will
+automatically use reverse connections through peers that are reachable.</p>
+<hr>
+<h2 id="managing-multiple-contexts">Managing Multiple Contexts</h2>
+<p>You can be a member of multiple meshes simultaneously. Each mesh runs as a separate service with its own TUN interface.</p>
+<h3 id="list-all-contexts">List all contexts</h3>
+<pre><code class="language-bash">tunnelmesh context list
+</code></pre>
+<p>Example output:</p>
+<pre><code class="language-text">NAME      SERVER                      STATUS     ACTIVE
+home      http://home-server:8080     running    *
+work      https://work.mesh.io        stopped
+dev       http://192.168.1.10:8080    -
+</code></pre>
+<h3 id="switch-active-context">Switch active context</h3>
+<p>When you switch contexts, system DNS resolution switches to that mesh:</p>
+<pre><code class="language-bash">tunnelmesh context use work
+</code></pre>
+<p>This changes which mesh&#39;s DNS resolver handles <code>.tunnelmesh</code> domains. The previous mesh&#39;s
+tunnels remain active; only the &quot;focus&quot; changes.</p>
+<h3 id="startstop-individual-contexts">Start/stop individual contexts</h3>
+<pre><code class="language-bash"># Control specific context&#39;s service
+tunnelmesh service start --context work
+tunnelmesh service stop --context home
+
+# Status of specific context
+tunnelmesh service status --context work
+</code></pre>
+<h3 id="delete-a-context">Delete a context</h3>
+<pre><code class="language-bash"># This prompts to stop/uninstall the service and optionally remove the config
+tunnelmesh context delete dev
+</code></pre>
+<hr>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="service-wont-start">Service won&#39;t start</h3>
+<pre><code class="language-bash"># Check logs for errors
+tunnelmesh service logs --lines 100
+
+# Verify config file syntax
+cat /etc/tunnelmesh/peer.yaml
+</code></pre>
+<h3 id="peer-not-appearing-on-server">Peer not appearing on server</h3>
+<ol>
+<li>Verify the <code>server</code> URL is correct and reachable</li>
+<li>Confirm <code>auth_token</code> matches the server configuration</li>
+<li>Check firewall allows outbound connections to port 8080</li>
+</ol>
+<h3 id="peers-cant-connect-to-each-other">Peers can&#39;t connect to each other</h3>
+<ol>
+<li>Ensure <code>ssh_port</code> is open on at least one peer</li>
+<li>Check that SSH keys were generated (<code>tunnelmesh init</code>)</li>
+<li>Verify peers are registered (check admin dashboard)</li>
+</ol>
+<h3 id="dns-resolution-not-working">DNS resolution not working</h3>
+<ol>
+<li>DNS is always enabled - check if it&#39;s listening: <code>netstat -ln | grep 5353</code></li>
+<li>Verify DNS listen address in config (default: <code>127.0.0.53:5353</code>)</li>
+<li>Configure system to use the local resolver (see main README)</li>
+</ol>
+<hr>
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><strong>Add more peers</strong>: Repeat Part 2 on additional machines</li>
+<li><strong>Enable server as peer</strong>: Add <code>join_mesh</code> section to server config (see main README)</li>
+<li><strong>Secure the server</strong>: Put behind a reverse proxy with TLS</li>
+<li><strong>Set up exit peers</strong>: Route internet traffic through specific peers (see below)</li>
+</ul>
+<p>For full configuration options, see the <a href="../README.md">main README</a>.</p>
+<hr>
+<h2 id="part-3-exit-peer-setup-optional">Part 3: Exit Peer Setup (Optional)</h2>
+<p>Exit peers allow you to route internet traffic through a specific peer while keeping mesh
+traffic direct. This is useful for geo-unblocking or routing through a trusted exit point.</p>
+<h3 id="configure-the-exit-peer">Configure the Exit Peer</h3>
+<p>On the peer that will serve as the exit peer:</p>
+<pre><code class="language-bash"># Edit the peer config
+sudo nano /etc/tunnelmesh/peer.yaml
+</code></pre>
+<p>Add:</p>
+<pre><code class="language-yaml">allow_exit_traffic: true
+</code></pre>
+<p>Restart the service:</p>
+<pre><code class="language-bash">tunnelmesh service restart
+</code></pre>
+<p>TunnelMesh automatically configures IP forwarding and NAT when <code>allow_exit_traffic</code> is enabled.</p>
+<h3 id="configure-the-client">Configure the Client</h3>
+<p>On peers that should route through the exit peer:</p>
+<pre><code class="language-bash">sudo nano /etc/tunnelmesh/peer.yaml
+</code></pre>
+<p>Add:</p>
+<pre><code class="language-yaml">exit_peer: &quot;exit-peer-name&quot;  # Name of your exit peer
+</code></pre>
+<p>Restart:</p>
+<pre><code class="language-bash">sudo tunnelmesh service restart
+</code></pre>
+<p>Internet traffic will now route through the exit peer, while mesh traffic stays direct.</p>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"GETTING_STARTED"};</script>
+</body>
+</html>

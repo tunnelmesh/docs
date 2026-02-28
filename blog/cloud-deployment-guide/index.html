@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deploying TunnelMesh on DigitalOcean with Terraform — TunnelMesh Blog</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="A field guide to the six Terraform deployment scenarios — from a $4/month single-node setup to a multi-region mesh with monitoring, exit peers, and HA coordinators.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/blog/cloud-deployment-guide/">
+  <meta property="og:title" content="Deploying TunnelMesh on DigitalOcean with Terraform — TunnelMesh Blog">
+  <meta property="og:description" content="A field guide to the six Terraform deployment scenarios — from a $4/month single-node setup to a multi-region mesh with monitoring, exit peers, and HA coordinators.">
+  <meta property="og:url" content="https://read.tunnelmesh.io/blog/cloud-deployment-guide/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite">
+          <div class="doc-loading">
+            <div class="loading-spinner"></div>
+            <span>Loading…</span>
+          </div>
+        </article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite"><div class="blog-article-wrap">
+  <a class="blog-back" href="/blog/">&#8592; All articles</a>
+  <div class="blog-article-meta">
+    <span class="meta-date">February 16, 2026</span>
+    <span>· TunnelMesh Team</span>
+  </div>
+  <div class="blog-article-content" id="blog-article-inner"><h1 id="deploying-tunnelmesh-on-digitalocean-with-terraform">Deploying TunnelMesh on DigitalOcean with Terraform</h1>
+<p>TunnelMesh ships Terraform modules for DigitalOcean. You pick a deployment scenario, fill in a <code>tfvars</code> file, and <code>terraform apply</code> handles the rest: droplet provisioning, firewall rules, DNS, and TunnelMesh configuration.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Terraform ≥ 1.0</li>
+<li>A DigitalOcean account and API token</li>
+<li>A domain (for the coordinator DNS record)</li>
+<li>An SSH key added to your DigitalOcean account</li>
+</ul>
+<pre><code class="language-bash">export DIGITALOCEAN_TOKEN=your-api-token
+export TF_VAR_ssh_key_name=your-key-name
+export TF_VAR_domain=yourdomain.com
+</code></pre>
+<h2 id="quick-start">Quick Start</h2>
+<pre><code class="language-bash">git clone https://github.com/tunnelmesh/tunnelmesh
+cd tunnelmesh/terraform
+
+cp scenarios/all-in-one/terraform.tfvars.example terraform.tfvars
+# Edit terraform.tfvars — set your domain, region, and token
+
+terraform init
+terraform apply
+</code></pre>
+<p>Terraform outputs the coordinator URL, your mesh token, and admin credentials. Run <code>tunnelmesh join</code> from any other machine to add it.</p>
+<h2 id="the-six-scenarios">The Six Scenarios</h2>
+<p><strong>1. All-in-One (Starter)</strong>
+Coordinator + one peer + monitoring on a single <code>s-1vcpu-1gb</code> droplet (~$4/month). Good for trying things out or small personal meshes. Not for production; it is a single point of failure.</p>
+<p><strong>2. Exit Peer (Split-Tunnel VPN)</strong>
+Coordinator plus an exit peer in a specific region. Traffic from your devices routes through that exit peer. Use this for a stable outbound IP, or to protect traffic on untrusted WiFi.</p>
+<p><img src="/articles/images/exit-peer-flow.svg" alt="Exit peer flow: your laptop sends encrypted traffic to exit peer, which forwards to Internet"></p>
+<p><strong>3. Multi-Region Mesh</strong>
+Coordinator in one region, peers in several others. Mesh DNS handles routing between them. Useful when you have services in multiple regions and want them to communicate privately without crossing the public internet.</p>
+<p><strong>4. Home Lab Gateway</strong>
+The coordinator is internet-facing. Your home lab runs a peer connecting outbound to it. Services on your home network become accessible by mesh IP from anywhere, with no port-forwarding on your home router required.</p>
+<p><strong>5. Development Team Secure Mesh</strong>
+Each developer&#39;s laptop joins a shared mesh. Direct P2P connections between developers, shared S3 buckets for build artifacts, NFS for shared assets, packet filter rules that prevent anyone from accidentally reaching production.</p>
+<p><strong>6. Gaming Group Low-Latency Mesh</strong>
+Coordinator in a region geographically central to the group. Direct peer connections only; WebSocket relay is disabled to avoid latency overhead. UDP tunnels with minimal overhead for game traffic.</p>
+<h2 id="monitoring-stack">Monitoring Stack</h2>
+<p>All scenarios except the starter include Prometheus + Grafana + Loki:</p>
+<pre><code class="language-hcl">enable_monitoring = true
+</code></pre>
+<p>Pre-configured dashboards cover peer connection status, throughput and latency per peer pair, packet filter allow/deny rates, and coordinator health. The monitoring stack runs on a separate droplet; include it in the cost estimate.</p>
+<h2 id="cost-reference">Cost Reference</h2>
+<p>Rough monthly estimates (DigitalOcean pricing, subject to change):</p>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>~Cost/month</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>All-in-one (<code>s-1vcpu-1gb</code>)</td>
+<td>$4</td>
+</tr>
+<tr>
+<td>Coordinator + 2 peers</td>
+<td>$12</td>
+</tr>
+<tr>
+<td>Multi-region, 5 nodes</td>
+<td>$20</td>
+</tr>
+<tr>
+<td>+ Monitoring (<code>s-2vcpu-4gb</code>)</td>
+<td>+$24</td>
+</tr>
+</tbody></table>
+<p>Bandwidth costs extra. If your coordinator is handling a lot of WebSocket relay traffic, factor in DigitalOcean&#39;s bandwidth pricing.</p>
+<h2 id="managing-your-deployment">Managing Your Deployment</h2>
+<pre><code class="language-bash"># See what&#39;s running
+terraform output
+
+# View coordinator logs
+ssh coordinator &quot;journalctl -u tunnelmesh -f&quot;
+
+# Update to a new version
+# Edit the image tag in variables.tf, then:
+terraform apply
+</code></pre>
+<p>See the <a href="/docs/CLOUD_DEPLOYMENT">Cloud Deployment docs</a> for the full variable reference, HA coordinator setup, and teardown instructions.</p>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</div>
+</div></main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"blog-article","slug":"cloud-deployment-guide"};</script>
+</body>
+</html>

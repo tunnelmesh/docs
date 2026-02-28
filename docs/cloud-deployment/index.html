@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloud Deployment — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="Deploy TunnelMesh infrastructure to DigitalOcean using Terraform. This guide covers various deployment scenarios from simple single-node setups to multi-region ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/cloud-deployment/">
+  <meta property="og:title" content="Cloud Deployment — TunnelMesh Docs">
+  <meta property="og:description" content="Deploy TunnelMesh infrastructure to DigitalOcean using Terraform. This guide covers various deployment scenarios from simple single-node setups to multi-region ">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/cloud-deployment/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="cloud-deployment-with-terraform">Cloud Deployment with Terraform</h1>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>Deploy TunnelMesh infrastructure to DigitalOcean using Terraform. This guide covers various deployment
+scenarios from simple single-node setups to multi-region mesh networks.</p></div>
+</div>
+<h2 id="prerequisites">Prerequisites</h2>
+<div class="callout important">
+  <div class="callout-title"><span>Important</span></div>
+  <div class="callout-body"><p><strong>Before you begin</strong>: Ensure you have Terraform installed, a DigitalOcean account with API token, a
+domain managed in DigitalOcean DNS, and an SSH key uploaded to DigitalOcean. Missing any of these
+will cause deployment to fail.</p></div>
+</div>
+<ul>
+<li><a href="https://developer.hashicorp.com/terraform/install">Terraform</a> installed</li>
+<li>DigitalOcean account with API token</li>
+<li>Domain managed in DigitalOcean DNS</li>
+<li>SSH key uploaded to DigitalOcean</li>
+</ul>
+<h2 id="quick-start">Quick Start</h2>
+<pre><code class="language-bash">cd terraform
+cp terraform.tfvars.example terraform.tfvars
+
+# Set your DO token
+export TF_VAR_do_token=&quot;dop_v1_xxx&quot;
+
+# Generate auth token
+openssl rand -hex 32  # For auth_token
+
+# Edit terraform.tfvars with your domain and tokens
+
+# Deploy
+terraform init
+terraform apply
+</code></pre>
+<hr>
+<h2 id="deployment-scenarios">Deployment Scenarios</h2>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Choose your scenario</strong>: Start simple (Scenario 1: All-in-One) and scale up as needed. Each scenario
+includes use cases and complete configuration. You can always add more nodes later.</p></div>
+</div>
+<p>TunnelMesh is flexible. Whether you need a simple personal VPN, a global team mesh, or a sophisticated multi-region
+network with exit peers, there&#39;s a configuration for you.</p>
+<h3 id="scenario-1-all-in-one-starter">Scenario 1: All-in-One (Starter)</h3>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Recommended for beginners</strong>: This is the simplest and cheapest deployment. Start here and scale up
+only when you need regional presence or dedicated services.</p></div>
+</div>
+<p><strong>The simplest deployment.</strong> A single droplet runs everything: coordinator, mesh peer, and exit peer.
+Perfect for personal use, small teams, or testing.</p>
+<img src="/docs/images/cloud-all-in-one.svg" alt="All-in-one deployment: single cloud server running coordinator, peer, and exit peer, connected to three client devices">
+
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Personal VPN for travel</li>
+<li>Small team (2-5 people) secure communication</li>
+<li>Home lab remote access</li>
+<li>Learning and experimentation</li>
+</ul>
+<p><strong>Configuration:</strong></p>
+<pre><code class="language-text">nodes = {
+  &quot;tunnelmesh&quot; = {
+    coordinator        = true
+    peer               = true
+    allow_exit_traffic = true
+  }
+}
+</code></pre>
+<hr>
+<h3 id="scenario-2-exit-peer-split-tunnel-vpn">Scenario 2: Exit Peer (Split-Tunnel VPN)</h3>
+<p><strong>Route internet traffic through a specific location.</strong> Your traffic exits from a peer in another region while
+mesh-to-mesh communication stays direct. Great for privacy, accessing geo-restricted content, or compliance
+requirements.</p>
+<img src="/docs/images/cloud-exit-peer.svg" alt="Exit peer topology: laptop in London connects via encrypted mesh tunnel to exit peer in Singapore, which routes traffic to the internet with a Singapore IP; other peer in Amsterdam connects directly">
+
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Access geo-restricted streaming services</li>
+<li>Privacy: your ISP sees encrypted tunnel traffic, not destinations</li>
+<li>Compliance: ensure traffic exits from a specific jurisdiction</li>
+<li>Bypass censorship in restrictive networks</li>
+</ul>
+<p><strong>Configuration:</strong></p>
+<pre><code class="language-hcl">nodes = {
+  &quot;tunnelmesh&quot; = {
+    coordinator = true
+    peer        = true
+    region      = &quot;ams3&quot;
+  }
+  &quot;tm-exit-sgp&quot; = {
+    peer               = true
+    region             = &quot;sgp1&quot;
+    allow_exit_traffic = true  # Accept traffic from other peers
+    location = {
+      latitude  = 1.3521
+      longitude = 103.8198
+      city      = &quot;Singapore&quot;
+      country   = &quot;Singapore&quot;
+    }
+  }
+}
+</code></pre>
+<p>On your local machine:</p>
+<pre><code class="language-bash">sudo tunnelmesh join --config peer.yaml --exit-node tm-exit-sgp --context work
+</code></pre>
+<hr>
+<h3 id="scenario-3-multi-region-mesh">Scenario 3: Multi-Region Mesh</h3>
+<p><strong>Global presence.</strong> Mesh peers in multiple regions provide low-latency access for a distributed team. Users
+connect to their nearest peer and gain access to the entire mesh.</p>
+<img src="/docs/images/cloud-multi-region.svg" alt="Multi-region mesh: coordinator in Amsterdam with three mesh peers in New York, Frankfurt, and Singapore, directly interconnected with mesh tunnels">
+
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Distributed development teams</li>
+<li>Global gaming groups wanting low-latency connections</li>
+<li>International organizations with regional offices</li>
+<li>Content creators collaborating across time zones</li>
+</ul>
+<p><strong>Configuration:</strong></p>
+<pre><code class="language-hcl">nodes = {
+  &quot;tunnelmesh&quot; = {
+    coordinator = true
+    peer        = true
+    region      = &quot;ams3&quot;
+  }
+  &quot;tm-us&quot; = {
+    peer   = true
+    region = &quot;nyc3&quot;
+  }
+  &quot;tm-asia&quot; = {
+    peer   = true
+    region = &quot;sgp1&quot;
+  }
+}
+</code></pre>
+<hr>
+<h3 id="scenario-4-home-lab-gateway">Scenario 4: Home Lab Gateway</h3>
+<p><strong>Access your home network from anywhere.</strong> Run a cloud coordinator and connect your home server as a peer. Devices
+connect via the native client and can reach everything on your home LAN.</p>
+<img src="/docs/images/cloud-home-lab.svg" alt="Home lab gateway: cloud coordinator connects via encrypted tunnel to home server, which provides access to the home LAN; two laptops connect from outside">
+
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Access home NAS and media server while traveling</li>
+<li>Check security cameras remotely</li>
+<li>SSH into home machines</li>
+<li>Run home automation from anywhere</li>
+</ul>
+<p><strong>Configuration:</strong></p>
+<pre><code class="language-hcl"># Cloud
+nodes = {
+  &quot;tunnelmesh&quot; = {
+    coordinator = true
+    peer        = true
+  }
+}
+</code></pre>
+<pre><code class="language-yaml"># Home server peer config
+name: &quot;homelab&quot;
+
+# DNS is always enabled
+dns:
+  aliases:
+    - &quot;nas&quot;
+    - &quot;plex&quot;
+    - &quot;homeassistant&quot;
+</code></pre>
+<p>On the home server:</p>
+<pre><code class="language-bash">sudo tunnelmesh join tunnelmesh.example.com --token your-mesh-token --config peer.yaml --context homelab
+sudo tunnelmesh service install
+sudo tunnelmesh service start
+</code></pre>
+<hr>
+<h3 id="scenario-5-development-team-secure-mesh">Scenario 5: Development Team Secure Mesh</h3>
+<p><strong>Connect developer machines directly.</strong> No VPN concentrator bottleneck. Developers can SSH into each other&#39;s machines,
+share local development servers, and collaborate as if on the same LAN.</p>
+<img src="/docs/images/cloud-dev-team.svg" alt="Developer team mesh: minimal coordinator with five developer peers (alice, bob, charlie, david, eve), with direct tunnels between alice-bob and david-eve">
+
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Pair programming with remote colleagues</li>
+<li>Share local development servers without ngrok</li>
+<li>Access team members&#39; databases for debugging</li>
+<li>Collaborative CTF/security research</li>
+</ul>
+<p><strong>Configuration:</strong></p>
+<pre><code class="language-hcl"># Just the coordinator in the cloud
+nodes = {
+  &quot;tunnelmesh&quot; = {
+    coordinator = true
+  }
+}
+</code></pre>
+<p>Each developer runs:</p>
+<pre><code class="language-bash">sudo tunnelmesh join tunnelmesh.example.com --token team-token --context team
+</code></pre>
+<hr>
+<h3 id="scenario-6-gaming-group-low-latency-mesh">Scenario 6: Gaming Group Low-Latency Mesh</h3>
+<p><strong>Direct connections for multiplayer gaming.</strong> Skip the public internet. Peers connect directly via UDP for minimal
+latency. Host game servers on any peer&#39;s machine.</p>
+<img src="/docs/images/cloud-gaming.svg" alt="Gaming group mesh: coordinator handles discovery only; three player peers in California, Texas, and Florida connect via direct UDP tunnels for low-latency game traffic">
+
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Minecraft servers with friends</li>
+<li>LAN party games over the internet</li>
+<li>Competitive gaming with minimal latency</li>
+<li>Game streaming between peers</li>
+</ul>
+<p><strong>Configuration:</strong></p>
+<pre><code class="language-hcl">nodes = {
+  &quot;tunnelmesh&quot; = {
+    coordinator = true  # Just coordination, no game traffic
+  }
+}
+</code></pre>
+<p>Players join from their gaming PCs:</p>
+<pre><code class="language-bash"># Automatic UDP hole-punching for lowest latency
+sudo tunnelmesh join tunnelmesh.example.com \
+  --token game-token \
+  --name player1 \
+  --context gaming
+</code></pre>
+<hr>
+<h2 id="node-configuration-reference">Node Configuration Reference</h2>
+<p>Each peer in the <code>nodes</code> map supports these options:</p>
+<h3 id="core-options">Core Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>coordinator</code></td>
+<td>bool</td>
+<td>Enable coordinator services on this peer (coordinators discover each other via P2P)</td>
+</tr>
+<tr>
+<td><code>peer</code></td>
+<td>bool</td>
+<td>Join mesh as a peer</td>
+</tr>
+</tbody></table>
+<h3 id="exit-peer-options">Exit Peer Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>allow_exit_traffic</code></td>
+<td>bool</td>
+<td>Allow other peers to route internet through this peer</td>
+</tr>
+<tr>
+<td><code>exit_peer</code></td>
+<td>string</td>
+<td>Route this node&#39;s internet through specified peer</td>
+</tr>
+</tbody></table>
+<h3 id="infrastructure-options">Infrastructure Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>region</code></td>
+<td>string</td>
+<td><code>ams3</code></td>
+<td>DigitalOcean region</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>string</td>
+<td><code>s-1vcpu-512mb-10gb</code></td>
+<td>Droplet size</td>
+</tr>
+<tr>
+<td><code>ssh_port</code></td>
+<td>number</td>
+<td><code>2222</code></td>
+<td>SSH tunnel port</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>list</td>
+<td><code>[]</code></td>
+<td>Additional droplet tags</td>
+</tr>
+</tbody></table>
+<h3 id="location-options">Location Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>location.latitude</code></td>
+<td>number</td>
+<td>Manual GPS latitude</td>
+</tr>
+<tr>
+<td><code>location.longitude</code></td>
+<td>number</td>
+<td>Manual GPS longitude</td>
+</tr>
+<tr>
+<td><code>location.city</code></td>
+<td>string</td>
+<td>City name for display</td>
+</tr>
+<tr>
+<td><code>location.country</code></td>
+<td>string</td>
+<td>Country name/code</td>
+</tr>
+</tbody></table>
+<h3 id="dns-options">DNS Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>dns_aliases</code></td>
+<td>list</td>
+<td>Additional DNS names for this peer</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="global-configuration-reference">Global Configuration Reference</h2>
+<h3 id="required-variables">Required Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>domain</code></td>
+<td>Your domain (must be in DigitalOcean DNS)</td>
+</tr>
+<tr>
+<td><code>auth_token</code></td>
+<td>Mesh authentication token (<code>openssl rand -hex 32</code>)</td>
+</tr>
+</tbody></table>
+<p>Set your DigitalOcean API token via environment:</p>
+<pre><code class="language-bash">export TF_VAR_do_token=&quot;dop_v1_xxx&quot;
+</code></pre>
+<h3 id="default-settings">Default Settings</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>default_region</code></td>
+<td><code>ams3</code></td>
+<td>Default droplet region</td>
+</tr>
+<tr>
+<td><code>default_droplet_size</code></td>
+<td><code>s-1vcpu-512mb-10gb</code></td>
+<td>Default droplet size</td>
+</tr>
+<tr>
+<td><code>default_ssh_port</code></td>
+<td><code>2222</code></td>
+<td>Default SSH tunnel port</td>
+</tr>
+<tr>
+<td><code>external_api_port</code></td>
+<td><code>8443</code></td>
+<td>HTTPS port for peer connections</td>
+</tr>
+</tbody></table>
+<h3 id="feature-flags">Feature Flags</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>locations_enabled</code></td>
+<td><code>false</code></td>
+<td>Geographic peer visualisation (uses ip-api.com)</td>
+</tr>
+<tr>
+<td><code>monitoring_enabled</code></td>
+<td><code>false</code></td>
+<td>Prometheus/Grafana/Loki stack</td>
+</tr>
+<tr>
+<td><code>auto_update_enabled</code></td>
+<td><code>true</code></td>
+<td>Automatic binary updates</td>
+</tr>
+<tr>
+<td><code>auto_update_schedule</code></td>
+<td><code>hourly</code></td>
+<td>Update check frequency</td>
+</tr>
+</tbody></table>
+<h3 id="monitoring-settings">Monitoring Settings</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>prometheus_retention_days</code></td>
+<td><code>3</code></td>
+<td>Metrics retention</td>
+</tr>
+<tr>
+<td><code>loki_retention_days</code></td>
+<td><code>3</code></td>
+<td>Log retention</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="monitoring-stack">Monitoring Stack</h2>
+<p>Enable observability with <code>monitoring_enabled = true</code>:</p>
+<pre><code class="language-hcl">monitoring_enabled        = true
+prometheus_retention_days = 7
+loki_retention_days       = 7
+</code></pre>
+<h3 id="included-services">Included Services</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Purpose</th>
+<th>Access</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Prometheus</td>
+<td>Metrics collection</td>
+<td><code>/prometheus/</code></td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td>Dashboards</td>
+<td><code>/grafana/</code> (admin/admin)</td>
+</tr>
+<tr>
+<td>Loki</td>
+<td>Log aggregation</td>
+<td>Internal</td>
+</tr>
+<tr>
+<td>SD Generator</td>
+<td>Auto-discovers peers</td>
+<td>Internal</td>
+</tr>
+</tbody></table>
+<h3 id="pre-configured-alerts">Pre-configured Alerts</h3>
+<ul>
+<li>Peer disconnections</li>
+<li>Packet drops and error rates</li>
+<li>Resource utilization</li>
+</ul>
+<p>Access Grafana from within the mesh:</p>
+<pre><code class="language-text">https://tunnelmesh.example.com/grafana/
+</code></pre>
+<hr>
+<h2 id="node-location-tracking">Node Location Tracking</h2>
+<p>The <code>locations_enabled</code> flag enables a world map visualisation showing where your mesh peers are located.</p>
+<p><strong>Disabled by default</strong> because it:</p>
+<ol>
+<li>Uses external API (ip-api.com) for geolocation</li>
+<li>Sends peer public IPs to external service</li>
+<li>Requires coordinator internet access</li>
+</ol>
+<h3 id="manual-coordinates">Manual Coordinates</h3>
+<p>Override IP geolocation with precise coordinates:</p>
+<pre><code class="language-hcl">nodes = {
+  &quot;datacenter-1&quot; = {
+    peer = true
+    location = {
+      latitude  = 52.3676
+      longitude = 4.9041
+      city      = &quot;Amsterdam&quot;
+      country   = &quot;NL&quot;
+    }
+  }
+}
+</code></pre>
+<hr>
+<h2 id="outputs">Outputs</h2>
+<p>After <code>terraform apply</code>:</p>
+<pre><code class="language-bash">terraform output
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Output</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>coord_url</code></td>
+<td>Coordinator URL</td>
+</tr>
+<tr>
+<td><code>admin_url</code></td>
+<td>Admin dashboard URL</td>
+</tr>
+<tr>
+<td><code>peer_config_example</code></td>
+<td>Example peer configuration</td>
+</tr>
+<tr>
+<td><code>node_ips</code></td>
+<td>Map of peer names to IPs</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="managing-the-deployment">Managing the Deployment</h2>
+<h3 id="update-configuration">Update Configuration</h3>
+<pre><code class="language-bash">vim terraform.tfvars
+terraform apply
+</code></pre>
+<h3 id="view-logs">View Logs</h3>
+<pre><code class="language-bash">ssh root@&lt;node-ip&gt; journalctl -u tunnelmesh -f
+</code></pre>
+<h3 id="destroy">Destroy</h3>
+<pre><code class="language-bash">terraform destroy
+</code></pre>
+<hr>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="peers-cant-connect">Peers Can&#39;t Connect</h3>
+<ol>
+<li>Check auth tokens match</li>
+<li>Verify firewall allows ports 8443 (HTTPS), 2222 (SSH)</li>
+<li>Check coordinator logs: <code>journalctl -u tunnelmesh</code></li>
+</ol>
+<h3 id="high-latency">High Latency</h3>
+<ol>
+<li>Check transport type (UDP is fastest): <code>tunnelmesh peers</code></li>
+<li>Verify direct connectivity (not relaying)</li>
+<li>Consider adding regional nodes</li>
+</ol>
+<hr>
+<hr>
+<h2 id="security-best-practices">Security Best Practices</h2>
+<ol>
+<li><strong>Strong tokens</strong>: <code>openssl rand -hex 32</code> for auth token</li>
+<li><strong>Rotate periodically</strong>: Update tokens and redeploy</li>
+<li><strong>Mesh-only admin</strong>: Admin dashboard only accessible from within the mesh network</li>
+<li><strong>Enable monitoring</strong>: Visibility into access patterns</li>
+<li><strong>Auto-updates</strong>: Keep peers patched</li>
+</ol>
+<hr>
+<h2 id="example-complete-terraformtfvars">Example: Complete terraform.tfvars</h2>
+<pre><code class="language-hcl"># Required
+domain      = &quot;example.com&quot;
+auth_token  = &quot;your-64-char-hex-auth-token&quot;
+
+# Peers - Multi-region with exit peer
+nodes = {
+  &quot;tunnelmesh&quot; = {
+    coordinator        = true
+    peer               = true
+    allow_exit_traffic = true
+    region             = &quot;ams3&quot;
+  }
+  &quot;tm-exit-us&quot; = {
+    peer               = true
+    allow_exit_traffic = true
+    region             = &quot;nyc3&quot;
+    location = {
+      latitude  = 40.7128
+      longitude = -74.0060
+      city      = &quot;New York&quot;
+      country   = &quot;US&quot;
+    }
+  }
+  &quot;tm-asia&quot; = {
+    peer   = true
+    region = &quot;sgp1&quot;
+  }
+}
+
+# Settings
+ssh_key_name       = &quot;my-key&quot;
+locations_enabled  = true
+monitoring_enabled = true
+
+# Retention
+prometheus_retention_days = 14
+loki_retention_days       = 7
+</code></pre>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"CLOUD_DEPLOYMENT"};</script>
+</body>
+</html>

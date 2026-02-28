@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Identity &amp; RBAC — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="TunnelMesh provides automatic identity management with Kubernetes-style RBAC for access control.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/user-identity/">
+  <meta property="og:title" content="User Identity &amp; RBAC — TunnelMesh Docs">
+  <meta property="og:description" content="TunnelMesh provides automatic identity management with Kubernetes-style RBAC for access control.">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/user-identity/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="user-identity-and-rbac">User Identity and RBAC</h1>
+<p>TunnelMesh provides automatic identity management with Kubernetes-style RBAC for access control.</p>
+<h2 id="overview">Overview</h2>
+<p>Your user identity is <strong>derived from your peer&#39;s SSH key</strong> - the same key used for mesh networking. This means:</p>
+<ul>
+<li><strong>Automatic Identity</strong>: No separate user setup needed - just <code>join</code> the mesh</li>
+<li><strong>Admin Authorisation</strong>: Admins are configured via coordinator&#39;s admin_peers list (peer ID or name)</li>
+<li><strong>Share Across Devices</strong>: Copy <code>~/.tunnelmesh/id_ed25519</code> to use the same identity on multiple machines</li>
+<li><strong>RBAC Authorisation</strong>: Fine-grained access control for S3 buckets and dashboard panels</li>
+</ul>
+<h2 id="how-identity-works">How Identity Works</h2>
+<p>When you run <code>tunnelmesh join</code>, your identity is automatically created:</p>
+<ol>
+<li><strong>SSH Key Generated</strong>: On first join, an ED25519 keypair is created at <code>~/.tunnelmesh/id_ed25519</code></li>
+<li><strong>User ID Derived</strong>: <code>SHA256(public_key)[:8]</code> as hex (16 characters)</li>
+<li><strong>Auto-Registered</strong>: Added to the &quot;everyone&quot; group with default permissions</li>
+<li><strong>Admin Authorisation</strong>: If your peer is in coordinator&#39;s admin_peers list, you get admin privileges</li>
+</ol>
+<pre><code class="language-bash"># Join the mesh - identity is automatic
+tunnelmesh join coord.example.com --token &lt;token&gt; --context work
+
+# View your identity
+tunnelmesh status
+</code></pre>
+<h3 id="admin-peer-configuration">Admin Peer Configuration</h3>
+<div class="callout important">
+  <div class="callout-title"><span>Important</span></div>
+  <div class="callout-body"><p>Admin privileges are granted via the coordinator&#39;s <code>admin_peers</code> configuration - there is no
+automatic &quot;first user becomes admin&quot; behaviour.</p></div>
+</div>
+<pre><code class="language-yaml"># coordinator.yaml
+coordinator:
+  enabled: true
+  admin_peers:
+    - &quot;a1b2c3d4e5f6g7h8&quot;  # Peer ID (preferred - derived from SSH key, 16 hex chars)
+    - &quot;alice&quot;             # Peer name (fallback - can change)
+</code></pre>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Recommended</strong>: Use Peer IDs for security:</p></div>
+</div>
+<ul>
+<li>Peer IDs are immutable (SHA256 of SSH public key)</li>
+<li>Peer names can be changed by users</li>
+<li>View your peer ID: <code>tunnelmesh status</code></li>
+</ul>
+<p><strong>On first join</strong>, peers matching admin_peers are automatically:</p>
+<ul>
+<li>Added to the &quot;admins&quot; group</li>
+<li>Granted full admin role with panel access</li>
+<li>Can manage buckets, users, groups, filter rules, and Docker containers</li>
+</ul>
+<h2 id="sharing-identity-across-devices">Sharing Identity Across Devices</h2>
+<p>To use the same identity on multiple devices, copy your SSH key:</p>
+<pre><code class="language-bash"># On your original device
+scp ~/.tunnelmesh/id_ed25519* user@new-device:~/.tunnelmesh/
+
+# On the new device, join with a different peer name
+tunnelmesh join coord.example.com --token &lt;token&gt; --context work --name laptop-2
+</code></pre>
+<p>Both devices will have:</p>
+<ul>
+<li><strong>Same User ID</strong> - same RBAC permissions</li>
+<li><strong>Different Peer Names</strong> - separate mesh identities</li>
+<li><strong>Different Mesh IPs</strong> - unique network addresses</li>
+</ul>
+<p>If you try to join with the same hostname as an existing peer with a different key, the coordinator will auto-suffix
+your name (e.g., <code>laptop</code> becomes <code>laptop-2</code>).</p>
+<h2 id="rbac-system">RBAC System</h2>
+<p>TunnelMesh uses Kubernetes-style Role-Based Access Control.</p>
+<h3 id="built-in-groups">Built-in Groups</h3>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>everyone</code></td>
+<td>All registered users - default group for new peers</td>
+</tr>
+<tr>
+<td><code>all_admin_users</code></td>
+<td>Admin users with full access</td>
+</tr>
+<tr>
+<td><code>all_service_users</code></td>
+<td>Service accounts (internal use)</td>
+</tr>
+</tbody></table>
+<h3 id="built-in-roles">Built-in Roles</h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Description</th>
+<th>Permissions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>admin</code></td>
+<td>Full access</td>
+<td>All operations on all resources</td>
+</tr>
+<tr>
+<td><code>bucket-admin</code></td>
+<td>Bucket management</td>
+<td>Create/delete buckets, full object access</td>
+</tr>
+<tr>
+<td><code>bucket-write</code></td>
+<td>Write access</td>
+<td>Read buckets, full object CRUD</td>
+</tr>
+<tr>
+<td><code>bucket-read</code></td>
+<td>Read-only access</td>
+<td>Read buckets and objects</td>
+</tr>
+<tr>
+<td><code>system</code></td>
+<td>Coordinator internal</td>
+<td>Access to <code>_tunnelmesh/</code> bucket only</td>
+</tr>
+</tbody></table>
+<h3 id="role-permissions">Role Permissions</h3>
+<pre><code class="language-yaml">admin:
+  - *:*                           # All verbs on all resources
+
+bucket-admin:
+  - create,delete,get,list:buckets
+  - get,put,delete,list:objects
+
+bucket-write:
+  - get,list:buckets
+  - get,put,delete,list:objects
+
+bucket-read:
+  - get,list:buckets
+  - get,list:objects
+
+system:
+  - *:* (on _tunnelmesh/ only)
+</code></pre>
+<h3 id="view-roles">View Roles</h3>
+<pre><code class="language-bash">tunnelmesh role list
+</code></pre>
+<h3 id="create-custom-role">Create Custom Role</h3>
+<pre><code class="language-bash">tunnelmesh role create my-role --verbs get,list --resources buckets,objects
+</code></pre>
+<h3 id="bind-role-to-user">Bind Role to User</h3>
+<pre><code class="language-bash"># Global binding (all buckets)
+tunnelmesh role bind alice admin
+
+# Scoped binding (specific bucket)
+tunnelmesh role bind bob bucket-write --bucket my-bucket
+</code></pre>
+<h3 id="view-bindings">View Bindings</h3>
+<pre><code class="language-bash">tunnelmesh role bindings
+tunnelmesh role bindings --user alice
+</code></pre>
+<h2 id="service-users">Service Users</h2>
+<p>The coordinator uses service users for internal authentication:</p>
+<ul>
+<li><strong>ID Format</strong>: <code>svc:{service-name}</code> (e.g., <code>svc:coordinator</code>)</li>
+<li><strong>Keypair</strong>: Derived from CA private key via HKDF</li>
+<li><strong>Role</strong>: <code>system</code> role for <code>_tunnelmesh/</code> access</li>
+</ul>
+<p>Service users authenticate to S3 like regular users but have their keypair derived deterministically from the mesh CA.</p>
+<h2 id="identity-architecture">Identity Architecture</h2>
+<h3 id="file-layout">File Layout</h3>
+<pre><code class="language-text">~/.tunnelmesh/
+  id_ed25519                     # SSH private key (your identity)
+  id_ed25519.pub                 # SSH public key
+  contexts/
+    work/
+      config.yaml                # Peer config
+    home/
+      config.yaml
+</code></pre>
+<h3 id="key-derivation">Key Derivation</h3>
+<img src="/docs/images/user-key-derivation.svg" alt="Key derivation chain: SSH Key to ED25519 Public Key, hashed to User ID; Public Key also derives S3 Access Key and Secret Key via HKDF">
+
+<p>S3 credentials are derived from the public key:</p>
+<ul>
+<li><code>Access Key</code> (20 chars): derived via <code>HKDF(&quot;s3-access-key&quot;)</code></li>
+<li><code>Secret Key</code> (40 chars): derived via <code>HKDF(&quot;s3-secret-key&quot;)</code></li>
+</ul>
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="key-storage">Key Storage</h3>
+<ul>
+<li>Private keys are stored in <code>~/.tunnelmesh/id_ed25519</code> with 0600 permissions</li>
+<li>Never share your private key</li>
+<li>Treat your SSH key like any other SSH private key</li>
+</ul>
+<h3 id="revoking-access">Revoking Access</h3>
+<p>To revoke a user&#39;s access to a mesh, an admin can remove them from groups:</p>
+<pre><code class="language-bash"># Via dashboard admin panel, or API
+# Remove user from groups / delete their bindings
+</code></pre>
+<h2 id="cli-reference">CLI Reference</h2>
+<pre><code class="language-bash"># Role management (admin only)
+tunnelmesh role list                     # List all roles
+tunnelmesh role create NAME [--verbs V] [--resources R]
+tunnelmesh role delete NAME              # Delete custom role
+
+# Binding management (admin only)
+tunnelmesh role bind USER ROLE [--bucket B]
+tunnelmesh role unbind USER ROLE [--bucket B]
+tunnelmesh role bindings [--user U]
+
+# Group management (admin only)
+tunnelmesh group list                    # List all groups
+tunnelmesh group members GROUP           # List group members
+tunnelmesh group add-member GROUP USER   # Add user to group
+tunnelmesh group remove-member GROUP USER # Remove user from group
+</code></pre>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"USER_IDENTITY"};</script>
+</body>
+</html>

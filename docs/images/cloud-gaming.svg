@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 272" font-family="'Inter', sans-serif">
+  <rect width="100%" height="100%" fill="#0a1018"/>
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0 8 3 0 6" fill="#00d4b4"/>
+    </marker>
+    <marker id="ab" markerWidth="8" markerHeight="6" refX="1" refY="3" orient="auto">
+      <polygon points="8 0 0 3 8 6" fill="#00d4b4"/>
+    </marker>
+  </defs>
+  <!-- Coordinator box (accent) -->
+  <rect x="183" y="14" width="254" height="62" rx="6" fill="#0c1220" stroke="rgba(0,212,180,0.3)" stroke-width="1.5"/>
+  <text x="310" y="38" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14" font-weight="bold">Coordinator</text>
+  <text x="310" y="57" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">(handles discovery only)</text>
+  <!-- Dashed control plane lines -->
+  <line x1="310" y1="76" x2="113" y2="128" stroke="rgba(232,234,240,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="310" y1="76" x2="309" y2="128" stroke="rgba(232,234,240,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="310" y1="76" x2="505" y2="128" stroke="rgba(232,234,240,0.2)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="328" y="106" fill="rgba(232,234,240,0.3)" font-size="10">(control plane only)</text>
+  <!-- Player 1 California box -->
+  <rect x="31"  y="128" width="164" height="88" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="113" y="153" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14" font-weight="bold">Player 1</text>
+  <text x="113" y="171" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">California</text>
+  <text x="113" y="189" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">10.42.0.2</text>
+  <!-- Player 2 Texas box -->
+  <rect x="228" y="128" width="163" height="88" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="309" y="153" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14" font-weight="bold">Player 2</text>
+  <text x="309" y="171" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">Texas</text>
+  <text x="309" y="189" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">10.42.0.3</text>
+  <!-- Player 3 Florida box -->
+  <rect x="425" y="128" width="164" height="88" rx="6" fill="#0c1220" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="507" y="153" text-anchor="middle" dominant-baseline="middle" fill="#e8eaf0" font-size="14" font-weight="bold">Player 3</text>
+  <text x="507" y="171" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="12">Florida</text>
+  <text x="507" y="189" text-anchor="middle" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">10.42.0.4</text>
+  <!-- UDP Tunnel bidir arrows (thick) -->
+  <text x="211" y="160" text-anchor="middle" fill="rgba(232,234,240,0.52)" font-size="10">UDP Tunnel</text>
+  <line x1="195" y1="172" x2="228" y2="172" stroke="#00d4b4" stroke-width="2.5" marker-start="url(#ab)" marker-end="url(#a)"/>
+  <text x="408" y="160" text-anchor="middle" fill="rgba(232,234,240,0.52)" font-size="10">UDP Tunnel</text>
+  <line x1="391" y1="172" x2="425" y2="172" stroke="#00d4b4" stroke-width="2.5" marker-start="url(#ab)" marker-end="url(#a)"/>
+  <!-- Legend -->
+  <line x1="30" y1="238" x2="60" y2="238" stroke="#00d4b4" stroke-width="2.5"/>
+  <text x="68" y="238" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">UDP tunnel (game traffic, low latency)</text>
+  <line x1="30" y1="256" x2="60" y2="256" stroke="rgba(232,234,240,0.35)" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="68" y="256" dominant-baseline="middle" fill="rgba(232,234,240,0.52)" font-size="11">Control plane (HTTPS to coordinator)</text>
+</svg>

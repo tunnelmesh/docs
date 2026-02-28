@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internal Packet Filter — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="TunnelMesh includes a built-in internal packet filter that controls which ports are accessible on each peer within the mesh. Default is secure: Allowlist mode (">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/packet-filter/">
+  <meta property="og:title" content="Internal Packet Filter — TunnelMesh Docs">
+  <meta property="og:description" content="TunnelMesh includes a built-in internal packet filter that controls which ports are accessible on each peer within the mesh. Default is secure: Allowlist mode (">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/packet-filter/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="internal-packet-filter">Internal Packet Filter</h1>
+<div class="callout important">
+  <div class="callout-title"><span>Important</span></div>
+  <div class="callout-body"><p>TunnelMesh includes a built-in internal packet filter that controls which ports are accessible on
+each peer within the mesh. <strong>Default is secure</strong>: Allowlist mode (deny by default) unless explicitly
+configured otherwise. Only allowed ports are accessible.</p></div>
+</div>
+<h2 id="overview">Overview</h2>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Use coordinator for mesh-wide rules</strong>: Common ports like SSH and metrics should be allowed at the
+coordinator level. Use peer config for local services. Use temporary rules (CLI/admin panel) for
+testing before committing to config.</p></div>
+</div>
+<ul>
+<li><strong>Default deny mode</strong>: Block all incoming ports unless explicitly allowed (allowlist)</li>
+<li><strong>Per-peer rules</strong>: Target specific source peers for fine-grained access control</li>
+<li><strong>4-layer rule system</strong>: Coordinator, peer config, temporary, and service rules merge together</li>
+<li><strong>Real-time updates</strong>: Admin panel changes push to peers immediately</li>
+<li><strong>Prometheus metrics</strong>: Track filtered packets with per-peer labels</li>
+</ul>
+<h2 id="rule-hierarchy">Rule Hierarchy</h2>
+<p>Rules come from four sources, merged with &quot;most restrictive wins&quot; logic:</p>
+<img src="/articles/images/rule-hierarchy.svg" alt="Four-layer rule hierarchy: Coordinator Config → Peer Config → CLI / Admin Panel → Service Ports">
+
+<p><strong>Conflict resolution: most restrictive wins.</strong> If any source says &quot;deny&quot;, the port is denied. &quot;allow&quot; only wins if no source denies.</p>
+<h2 id="service-ports">Service Ports</h2>
+<p>When a peer connects to the coordinator, the coordinator automatically pushes service port rules. These allow access to
+essential coordinator services:</p>
+<ul>
+<li><strong>Admin dashboard port</strong> (typically 443 or 8080)</li>
+</ul>
+<p>Service rules:</p>
+<ul>
+<li>Are shown in the admin UI with source &quot;service&quot;</li>
+<li>Cannot be removed via CLI or admin panel</li>
+<li>Persist as long as the peer is connected</li>
+</ul>
+<h2 id="configuration">Configuration</h2>
+<h3 id="coordinator-config-serveryaml">Coordinator Config (server.yaml)</h3>
+<p>Global rules pushed to all peers when they connect:</p>
+<pre><code class="language-yaml">filter:
+  # default_deny defaults to true (allowlist mode) if not specified
+  # Set to false only if you want blocklist mode (allow all unless denied)
+  rules:
+    # Allow SSH across the entire mesh
+    - port: 22
+      protocol: tcp
+      action: allow
+
+    # Allow metrics port
+    - port: 9443
+      protocol: tcp
+      action: allow
+
+    # Block untrusted peer from accessing databases
+    - port: 3306
+      protocol: tcp
+      action: deny
+      source_peer: untrusted-peer
+</code></pre>
+<h3 id="peer-config-peeryaml">Peer Config (peer.yaml)</h3>
+<p>Local rules for this specific peer:</p>
+<pre><code class="language-yaml">filter:
+  rules:
+    # Allow HTTP on this web server
+    - port: 80
+      protocol: tcp
+      action: allow
+
+    # Allow HTTPS
+    - port: 443
+      protocol: tcp
+      action: allow
+
+    # Deny SSH from dev machines (overrides coordinator allow)
+    - port: 22
+      protocol: tcp
+      action: deny
+      source_peer: dev-workstation
+</code></pre>
+<h3 id="rule-fields">Rule Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>port</code></td>
+<td>integer</td>
+<td>Yes</td>
+<td>Port number (1-65535)</td>
+</tr>
+<tr>
+<td><code>protocol</code></td>
+<td>string</td>
+<td>Yes</td>
+<td><code>tcp</code> or <code>udp</code></td>
+</tr>
+<tr>
+<td><code>action</code></td>
+<td>string</td>
+<td>Yes</td>
+<td><code>allow</code> or <code>deny</code></td>
+</tr>
+<tr>
+<td><code>source_peer</code></td>
+<td>string</td>
+<td>No</td>
+<td>Peer name to match (empty = any peer)</td>
+</tr>
+</tbody></table>
+<h2 id="cli-commands">CLI Commands</h2>
+<h3 id="list-rules">List Rules</h3>
+<pre><code class="language-bash">tunnelmesh filter list
+
+# Output:
+# PORT  PROTOCOL  ACTION  SOURCE PEER  SOURCE       EXPIRES
+# 22    TCP       allow   *            coordinator  -
+# 80    TCP       allow   *            config       -
+# 3306  TCP       deny    dev-peer     temporary    2h
+#
+# Default policy: deny (allowlist mode - only allowed ports are accessible)
+# Total rules: 3
+</code></pre>
+<h3 id="add-temporary-rule">Add Temporary Rule</h3>
+<pre><code class="language-bash"># Allow SSH from any peer
+tunnelmesh filter add --port 22 --protocol tcp
+
+# Allow with expiry (1 hour)
+tunnelmesh filter add --port 80 --protocol tcp --ttl 3600
+
+# Deny specific peer
+tunnelmesh filter add --port 22 --protocol tcp --action deny --source-peer badpeer
+
+# Block UDP port from any peer
+tunnelmesh filter add --port 53 --protocol udp --action deny
+</code></pre>
+<h3 id="remove-temporary-rule">Remove Temporary Rule</h3>
+<pre><code class="language-bash"># Remove global rule
+tunnelmesh filter remove --port 22 --protocol tcp
+
+# Remove peer-specific rule
+tunnelmesh filter remove --port 22 --protocol tcp --source-peer badpeer
+</code></pre>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>Only temporary rules (added via CLI or admin panel) can be removed. Rules from config files must be removed by
+editing the config.</p></div>
+</div>
+<h2 id="admin-dashboard">Admin Dashboard</h2>
+<p>The admin panel provides an &quot;Internal Packet Filter&quot; section for managing rules:</p>
+<ol>
+<li><strong>Select peer</strong> to view their current filter rules</li>
+<li><strong>Add Rule</strong> button opens a form with:<ul>
+<li>Port number</li>
+<li>Protocol (TCP/UDP)</li>
+<li>Action (Allow/Deny)</li>
+<li>From Peer (source peer selector, or &quot;Any peer&quot;)</li>
+<li>To Peer (destination peer, or &quot;All peers&quot;)</li>
+</ul>
+</li>
+<li><strong>Remove</strong> button on temporary rules</li>
+</ol>
+<p>Rules pushed via admin panel take effect immediately on the target peer(s).</p>
+<p><strong>Important notes:</strong></p>
+<ul>
+<li>When pushing to &quot;All peers&quot;, a confirmation dialogue is shown</li>
+<li>A peer cannot create a rule filtering traffic from itself (self-targeting is prevented)</li>
+<li>A warning banner appears when temporary rules exist, reminding that they won&#39;t persist after peer restart</li>
+</ul>
+<h2 id="per-peer-filtering">Per-Peer Filtering</h2>
+<p>Filter rules can target specific source peers, enabling scenarios like:</p>
+<h3 id="allow-ssh-only-from-admin-machines">Allow SSH only from admin machines</h3>
+<pre><code class="language-yaml">filter:
+  default_deny: true
+  rules:
+    - port: 22
+      protocol: tcp
+      action: allow
+      source_peer: admin-workstation
+</code></pre>
+<h3 id="block-untrusted-peer-from-sensitive-ports">Block untrusted peer from sensitive ports</h3>
+<pre><code class="language-yaml">filter:
+  rules:
+    - port: 22
+      protocol: tcp
+      action: deny
+      source_peer: contractor-laptop
+    - port: 3306
+      protocol: tcp
+      action: deny
+      source_peer: contractor-laptop
+</code></pre>
+<h3 id="peer-specific-rules-take-precedence">Peer-specific rules take precedence</h3>
+<p>When both global and peer-specific rules exist:</p>
+<pre><code class="language-yaml">rules:
+  - port: 22
+    protocol: tcp
+    action: allow           # Global: allow SSH
+
+  - port: 22
+    protocol: tcp
+    action: deny
+    source_peer: badpeer    # Deny SSH from badpeer
+</code></pre>
+<p>Traffic from <code>badpeer</code> to port 22 is denied, while all other peers are allowed.</p>
+<h2 id="metrics-monitoring">Metrics &amp; Monitoring</h2>
+<h3 id="prometheus-metrics">Prometheus Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Labels</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tunnelmesh_dropped_filtered_total</code></td>
+<td><code>protocol</code>, <code>source_peer</code></td>
+<td>Counter of packets dropped by filter</td>
+</tr>
+<tr>
+<td><code>tunnelmesh_filter_rules_total</code></td>
+<td><code>source</code></td>
+<td>Gauge of rule counts by source</td>
+</tr>
+<tr>
+<td><code>tunnelmesh_filter_default_deny</code></td>
+<td>-</td>
+<td>1 if default-deny mode, 0 otherwise</td>
+</tr>
+</tbody></table>
+<p>Example queries:</p>
+<pre><code class="language-promql"># Filtered packets rate by peer
+rate(tunnelmesh_dropped_filtered_total[5m])
+
+# Top blocked source peers
+topk(5, sum by (source_peer) (rate(tunnelmesh_dropped_filtered_total[5m])))
+</code></pre>
+<h3 id="alerts">Alerts</h3>
+<p>Default alerts in <code>monitoring/prometheus/alerts.yml</code>:</p>
+<pre><code class="language-yaml"># Elevated filter drops (possible attack or misconfiguration)
+- alert: TunnelMeshElevatedFilteredDrops
+  expr: sum by (peer, source_peer) (rate(tunnelmesh_dropped_filtered_total[5m])) &gt; 10
+  for: 5m
+  labels:
+    severity: warning
+  annotations:
+    description: &quot;Packet filter blocking &gt;10 packets/s from &#39;{{ $labels.source_peer }}&#39;&quot;
+
+# Multiple sources being blocked
+- alert: TunnelMeshMultipleSourcesBlocked
+  expr: count by (peer) (rate(tunnelmesh_dropped_filtered_total[5m]) &gt; 1) &gt; 3
+  for: 5m
+  labels:
+    severity: warning
+  annotations:
+    description: &quot;{{ $value }} different source peers being blocked on {{ $labels.peer }}&quot;
+</code></pre>
+<h2 id="icmp-handling">ICMP Handling</h2>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p><strong>ICMP always allowed</strong>: Ping and traceroute work regardless of filter configuration. Only TCP and
+UDP traffic is subject to filter rules. This ensures basic network diagnostics always work.</p></div>
+</div>
+<p>ICMP traffic (ping, traceroute) is <strong>always allowed</strong> through the filter for diagnostic purposes. Only TCP and UDP
+packets are subject to filter rules.</p>
+<h2 id="best-practices">Best Practices</h2>
+<div class="callout warning">
+  <div class="callout-title"><span>Warning</span></div>
+  <div class="callout-body"><p><strong>Security first</strong>: Never set <code>default_deny: false</code> in production. Allowlist mode (default deny) is
+the secure default. Only explicitly allowed ports should be accessible.</p></div>
+</div>
+<ol>
+<li><p><strong>Default is secure</strong>: The filter defaults to <code>default_deny: true</code> (allowlist mode) if not specified.
+Only set <code>default_deny: false</code> if you explicitly want blocklist mode.</p>
+</li>
+<li><p><strong>Use coordinator for mesh-wide rules</strong>: Common ports like SSH and metrics should be allowed at the
+coordinator level.</p>
+</li>
+<li><p><strong>Use peer config for local services</strong>: Web servers, databases, and other services specific to a peer
+should be configured locally.</p>
+</li>
+<li><p><strong>Use temporary rules for testing</strong>: Add rules via CLI to test before committing to config.</p>
+</li>
+<li><p><strong>Monitor filtered packets</strong>: Watch the <code>tunnelmesh_dropped_filtered_total</code> metric for unexpected blocks
+or attack patterns.</p>
+</li>
+<li><p><strong>Use per-peer rules sparingly</strong>: Global rules are easier to manage. Use per-peer rules only when
+necessary for security isolation.</p>
+</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="connection-refused-but-no-filter-rule">Connection refused but no filter rule</h3>
+<p>Check if <code>default_deny</code> is enabled:</p>
+<pre><code class="language-bash">tunnelmesh filter list
+# Look for &quot;Default policy: deny&quot;
+</code></pre>
+<p>Add an allow rule:</p>
+<pre><code class="language-bash">tunnelmesh filter add --port 8080 --protocol tcp
+</code></pre>
+<h3 id="rule-not-taking-effect">Rule not taking effect</h3>
+<ol>
+<li>Verify the rule exists: <code>tunnelmesh filter list</code></li>
+<li>Check rule precedence - deny always wins</li>
+<li>Verify protocol matches (TCP vs UDP)</li>
+<li>For peer-specific rules, verify peer name matches exactly</li>
+</ol>
+<h3 id="debug-logging">Debug logging</h3>
+<p>Enable debug logging to see filter decisions:</p>
+<pre><code class="language-bash">tunnelmesh join --log-level debug
+# Look for &quot;filter&quot; or &quot;dropped&quot; in logs
+</code></pre>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"INTERNAL_PACKET_FILTER"};</script>
+</body>
+</html>

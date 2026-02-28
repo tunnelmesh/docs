@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benchmarking — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="TunnelMesh includes built-in benchmarking tools to measure throughput, latency, and test mesh performance under adverse network conditions. Benchmark traffic fl">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/benchmarking/">
+  <meta property="og:title" content="Benchmarking — TunnelMesh Docs">
+  <meta property="og:description" content="TunnelMesh includes built-in benchmarking tools to measure throughput, latency, and test mesh performance under adverse network conditions. Benchmark traffic fl">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/benchmarking/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="benchmarking-and-stress-testing">Benchmarking and Stress Testing</h1>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>TunnelMesh includes built-in benchmarking tools to measure throughput, latency, and test mesh
+performance under adverse network conditions. Benchmark traffic flows through <strong>actual mesh tunnels</strong>,
+giving realistic performance metrics.</p></div>
+</div>
+<h2 id="overview">Overview</h2>
+<p>The benchmark system consists of three tools:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tunnelmesh benchmark</code></td>
+<td>Network throughput and latency testing</td>
+<td>Test tunnel performance between peers</td>
+</tr>
+<tr>
+<td><code>tunnelmesh-benchmarker</code></td>
+<td>Automated periodic benchmarking service</td>
+<td>Continuous performance monitoring in Docker</td>
+</tr>
+<tr>
+<td><code>tunnelmesh-s3bench</code></td>
+<td>S3 storage stress testing with narratives</td>
+<td>Test S3, deduplication, versioning, RBAC, shares</td>
+</tr>
+</tbody></table>
+<p>Network benchmark traffic flows through the <strong>actual mesh tunnel</strong> (TUN device → encrypted tunnel → peer), giving you
+realistic performance metrics for file transfers and real-time applications.</p>
+<h2 id="quick-start">Quick Start</h2>
+<h3 id="local-cli-benchmark">Local CLI Benchmark</h3>
+<pre><code class="language-bash"># Basic speed test (10MB upload)
+tunnelmesh benchmark peer-name
+
+# Larger transfer for more accurate throughput measurement
+tunnelmesh benchmark peer-name --size 100MB
+
+# Download test
+tunnelmesh benchmark peer-name --size 50MB --direction download
+
+# Save results to JSON
+tunnelmesh benchmark peer-name --output results.json
+</code></pre>
+<h3 id="docker-automated-benchmarks">Docker Automated Benchmarks</h3>
+<pre><code class="language-bash"># Start the full stack including benchmarker
+cd docker
+docker compose up -d
+
+# View benchmark logs
+docker compose logs -f benchmarker
+
+# Results are saved to the benchmark-results volume
+docker compose exec server ls /results/
+</code></pre>
+<h2 id="network-benchmark-cli-reference">Network Benchmark CLI Reference</h2>
+<pre><code class="language-text">tunnelmesh benchmark &lt;peer-name&gt; [flags]
+
+Flags:
+  --size string        Transfer size (default &quot;10MB&quot;)
+                       Examples: 1MB, 100MB, 1GB
+
+  --direction string   Transfer direction (default &quot;upload&quot;)
+                       Options: upload, download
+
+  --output string      Save results to JSON file
+
+  --timeout duration   Benchmark timeout (default 2m0s)
+
+  --port int           Benchmark server port (default 9998)
+
+Chaos Testing Flags:
+  --packet-loss float  Packet loss percentage, 0-100 (default 0)
+
+  --latency duration   Additional latency to inject (default 0)
+                       Examples: 10ms, 100ms, 1s
+
+  --jitter duration    Random latency variation ±jitter (default 0)
+                       Examples: 5ms, 20ms
+
+  --bandwidth string   Bandwidth limit (default unlimited)
+                       Examples: 1mbps, 10mbps, 100mbps, 1gbps
+</code></pre>
+<h2 id="chaos-testing">Chaos Testing</h2>
+<div class="callout warning">
+  <div class="callout-title"><span>Warning</span></div>
+  <div class="callout-body"><p><strong>Chaos testing impacts performance</strong>: Packet loss, latency, and bandwidth limits intentionally
+degrade performance. Use these flags to test resilience, not to measure baseline performance.
+Always run clean benchmarks first.</p></div>
+</div>
+<p>Chaos testing simulates adverse network conditions to stress test your mesh and verify resilience.</p>
+<h3 id="use-cases">Use Cases</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Flags</th>
+<th>Simulates</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lossy WiFi</td>
+<td><code>--packet-loss 2</code></td>
+<td>Occasional packet drops</td>
+</tr>
+<tr>
+<td>Mobile network</td>
+<td><code>--latency 100ms --jitter 30ms</code></td>
+<td>High, variable latency</td>
+</tr>
+<tr>
+<td>Congested link</td>
+<td><code>--bandwidth 5mbps</code></td>
+<td>Bandwidth-constrained path</td>
+</tr>
+<tr>
+<td>Worst case</td>
+<td><code>--packet-loss 5 --latency 200ms --jitter 50ms --bandwidth 1mbps</code></td>
+<td>Very poor connection</td>
+</tr>
+</tbody></table>
+<h3 id="examples">Examples</h3>
+<pre><code class="language-bash"># Simulate flaky WiFi (2% packet loss)
+tunnelmesh benchmark peer-1 --size 50MB --packet-loss 2
+
+# Simulate mobile/satellite connection (high latency + jitter)
+tunnelmesh benchmark peer-1 --size 10MB --latency 150ms --jitter 50ms
+
+# Simulate bandwidth-constrained link
+tunnelmesh benchmark peer-1 --size 100MB --bandwidth 10mbps
+
+# Combined stress test
+tunnelmesh benchmark peer-1 --size 20MB \
+  --packet-loss 3 \
+  --latency 50ms \
+  --jitter 20ms \
+  --bandwidth 20mbps
+
+# Save results for comparison
+tunnelmesh benchmark peer-1 --size 50MB --output baseline.json
+tunnelmesh benchmark peer-1 --size 50MB --packet-loss 5 --output with-loss.json
+</code></pre>
+<h2 id="docker-benchmarker">Docker Benchmarker</h2>
+<div class="callout caution">
+  <div class="callout-title"><span>Caution</span></div>
+  <div class="callout-body"><p><strong>Aggressive stress testing</strong>: The Docker benchmarker runs continuous benchmarks with 3-6 simultaneous
+transfers at all times. This keeps the mesh under constant load. Use in development/testing, not production.</p></div>
+</div>
+<p>The Docker benchmarker runs <strong>aggressive continuous benchmarks</strong> with multiple concurrent transfers and randomised chaos
+settings. The mesh is always under load.</p>
+<h3 id="default-behaviour">Default Behaviour</h3>
+<ul>
+<li><strong>Interval:</strong> New batch every 30 seconds</li>
+<li><strong>Concurrency:</strong> 3 simultaneous transfers per batch</li>
+<li><strong>Size:</strong> 100MB per transfer</li>
+<li><strong>Direction:</strong> 70% uploads, 30% downloads (randomised)</li>
+<li><strong>Chaos:</strong> Randomly selected preset per transfer</li>
+</ul>
+<p>With overlapping batches, you&#39;ll typically have 3-6 active transfers at any time.</p>
+<h3 id="chaos-presets">Chaos Presets</h3>
+<p>Each transfer randomly picks from these network condition presets:</p>
+<table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Packet Loss</th>
+<th>Latency</th>
+<th>Jitter</th>
+<th>Bandwidth</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>clean</code></td>
+<td>0%</td>
+<td>0ms</td>
+<td>0ms</td>
+<td>unlimited</td>
+</tr>
+<tr>
+<td><code>subtle</code></td>
+<td>0.1%</td>
+<td>2ms</td>
+<td>±1ms</td>
+<td>unlimited</td>
+</tr>
+<tr>
+<td><code>lossy-wifi</code></td>
+<td>2%</td>
+<td>5ms</td>
+<td>±3ms</td>
+<td>unlimited</td>
+</tr>
+<tr>
+<td><code>mobile-3g</code></td>
+<td>1%</td>
+<td>100ms</td>
+<td>±50ms</td>
+<td>5 Mbps</td>
+</tr>
+<tr>
+<td><code>mobile-4g</code></td>
+<td>0.5%</td>
+<td>30ms</td>
+<td>±15ms</td>
+<td>25 Mbps</td>
+</tr>
+<tr>
+<td><code>satellite</code></td>
+<td>0.5%</td>
+<td>300ms</td>
+<td>±50ms</td>
+<td>10 Mbps</td>
+</tr>
+<tr>
+<td><code>congested</code></td>
+<td>3%</td>
+<td>20ms</td>
+<td>±30ms</td>
+<td>1 Mbps</td>
+</tr>
+<tr>
+<td><code>bandwidth-10mbps</code></td>
+<td>0%</td>
+<td>0ms</td>
+<td>0ms</td>
+<td>10 Mbps</td>
+</tr>
+<tr>
+<td><code>bandwidth-50mbps</code></td>
+<td>0%</td>
+<td>0ms</td>
+<td>0ms</td>
+<td>50 Mbps</td>
+</tr>
+<tr>
+<td><code>bandwidth-100mbps</code></td>
+<td>0%</td>
+<td>0ms</td>
+<td>0ms</td>
+<td>100 Mbps</td>
+</tr>
+</tbody></table>
+<h3 id="environment-variables">Environment Variables</h3>
+<pre><code class="language-yaml"># Basic configuration
+COORD_SERVER_URL: http://localhost:8080  # Coordination server
+AUTH_TOKEN: your-token                    # Authentication token
+LOCAL_PEER: benchmarker                   # This peer&#39;s name
+BENCHMARK_INTERVAL: 30s                   # Time between batch starts
+BENCHMARK_CONCURRENCY: 3                  # Simultaneous transfers per batch
+BENCHMARK_SIZE: 100MB                     # Transfer size per test
+OUTPUT_DIR: /results                      # Where to save JSON results
+
+# Chaos randomization
+RANDOMIZE_CHAOS: true                     # Random preset per transfer (default)
+# Set RANDOMIZE_CHAOS=false for all clean benchmarks
+</code></pre>
+<h3 id="controlling-the-benchmarker">Controlling the Benchmarker</h3>
+<pre><code class="language-bash"># Start with default aggressive settings
+docker compose up -d benchmarker
+
+# Watch the chaos unfold
+docker compose logs -f benchmarker
+
+# Run with more concurrency
+docker compose run -e BENCHMARK_CONCURRENCY=5 benchmarker
+
+# Run all clean benchmarks (no chaos)
+docker compose run -e RANDOMIZE_CHAOS=false benchmarker
+
+# Faster interval (more overlap)
+docker compose run -e BENCHMARK_INTERVAL=15s benchmarker
+</code></pre>
+<h3 id="viewing-results">Viewing Results</h3>
+<pre><code class="language-bash"># List benchmark results
+docker compose exec server ls -la /results/
+
+# View latest result
+ docker compose exec server cat /results/benchmark_*.json | jq . 
+
+# Copy results to host
+docker cp tunnelmesh-server:/results ./benchmark-results/
+</code></pre>
+<h2 id="understanding-results">Understanding Results</h2>
+<h3 id="json-output-format">JSON Output Format</h3>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;bench-abc123&quot;,
+  &quot;local_peer&quot;: &quot;server&quot;,
+  &quot;remote_peer&quot;: &quot;client-1&quot;,
+  &quot;direction&quot;: &quot;upload&quot;,
+  &quot;timestamp&quot;: &quot;2024-01-15T10:30:00Z&quot;,
+  &quot;requested_size_bytes&quot;: 104857600,
+  &quot;transferred_size_bytes&quot;: 104857600,
+  &quot;duration_ms&quot;: 1250,
+  &quot;throughput_bps&quot;: 83886080,
+  &quot;throughput_mbps&quot;: 671.09,
+  &quot;latency_min_ms&quot;: 0.5,
+  &quot;latency_max_ms&quot;: 3.2,
+  &quot;latency_avg_ms&quot;: 1.1,
+  &quot;success&quot;: true,
+  &quot;chaos&quot;: {
+    &quot;packet_loss_percent&quot;: 0.1,
+    &quot;latency&quot;: 2000000,
+    &quot;jitter&quot;: 1000000
+  }
+}
+</code></pre>
+<h3 id="key-metrics">Key Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Good Values</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>throughput_mbps</code></td>
+<td>Megabits per second</td>
+<td>Depends on link speed</td>
+</tr>
+<tr>
+<td><code>latency_avg_ms</code></td>
+<td>Average round-trip time</td>
+<td>&lt;5ms LAN, &lt;50ms WAN</td>
+</tr>
+<tr>
+<td><code>latency_max_ms</code></td>
+<td>Worst-case latency</td>
+<td>Should be close to avg</td>
+</tr>
+<tr>
+<td><code>success</code></td>
+<td>Whether transfer completed</td>
+<td>Should be <code>true</code></td>
+</tr>
+</tbody></table>
+<h3 id="comparing-results">Comparing Results</h3>
+<pre><code class="language-bash"># Compare baseline vs chaos results
+ jq -s &#39;.[0].throughput_mbps as $base|
+ .[1].throughput_mbps as $chaos|
+       {baseline: $base, with_chaos: $chaos,
+        degradation_pct: (($base - $chaos) / $base * 100)}&#39; \
+  baseline.json with-loss.json
+</code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="benchmark-fails-to-connect">Benchmark Fails to Connect</h3>
+<pre><code class="language-text">Error: cannot resolve peer &quot;peer-1&quot;: is the mesh daemon running?
+</code></pre>
+<ul>
+<li>Ensure the mesh daemon is running: <code>tunnelmesh status</code></li>
+<li>Check peer is online: <code>tunnelmesh peers</code></li>
+<li>Verify DNS resolution: <code>dig peer-1.tunnelmesh</code></li>
+</ul>
+<h3 id="low-throughput">Low Throughput</h3>
+<ol>
+<li>Check for packet loss: run with <code>--packet-loss 0</code> to ensure clean baseline</li>
+<li>Verify transport type: SSH is slower than UDP</li>
+<li>Check CPU usage during benchmark</li>
+<li>Try larger transfer size for more accurate measurement</li>
+</ol>
+<h3 id="high-latency-variance">High Latency Variance</h3>
+<ul>
+<li>High jitter may indicate network congestion</li>
+<li>Check for competing traffic on the mesh</li>
+<li>Verify both peers have stable connections</li>
+</ul>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Best practice</strong>: Always establish a clean baseline first with <code>--packet-loss 0</code>. Then compare chaos
+results against the baseline to quantify performance degradation. Use larger transfers (100MB+) for
+accurate throughput measurement.</p></div>
+</div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Baseline First</strong>: Run without chaos to establish baseline performance</li>
+<li><strong>Multiple Runs</strong>: Run 3-5 benchmarks and average results</li>
+<li><strong>Warm Up</strong>: The first benchmark after mesh startup may be slower</li>
+<li><strong>Size Matters</strong>: Use larger transfers (100MB+) for accurate throughput measurement</li>
+<li><strong>Monitor Both Ends</strong>: Check CPU/memory on both peers during stress tests</li>
+<li><strong>Save Results</strong>: Always use <code>--output</code> for reproducible comparisons</li>
+</ol>
+<hr>
+<h2 id="s3-storage-benchmarking">S3 Storage Benchmarking</h2>
+<p>The <code>tunnelmesh-s3bench</code> tool provides narrative-driven stress testing for S3 storage, deduplication, versioning, RBAC,
+and file shares. Unlike traditional benchmarks that generate random traffic, it simulates realistic scenarios with
+characters, departments, and workflows.</p>
+<h3 id="s3-benchmark-quick-start">S3 Benchmark Quick Start</h3>
+<pre><code class="language-bash"># List available story scenarios
+tunnelmesh-s3bench list
+
+# Show scenario details
+tunnelmesh-s3bench describe alien_invasion
+
+# Run a scenario (accelerated 100x for testing)
+tunnelmesh-s3bench run alien_invasion --time-scale 100 --output results.json
+
+# Run with all features enabled
+tunnelmesh-s3bench run alien_invasion \
+  --time-scale 100 \
+  --enable-mesh \
+  --enable-adversary \
+  --enable-workflows \
+  --test-deletion \
+  --test-expiration \
+  --test-permissions
+</code></pre>
+<h3 id="story-scenarios">Story Scenarios</h3>
+<p>Stories are narrative-driven workloads that test multiple S3 features simultaneously:</p>
+<p><strong>alien_invasion</strong> - 72 hours of first contact, invasion, and human resistance</p>
+<ul>
+<li>3 characters (military commander, scientist, adversary)</li>
+<li>4 departments with file shares (command, science, public, classified)</li>
+<li>Tests deduplication, versioning, RBAC, quotas, and expiration</li>
+</ul>
+<p>Each story includes:</p>
+<ul>
+<li><strong>Characters</strong>: Users with different roles and clearance levels</li>
+<li><strong>Departments</strong>: File shares with quotas and access control</li>
+<li><strong>Workflows</strong>: Realistic document creation, editing, collaboration</li>
+<li><strong>Adversaries</strong>: Users who attempt unauthorised access or data exfiltration</li>
+</ul>
+<h3 id="what-it-tests">What It Tests</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Deduplication</strong></td>
+<td>Multiple users uploading identical files</td>
+</tr>
+<tr>
+<td><strong>Versioning</strong></td>
+<td>Document editing with version history</td>
+</tr>
+<tr>
+<td><strong>RBAC</strong></td>
+<td>Role-based access control across departments</td>
+</tr>
+<tr>
+<td><strong>File Shares</strong></td>
+<td>Department shares with quotas and permissions</td>
+</tr>
+<tr>
+<td><strong>Mesh Dynamics</strong></td>
+<td>Users joining/leaving mesh network</td>
+</tr>
+<tr>
+<td><strong>Quota Limits</strong></td>
+<td>Storage limits and over-quota handling</td>
+</tr>
+<tr>
+<td><strong>Expiration</strong></td>
+<td>Automatic cleanup of old objects</td>
+</tr>
+<tr>
+<td><strong>Permissions</strong></td>
+<td>Authorisation enforcement for all operations</td>
+</tr>
+</tbody></table>
+<h3 id="flags">Flags</h3>
+<pre><code class="language-text">--time-scale float         Time acceleration (default: 1.0)
+                           100 = 72 hours compressed to 43 minutes
+                           1000 = 72 hours compressed to 4.3 minutes
+
+--concurrency int          Concurrent workers per character (default: 5)
+
+--enable-mesh              Simulate users joining/leaving mesh
+--enable-adversary         Enable adversarial behavior
+--enable-workflows         Enable realistic document workflows
+--test-deletion            Test soft/hard deletion
+--test-expiration          Test object expiration
+--test-permissions         Test permission boundaries
+--test-quota               Test quota enforcement
+--test-retention           Test version retention policies
+
+--quota-override MB        Override department quotas
+--expiry-override duration Override expiration times
+
+--output-json string       Save results to JSON file
+--endpoint string          S3 endpoint (default: http://localhost:8080)
+</code></pre>
+<h3 id="example-output">Example Output</h3>
+<pre><code class="language-json">{
+  &quot;story&quot;: &quot;alien_invasion&quot;,
+  &quot;duration_seconds&quot;: 2592.5,
+  &quot;time_scale&quot;: 100,
+  &quot;statistics&quot;: {
+    &quot;total_operations&quot;: 1247,
+    &quot;successful_operations&quot;: 1215,
+    &quot;failed_operations&quot;: 32,
+    &quot;bytes_uploaded&quot;: 524288000,
+    &quot;bytes_downloaded&quot;: 262144000,
+    &quot;dedupe_savings_bytes&quot;: 104857600,
+    &quot;versions_created&quot;: 156,
+    &quot;objects_expired&quot;: 23,
+    &quot;permission_denials&quot;: 32
+  },
+  &quot;characters&quot;: {
+    &quot;General Sarah Chen&quot;: {
+      &quot;operations&quot;: 487,
+      &quot;bytes_transferred&quot;: 209715200,
+      &quot;permission_denials&quot;: 0
+    },
+    &quot;Dr. James Wright&quot;: {
+      &quot;operations&quot;: 512,
+      &quot;bytes_transferred&quot;: 314572800,
+      &quot;permission_denials&quot;: 0
+    },
+    &quot;Eve Martinez&quot;: {
+      &quot;operations&quot;: 248,
+      &quot;bytes_transferred&quot;: 262144000,
+      &quot;permission_denials&quot;: 32
+    }
+  }
+}
+</code></pre>
+<h3 id="s3-benchmark-use-cases">S3 Benchmark Use Cases</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Quick validation</td>
+<td><code>--time-scale 1000</code> (72h → 4.3 min)</td>
+</tr>
+<tr>
+<td>Realistic load test</td>
+<td><code>--time-scale 10</code> (72h → 7.2h)</td>
+</tr>
+<tr>
+<td>Full stress test</td>
+<td><code>--enable-all --time-scale 100</code></td>
+</tr>
+<tr>
+<td>Adversary testing</td>
+<td><code>--enable-adversary --test-permissions</code></td>
+</tr>
+<tr>
+<td>Quota testing</td>
+<td><code>--quota-override 100 --test-quota</code></td>
+</tr>
+</tbody></table>
+<h3 id="s3-benchmark-best-practices">S3 Benchmark Best Practices</h3>
+<ol>
+<li><strong>Start Fast</strong>: Use <code>--time-scale 1000</code> for quick validation</li>
+<li><strong>Enable Gradually</strong>: Add features one at a time to isolate issues</li>
+<li><strong>Save Results</strong>: Always use <code>--output-json</code> for analysis</li>
+<li><strong>Watch Logs</strong>: Monitor S3 server logs during execution</li>
+<li><strong>Check Quotas</strong>: Ensure sufficient storage for test scenario</li>
+<li><strong>Verify Cleanup</strong>: Check object expiration and deletion after test</li>
+</ol>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"BENCHMARKING"};</script>
+</body>
+</html>

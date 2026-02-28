@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Guide — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="This guide explains how admin authorisation works in TunnelMesh, what functionality requires admin access, and security best practices.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/admin/">
+  <meta property="og:title" content="Admin Guide — TunnelMesh Docs">
+  <meta property="og:description" content="This guide explains how admin authorisation works in TunnelMesh, what functionality requires admin access, and security best practices.">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/admin/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="tunnelmesh-admin-guide">TunnelMesh Admin Guide</h1>
+<p>This guide explains how admin authorisation works in TunnelMesh, what functionality requires admin access,
+and security best practices.</p>
+<h2 id="overview">Overview</h2>
+<div class="callout important">
+  <div class="callout-title"><span>Important</span></div>
+  <div class="callout-body"><p>TunnelMesh uses a <strong>configuration-based admin model</strong> where admin privileges are granted via the
+coordinator&#39;s <code>admin_peers</code> field. There is <strong>no &quot;first user becomes admin&quot; behaviour</strong> - admins must be
+explicitly configured.</p></div>
+</div>
+<p><strong>Key points:</strong></p>
+<ul>
+<li>Admin peers are configured in the coordinator&#39;s config file</li>
+<li>Matching is done by <strong>peer name</strong> OR <strong>peer ID</strong> (16 hex characters)</li>
+<li>Peer IDs are preferred for security (immutable, tied to SSH key)</li>
+<li>Network functionality works without admin access</li>
+<li>Admin access enables mesh/data plane configuration</li>
+</ul>
+<h2 id="configuring-admin-peers">Configuring Admin Peers</h2>
+<p>Admin peers are specified in the coordinator&#39;s configuration file:</p>
+<pre><code class="language-yaml"># coordinator.yaml
+coordinator:
+  enabled: true
+  listen: &quot;:8443&quot;
+
+  # Admin peers - match by name or peer ID
+  admin_peers:
+    - &quot;coordinator&quot;        # Peer name (convenient but mutable)
+    - &quot;alice&quot;              # Peer name
+    - &quot;a1b2c3d4e5f6g7h8&quot;   # Peer ID (preferred - 16 hex chars)
+</code></pre>
+<h3 id="peer-name-vs-peer-id-matching">Peer Name vs Peer ID Matching</h3>
+<p>TunnelMesh supports two methods for identifying admin peers:</p>
+<h4 id="peer-name-matching">Peer Name Matching</h4>
+<p><strong>Format</strong>: Any valid peer name (hostname-style, e.g., &quot;alice&quot;, &quot;server-1&quot;)</p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Easy to configure before peers join</li>
+<li>Human-readable</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Users can change their peer name</li>
+<li>Less secure</li>
+<li>Coordinator logs a warning when using name matching</li>
+</ul>
+<p><strong>Example</strong>:</p>
+<pre><code class="language-yaml">admin_peers: [&quot;alice&quot;, &quot;bob&quot;, &quot;coordinator&quot;]
+</code></pre>
+<h4 id="peer-id-matching-recommended">Peer ID Matching (Recommended)</h4>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Recommended</strong>: Use peer IDs for security. They&#39;re immutable and tied to SSH keys.</p></div>
+</div>
+<p><strong>Format</strong>: 16 hexadecimal characters (SHA256 of SSH public key, first 8 bytes)</p>
+<p><strong>Example peer ID</strong>: <code>a1b2c3d4e5f6g7h8</code></p>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Immutable (tied to SSH key)</li>
+<li>Cannot be changed by user</li>
+<li>More secure</li>
+<li>Coordinator logs &quot;matched by peer ID (secure)&quot;</li>
+</ul>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Must obtain peer ID first (requires peer to join once, or copy from <code>tunnelmesh status</code>)</li>
+</ul>
+<p><strong>Example</strong>:</p>
+<pre><code class="language-yaml">admin_peers: [&quot;a1b2c3d4e5f6g7h8&quot;, &quot;i9j0k1l2m3n4o5p6&quot;]
+</code></pre>
+<h3 id="how-to-get-peer-ids">How to Get Peer IDs</h3>
+<p>There are two methods to obtain a peer&#39;s ID:</p>
+<h4 id="method-1-after-first-join">Method 1: After First Join</h4>
+<ol>
+<li>Have the peer join the mesh (with or without admin rights)</li>
+<li>Run <code>tunnelmesh status</code> on the peer</li>
+<li>Copy the peer ID from the output (16 hex characters)</li>
+<li>Update coordinator config with the peer ID</li>
+</ol>
+<pre><code class="language-bash"># On the peer
+tunnelmesh status
+
+# Output includes:
+# Peer ID: a1b2c3d4e5f6g7h8
+</code></pre>
+<h4 id="method-2-calculate-from-ssh-key">Method 2: Calculate from SSH Key</h4>
+<p>If you have access to the peer&#39;s SSH public key:</p>
+<pre><code class="language-bash"># Extract peer ID from public key
+ssh-keygen -l -f ~/.tunnelmesh/id_ed25519.pub | awk &#39;{print $2}&#39; | \
+  base64 -d | xxd -p | head -c 16
+</code></pre>
+<p>This gives you the 16-character peer ID before the peer joins.</p>
+<h2 id="how-admin-authorisation-works">How Admin Authorisation Works</h2>
+<p>When a peer joins the mesh, the coordinator performs the following steps:</p>
+<ol>
+<li><strong>Peer Registers</strong>: Peer sends join request with public key</li>
+<li><strong>Generate Peer ID</strong>: Coordinator computes <code>SHA256(public_key)[:8]</code> as hex (16 chars)</li>
+<li><strong>Check admin_peers</strong>: Coordinator checks if peer name OR peer ID is in admin_peers list</li>
+<li><strong>Grant Admin Access</strong>: If matched:<ul>
+<li>Peer is added to &quot;admins&quot; group</li>
+<li>Full admin RBAC role is granted</li>
+<li>Admin-only panels become accessible</li>
+<li>Logs show match reason: &quot;matched by peer ID (secure)&quot; or &quot;matched by name (warning: mutable)&quot;</li>
+</ul>
+</li>
+<li><strong>Regular Access</strong>: If not matched:<ul>
+<li>Peer is added to &quot;everyone&quot; group only</li>
+<li>Network functionality works normally</li>
+<li>Admin features are denied</li>
+</ul>
+</li>
+</ol>
+<p><strong>Implementation location</strong>: <code>internal/coord/server.go:1547-1573</code></p>
+<h2 id="what-works-without-admin-access">What Works Without Admin Access</h2>
+<p>All core mesh networking features work for non-admin peers:</p>
+<h3 id="network-layer-always-available">Network Layer (Always Available)</h3>
+<ul>
+<li>✅ Join the mesh and register with coordinator</li>
+<li>✅ Establish encrypted tunnels (SSH, UDP, or relay)</li>
+<li>✅ Route IP traffic through the mesh</li>
+<li>✅ Access services on other peers</li>
+<li>✅ Use mesh DNS resolution (<code>peer.tunnelmesh</code>)</li>
+<li>✅ NAT traversal (UDP hole-punching)</li>
+<li>✅ Automatic transport fallback</li>
+<li>✅ Network monitoring and reconnection</li>
+</ul>
+<h3 id="performance-diagnostics">Performance &amp; Diagnostics</h3>
+<ul>
+<li>✅ Speed test to other peers (<code>tunnelmesh benchmark</code>)</li>
+<li>✅ Check own connection status (<code>tunnelmesh status</code>)</li>
+<li>✅ Resolve mesh hostnames (<code>tunnelmesh resolve</code>)</li>
+</ul>
+<h3 id="vpn-features">VPN Features</h3>
+<ul>
+<li>✅ Use exit peers for split-tunnel VPN</li>
+<li>✅ Serve as exit peer (if <code>allow_exit_traffic: true</code>)</li>
+</ul>
+<h3 id="storage-with-rbac-permissions">Storage (With RBAC Permissions)</h3>
+<ul>
+<li>✅ Access S3 buckets (if granted via RBAC bindings)</li>
+<li>✅ List/read/write objects (based on role)</li>
+<li>✅ Use file shares (if granted permissions)</li>
+</ul>
+<h3 id="dashboard-limited">Dashboard (Limited)</h3>
+<ul>
+<li>✅ View non-admin panels: visualizer, map, alerts, s3, shares</li>
+<li>✅ View mesh topology</li>
+<li>✅ See geographic map (if location data available)</li>
+</ul>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p><strong>Summary</strong>: Non-admin peers can fully participate in the mesh network and access services.
+They just cannot configure or manage mesh-wide settings.</p></div>
+</div>
+<h2 id="what-requires-admin-access">What Requires Admin Access</h2>
+<p>Admin access is required for mesh/data plane <strong>configuration and management</strong>:</p>
+<h3 id="peer-management">Peer Management</h3>
+<ul>
+<li>❌ View detailed peer stats (bandwidth, latency, connection types)</li>
+<li>❌ Force transport changes for peers</li>
+<li>❌ View peer logs via admin panel</li>
+<li>❌ View peer connection history</li>
+</ul>
+<h3 id="network-configuration">Network Configuration</h3>
+<ul>
+<li>❌ Configure packet filter rules (port-based firewall)</li>
+<li>❌ Create/modify/delete filter rules</li>
+<li>❌ Set global filter policies</li>
+<li>❌ View filter metrics</li>
+</ul>
+<h3 id="storage-management">Storage Management</h3>
+<ul>
+<li>❌ Create S3 buckets</li>
+<li>❌ Delete S3 buckets</li>
+<li>❌ Create file shares</li>
+<li>❌ Delete file shares</li>
+<li>❌ Configure bucket policies</li>
+</ul>
+<h3 id="user-access-management">User &amp; Access Management</h3>
+<ul>
+<li>❌ View users and groups</li>
+<li>❌ Create/delete users</li>
+<li>❌ Manage group memberships</li>
+<li>❌ Create RBAC role bindings</li>
+<li>❌ Grant/revoke permissions</li>
+</ul>
+<h3 id="docker-orchestration">Docker Orchestration</h3>
+<ul>
+<li>❌ View Docker containers</li>
+<li>❌ Start/stop/restart containers</li>
+<li>❌ View container stats and logs</li>
+</ul>
+<h3 id="dns-management">DNS Management</h3>
+<ul>
+<li>❌ Configure mesh DNS records</li>
+<li>❌ View DNS resolver stats</li>
+</ul>
+<h3 id="dashboard-access">Dashboard Access</h3>
+<ul>
+<li>❌ Access admin panels (Mesh: peers, logs, filter; App: docker; Data: peers-mgmt, groups, bindings, dns)</li>
+</ul>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p><strong>Summary</strong>: Admin access is for <strong>configuration</strong>, not for basic mesh usage. If you just need to
+use the mesh network and access services, you don&#39;t need admin rights.</p></div>
+</div>
+<h2 id="admin-panel-access">Admin Panel Access</h2>
+<p>The admin dashboard is accessible at <code>https://this.tm/</code> from within the mesh.</p>
+<h3 id="panel-visibility">Panel Visibility</h3>
+<p>Panels are controlled by the RBAC system. The dashboard has three tabs: <strong>Mesh</strong>, <strong>App</strong>, and <strong>Data</strong>.</p>
+<h4 id="mesh-tab">Mesh Tab</h4>
+<table>
+<thead>
+<tr>
+<th>Panel ID</th>
+<th>Display Name</th>
+<th>Admin Only</th>
+<th>Grantable to Non-Admins</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>visualizer</code></td>
+<td>Network Topology</td>
+<td>No</td>
+<td>N/A (public)</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>Node Locations</td>
+<td>No</td>
+<td>N/A (public)</td>
+</tr>
+<tr>
+<td><code>alerts</code></td>
+<td>Active Alerts</td>
+<td>No</td>
+<td>N/A (public)</td>
+</tr>
+<tr>
+<td><code>peers</code></td>
+<td>Connected Peers</td>
+<td>Yes</td>
+<td>Yes (role binding)</td>
+</tr>
+<tr>
+<td><code>logs</code></td>
+<td>Peer Logs</td>
+<td>Yes</td>
+<td>Yes (role binding)</td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>Packet Filter</td>
+<td>Yes</td>
+<td>Yes (role binding)</td>
+</tr>
+</tbody></table>
+<h4 id="app-tab">App Tab</h4>
+<table>
+<thead>
+<tr>
+<th>Panel ID</th>
+<th>Display Name</th>
+<th>Admin Only</th>
+<th>Grantable to Non-Admins</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>s3</code></td>
+<td>Objects</td>
+<td>No</td>
+<td>N/A (public)</td>
+</tr>
+<tr>
+<td><code>shares</code></td>
+<td>Shares</td>
+<td>No</td>
+<td>N/A (public)</td>
+</tr>
+<tr>
+<td><code>docker</code></td>
+<td>Docker Containers</td>
+<td>Yes</td>
+<td>Yes (role binding)</td>
+</tr>
+</tbody></table>
+<h4 id="data-tab">Data Tab</h4>
+<table>
+<thead>
+<tr>
+<th>Panel ID</th>
+<th>Display Name</th>
+<th>Admin Only</th>
+<th>Grantable to Non-Admins</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>peers-mgmt</code></td>
+<td>Peers</td>
+<td>Yes</td>
+<td>Yes (role binding)</td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td>Groups</td>
+<td>Yes</td>
+<td>Yes (role binding)</td>
+</tr>
+<tr>
+<td><code>bindings</code></td>
+<td>Role Bindings</td>
+<td>Yes</td>
+<td>Yes (role binding)</td>
+</tr>
+<tr>
+<td><code>dns</code></td>
+<td>DNS Records</td>
+<td>Yes</td>
+<td>Yes (role binding)</td>
+</tr>
+</tbody></table>
+<h3 id="granting-panel-access-to-non-admins">Granting Panel Access to Non-Admins</h3>
+<p>You can grant access to specific admin panels without full admin rights:</p>
+<pre><code class="language-bash"># Grant access to Docker panel only
+tunnelmesh role bind alice panel-viewer --panel-scope docker
+
+# Grant access to filter panel
+tunnelmesh role bind bob panel-viewer --panel-scope filter
+
+# Grant multiple panel access via group
+tunnelmesh group create monitoring-users
+tunnelmesh group add-member monitoring-users alice
+tunnelmesh group bind monitoring-users panel-viewer --panel-scope peers
+tunnelmesh group bind monitoring-users panel-viewer --panel-scope logs
+</code></pre>
+<p>See the <a href="USER_IDENTITY.md">User Identity and RBAC Guide</a> for complete RBAC documentation.</p>
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="use-peer-ids-not-names">Use Peer IDs, Not Names</h3>
+<div class="callout warning">
+  <div class="callout-title"><span>Warning</span></div>
+  <div class="callout-body"><p><strong>Security Best Practice</strong>: Always use peer IDs, not names, for admin_peers in production.
+Peer names can be changed by users, while peer IDs are immutable and tied to SSH keys.</p></div>
+</div>
+<p><strong>Recommended configuration</strong>:</p>
+<pre><code class="language-yaml">coordinator:
+  admin_peers: [&quot;a1b2c3d4e5f6g7h8&quot;]  # Peer ID - immutable
+</code></pre>
+<p><strong>Avoid</strong> (except for initial setup):</p>
+<pre><code class="language-yaml">coordinator:
+  admin_peers: [&quot;alice&quot;]  # Name - can be changed by user
+</code></pre>
+<p><strong>Why?</strong></p>
+<ul>
+<li>Peer names can be changed by users (via config or CLI)</li>
+<li>Peer IDs are derived from SSH keys (immutable)</li>
+<li>An attacker with SSH key access can change their peer name to match admin_peers</li>
+<li>Peer ID matching ensures only the correct SSH key holder gets admin access</li>
+</ul>
+<h3 id="initial-setup-pattern">Initial Setup Pattern</h3>
+<p>For convenience during initial setup, you can use names temporarily:</p>
+<ol>
+<li><p><strong>Bootstrap coordinator with name</strong>:</p>
+<pre><code class="language-yaml">admin_peers: [&quot;coordinator&quot;]
+</code></pre>
+</li>
+<li><p><strong>Start coordinator and join</strong>:</p>
+<pre><code class="language-bash">tunnelmesh join
+</code></pre>
+</li>
+<li><p><strong>Get peer ID</strong>:</p>
+<pre><code class="language-bash">tunnelmesh status  # Note the peer ID (16 hex chars)
+</code></pre>
+</li>
+<li><p><strong>Update config with peer ID</strong>:</p>
+<pre><code class="language-yaml">admin_peers: [&quot;a1b2c3d4e5f6g7h8&quot;]  # Replace name with ID
+</code></pre>
+</li>
+<li><p><strong>Restart coordinator</strong>:</p>
+<pre><code class="language-bash">sudo systemctl restart tunnelmesh
+</code></pre>
+</li>
+</ol>
+<p>Now admin access is tied to the SSH key, not the mutable peer name.</p>
+<h3 id="protect-coordinator-config">Protect Coordinator Config</h3>
+<div class="callout caution">
+  <div class="callout-title"><span>Caution</span></div>
+  <div class="callout-body"><p><strong>Protect your coordinator config file</strong>: The admin_peers list controls who gets admin access.
+Set restrictive permissions to prevent unauthorised modifications.</p></div>
+</div>
+<pre><code class="language-bash"># Set restrictive permissions
+sudo chown root:root /etc/tunnelmesh/coordinator.yaml
+sudo chmod 600 /etc/tunnelmesh/coordinator.yaml
+</code></pre>
+<p>Only root (or the coordinator service user) should be able to read/write this file.</p>
+<h3 id="audit-admin-actions">Audit Admin Actions</h3>
+<p>Admin actions are logged by the coordinator. Monitor logs for suspicious activity:</p>
+<pre><code class="language-bash"># View coordinator logs
+sudo journalctl -u tunnelmesh -f
+
+# Grep for admin matches
+sudo journalctl -u tunnelmesh | grep &quot;matched by&quot;
+</code></pre>
+<p>Look for:</p>
+<ul>
+<li><code>matched by peer ID (secure)</code> - Normal, secure matching</li>
+<li><code>matched by name (warning: mutable)</code> - Name matching (consider switching to peer ID)</li>
+</ul>
+<h3 id="revoke-admin-access">Revoke Admin Access</h3>
+<p>To revoke admin access:</p>
+<ol>
+<li><p><strong>Remove from admin_peers list</strong>:</p>
+<pre><code class="language-yaml">admin_peers:
+  # - &quot;alice&quot;  # Removed
+  - &quot;a1b2c3d4e5f6g7h8&quot;
+</code></pre>
+</li>
+<li><p><strong>Restart coordinator</strong>:</p>
+<pre><code class="language-bash">sudo systemctl restart tunnelmesh
+</code></pre>
+</li>
+<li><p><strong>Peer must re-join</strong> to lose admin privileges:</p>
+<ul>
+<li>Peer&#39;s existing session retains admin until reconnect</li>
+<li>On next heartbeat/reconnect, coordinator will not grant admin</li>
+<li>Peer is moved from &quot;admins&quot; group to &quot;everyone&quot; group only</li>
+</ul>
+</li>
+</ol>
+<p>To force immediate revocation, use the admin panel to disconnect the peer.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="example-1-single-admin-peer-id">Example 1: Single Admin (Peer ID)</h3>
+<p><strong>Scenario</strong>: Coordinator peer is the only admin.</p>
+<pre><code class="language-yaml"># coordinator.yaml
+name: &quot;coordinator&quot;
+
+coordinator:
+  enabled: true
+  listen: &quot;:8443&quot;
+  admin_peers:
+    - &quot;a1b2c3d4e5f6g7h8&quot;  # Coordinator&#39;s peer ID
+</code></pre>
+<p><strong>Steps</strong>:</p>
+<ol>
+<li>Bootstrap coordinator: <code>tunnelmesh join</code></li>
+<li>Get peer ID: <code>tunnelmesh status</code></li>
+<li>Update config with peer ID</li>
+<li>Restart: <code>sudo systemctl restart tunnelmesh</code></li>
+</ol>
+<p><strong>Result</strong>: Only the coordinator peer (with specific SSH key) has admin access. All other peers have network access only.</p>
+<h3 id="example-2-multiple-admins-mixed-mode">Example 2: Multiple Admins (Mixed Mode)</h3>
+<p><strong>Scenario</strong>: Coordinator and two trusted peers are admins.</p>
+<pre><code class="language-yaml"># coordinator.yaml
+coordinator:
+  enabled: true
+  listen: &quot;:8443&quot;
+  admin_peers:
+    - &quot;a1b2c3d4e5f6g7h8&quot;  # Coordinator peer ID
+    - &quot;i9j0k1l2m3n4o5p6&quot;  # Alice&#39;s peer ID
+    - &quot;bob&quot;              # Bob&#39;s name (temporary)
+</code></pre>
+<p><strong>Steps</strong>:</p>
+<ol>
+<li>Configure coordinator with coordinator&#39;s peer ID</li>
+<li>Add Alice&#39;s peer ID (obtained after first join or from SSH key)</li>
+<li>Temporarily add Bob&#39;s name until you get his peer ID</li>
+<li>After Bob joins, get his peer ID: <code>tunnelmesh status</code> (run by Bob)</li>
+<li>Replace &quot;bob&quot; with Bob&#39;s peer ID in config</li>
+<li>Restart coordinator</li>
+</ol>
+<p><strong>Result</strong>: Three peers with admin access, all using immutable peer IDs.</p>
+<h3 id="example-3-name-based-development-only">Example 3: Name-Based (Development Only)</h3>
+<p><strong>Scenario</strong>: Local development mesh where security is not critical.</p>
+<pre><code class="language-yaml"># coordinator.yaml
+coordinator:
+  enabled: true
+  listen: &quot;:8443&quot;
+  admin_peers:
+    - &quot;coordinator&quot;
+    - &quot;laptop&quot;
+    - &quot;desktop&quot;
+</code></pre>
+<div class="callout warning">
+  <div class="callout-title"><span>Warning</span></div>
+  <div class="callout-body"><p>Name matching is convenient but less secure. Only use in development/testing environments.</p></div>
+</div>
+<h3 id="example-4-no-admins-public-mesh">Example 4: No Admins (Public Mesh)</h3>
+<p><strong>Scenario</strong>: Public mesh where no one has admin access (monitoring only).</p>
+<div class="callout warning">
+  <div class="callout-title"><span>Warning</span></div>
+  <div class="callout-body"><p><strong>Advanced use case</strong>: With an empty admin_peers list, you won&#39;t be able to manage the mesh via UI.
+All configuration must be done via config files.</p></div>
+</div>
+<pre><code class="language-yaml"># coordinator.yaml
+coordinator:
+  enabled: true
+  listen: &quot;:8443&quot;
+  admin_peers: []  # Empty list
+</code></pre>
+<p><strong>Result</strong>:</p>
+<ul>
+<li>All peers have network functionality only</li>
+<li>No one can access admin panels or configure mesh settings</li>
+<li>Useful for read-only/monitoring deployments</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="access-denied-in-admin-panel">&quot;Access Denied&quot; in Admin Panel</h3>
+<p><strong>Symptoms</strong>: Can access visualizer/map panels, but admin panels show &quot;Access Denied&quot;.</p>
+<p><strong>Cause</strong>: Your peer is not in the admin_peers list.</p>
+<p><strong>Solution</strong>:</p>
+<ol>
+<li><p>Check if you&#39;re in admin_peers:</p>
+<pre><code class="language-bash"># On coordinator
+grep admin_peers /etc/tunnelmesh/coordinator.yaml
+</code></pre>
+</li>
+<li><p>Get your peer ID:</p>
+<pre><code class="language-bash">tunnelmesh status  # Look for &quot;Peer ID: abc123...&quot;
+</code></pre>
+</li>
+<li><p>Add your peer ID to admin_peers:</p>
+<pre><code class="language-yaml">admin_peers:
+  - &quot;your-peer-id-here&quot;
+</code></pre>
+</li>
+<li><p>Restart coordinator:</p>
+<pre><code class="language-bash">sudo systemctl restart tunnelmesh
+</code></pre>
+</li>
+<li><p>Reconnect your peer (or wait for next heartbeat)</p>
+</li>
+</ol>
+<h3 id="admin-access-works-then-stops">Admin Access Works, Then Stops</h3>
+<p><strong>Symptoms</strong>: Had admin access, now it&#39;s gone after restarting peer.</p>
+<p><strong>Cause</strong>: Coordinator config changed, or peer name changed.</p>
+<p><strong>Solution</strong>:</p>
+<ol>
+<li><p>Check coordinator logs:</p>
+<pre><code class="language-bash">sudo journalctl -u tunnelmesh | grep &quot;matched by&quot;
+</code></pre>
+</li>
+<li><p>Look for:</p>
+<ul>
+<li>No match logged = not in admin_peers</li>
+<li>&quot;matched by name&quot; = using name matching (check if name changed)</li>
+</ul>
+</li>
+<li><p>Verify your peer ID hasn&#39;t changed (SSH key replacement):</p>
+<pre><code class="language-bash">tunnelmesh status
+</code></pre>
+</li>
+<li><p>Update admin_peers with correct peer ID or name</p>
+</li>
+</ol>
+<h3 id="coordinator-logs-matched-by-name-warning-mutable">Coordinator Logs &quot;matched by name (warning: mutable)&quot;</h3>
+<p><strong>Symptoms</strong>: Admin access works, but logs show warning.</p>
+<p><strong>Cause</strong>: Using name matching instead of peer ID matching.</p>
+<p><strong>Solution</strong>: Switch to peer ID matching (recommended):</p>
+<ol>
+<li>Get peer ID: <code>tunnelmesh status</code></li>
+<li>Replace name with peer ID in config</li>
+<li>Restart coordinator</li>
+</ol>
+<p>This is not an error, just a security recommendation.</p>
+<h3 id="multiple-peers-wrong-one-has-admin">Multiple Peers, Wrong One Has Admin</h3>
+<p><strong>Symptoms</strong>: Different peer than expected has admin access.</p>
+<p><strong>Cause</strong>: Name collision or peer ID mismatch.</p>
+<p><strong>Solution</strong>:</p>
+<ol>
+<li><p>Check which peer matched:</p>
+<pre><code class="language-bash">sudo journalctl -u tunnelmesh | grep &quot;admin peer matched&quot;
+</code></pre>
+</li>
+<li><p>Verify peer IDs:</p>
+<pre><code class="language-bash"># On each peer
+tunnelmesh status
+</code></pre>
+</li>
+<li><p>Update admin_peers with correct peer IDs (not names)</p>
+</li>
+</ol>
+<h3 id="cant-access-dashboard-at-all">Can&#39;t Access Dashboard at All</h3>
+<p><strong>Symptoms</strong>: Cannot access <code>https://this.tm/</code> from mesh peer.</p>
+<p><strong>Cause</strong>: Not a part of the mesh, or DNS/routing issue.</p>
+<p><strong>Solution</strong>:</p>
+<ol>
+<li><p>Verify mesh connectivity:</p>
+<pre><code class="language-bash">tunnelmesh status
+tunnelmesh peers
+</code></pre>
+</li>
+<li><p>Check if coordinator is reachable:</p>
+<pre><code class="language-bash">ping this.tm
+curl -k https://this.tm/
+</code></pre>
+</li>
+<li><p>Check mesh DNS is working:</p>
+<pre><code class="language-bash">tunnelmesh resolve coordinator
+</code></pre>
+</li>
+<li><p>Verify TUN interface is up:</p>
+<pre><code class="language-bash">ip addr show tun-mesh0
+</code></pre>
+</li>
+</ol>
+<p>This is not an admin issue - it&#39;s a connectivity issue. See the
+<a href="GETTING_STARTED.md">Getting Started Guide</a> for troubleshooting mesh connectivity.</p>
+<h2 id="related-documentation">Related Documentation</h2>
+<ul>
+<li><strong><a href="USER_IDENTITY.md">User Identity and RBAC</a></strong> - User authentication, peer IDs, role-based access control</li>
+<li><strong><a href="GETTING_STARTED.md">Getting Started Guide</a></strong> - Initial setup and configuration</li>
+<li><strong><a href="CLI.md">CLI Reference</a></strong> - Command-line tools for management</li>
+<li><strong><a href="INTERNAL_PACKET_FILTER.md">Internal Packet Filter</a></strong> - Port-based firewall configuration</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p><strong>Key takeaways:</strong></p>
+<ul>
+<li>✅ Admin access is <strong>explicitly configured</strong> via <code>admin_peers</code> field</li>
+<li>✅ Use <strong>peer IDs</strong> (16 hex chars) for security, not peer names</li>
+<li>✅ Network functionality works <strong>without admin access</strong></li>
+<li>✅ Admin access enables <strong>configuration and management</strong></li>
+<li>✅ Get peer ID with <code>tunnelmesh status</code></li>
+<li>✅ Protect coordinator config file with restrictive permissions</li>
+<li>✅ Monitor logs for admin matches and security events</li>
+</ul>
+<p>For quick setup: use peer names initially, then switch to peer IDs for production security.</p>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"ADMIN"};</script>
+</body>
+</html>

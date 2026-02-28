@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLI Reference — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="Complete command-line reference for TunnelMesh with examples and walkthroughs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/cli/">
+  <meta property="og:title" content="CLI Reference — TunnelMesh Docs">
+  <meta property="og:description" content="Complete command-line reference for TunnelMesh with examples and walkthroughs.">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/cli/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="tunnelmesh-cli-reference">TunnelMesh CLI Reference</h1>
+<p>Complete command-line reference for TunnelMesh with examples and walkthroughs.</p>
+<h2 id="tldr-most-common-commands">TL;DR - Most Common Commands</h2>
+<div class="callout important">
+  <div class="callout-title"><span>Important</span></div>
+  <div class="callout-body"><p><strong>Sudo Required</strong>: TunnelMesh needs elevated privileges to create TUN network interfaces. Always run
+with <code>sudo</code> except for <code>init</code>, <code>version</code>, and <code>context</code> commands.</p></div>
+</div>
+<div class="callout warning">
+  <div class="callout-title"><span>Warning</span></div>
+  <div class="callout-body"><p><strong>Secure Token Storage</strong>: Auth tokens are passed via environment variable (<code>TUNNELMESH_TOKEN</code>), not CLI
+flags. Never commit tokens to git or share them publicly. Store securely with <code>chmod 600</code> permissions.</p></div>
+</div>
+<pre><code class="language-bash"># Generate SSH keys (first time only)
+tunnelmesh init
+
+# Bootstrap coordinator (first node)
+TOKEN=$(openssl rand -hex 32)
+sudo tunnelmesh join --token $TOKEN --context coord
+# Save token securely: echo &quot;$TOKEN&quot; &gt; ~/.tunnelmesh/mesh-token.txt &amp;&amp; chmod 600 $_
+
+# Join existing mesh as peer (use same token)
+sudo tunnelmesh join coord.example.com:8443 --token $TOKEN --context home
+
+# List your contexts
+tunnelmesh context list
+
+# Switch active context (changes DNS resolution)
+tunnelmesh context use work
+
+# Check your connection status
+tunnelmesh status
+
+# List all peers in the mesh
+tunnelmesh peers
+
+# Speed test to another peer
+tunnelmesh benchmark other-peer --size 100MB
+
+# Install as system service (uses active context)
+sudo tunnelmesh service install
+sudo tunnelmesh service start
+</code></pre>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Contexts simplify management:</strong> After joining with <code>--context</code>, TunnelMesh remembers your
+configuration. Subsequent commands use the active context automatically, so there is no need to specify <code>-c</code>
+every time. Perfect for managing multiple meshes (work, home, dev).</p>
+<p>Commands that work without a context: <code>init</code>, <code>version</code>, and <code>context</code> subcommands.</p></div>
+</div>
+<hr>
+<h2 id="installation">Installation</h2>
+<p>Download the latest release for your platform:</p>
+<pre><code class="language-bash"># Linux (amd64)
+curl -LO https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-linux-amd64
+chmod +x tunnelmesh-linux-amd64
+sudo mv tunnelmesh-linux-amd64 /usr/local/bin/tunnelmesh
+
+# macOS (Apple Silicon)
+curl -LO https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-darwin-arm64
+chmod +x tunnelmesh-darwin-arm64
+sudo mv tunnelmesh-darwin-arm64 /usr/local/bin/tunnelmesh
+
+# macOS (Intel)
+curl -LO https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-darwin-amd64
+chmod +x tunnelmesh-darwin-amd64
+sudo mv tunnelmesh-darwin-amd64 /usr/local/bin/tunnelmesh
+
+# Windows (PowerShell as Administrator)
+Invoke-WebRequest -Uri &quot;https://github.com/zombar/tunnelmesh/releases/latest/download/tunnelmesh-windows-amd64.exe&quot; -OutFile &quot;tunnelmesh.exe&quot;
+Move-Item tunnelmesh.exe C:\Windows\System32\
+</code></pre>
+<p>Or build from source:</p>
+<pre><code class="language-bash">git clone https://github.com/zombar/tunnelmesh.git
+cd tunnelmesh
+make build
+sudo mv tunnelmesh /usr/local/bin/
+</code></pre>
+<hr>
+<h2 id="quick-reference">Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tunnelmesh join</code></td>
+<td>Join mesh (as peer or coordinator)</td>
+</tr>
+<tr>
+<td><code>tunnelmesh context</code></td>
+<td>Manage mesh contexts</td>
+</tr>
+<tr>
+<td><code>tunnelmesh status</code></td>
+<td>Show connection status</td>
+</tr>
+<tr>
+<td><code>tunnelmesh peers</code></td>
+<td>List mesh peers</td>
+</tr>
+<tr>
+<td><code>tunnelmesh resolve &lt;name&gt;</code></td>
+<td>Resolve mesh hostname</td>
+</tr>
+<tr>
+<td><code>tunnelmesh leave</code></td>
+<td>Deregister from mesh</td>
+</tr>
+<tr>
+<td><code>tunnelmesh init</code></td>
+<td>Generate SSH keys</td>
+</tr>
+<tr>
+<td><code>tunnelmesh benchmark &lt;peer&gt;</code></td>
+<td>Speed test to peer</td>
+</tr>
+<tr>
+<td><code>tunnelmesh service</code></td>
+<td>Manage system service</td>
+</tr>
+<tr>
+<td><code>tunnelmesh update</code></td>
+<td>Self-update binary</td>
+</tr>
+<tr>
+<td><code>tunnelmesh version</code></td>
+<td>Show version info</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="global-flags">Global Flags</h2>
+<p>These flags work with all commands:</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Short</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--config</code></td>
+<td><code>-c</code></td>
+<td>Path to config file</td>
+</tr>
+<tr>
+<td><code>--log-level</code></td>
+<td><code>-l</code></td>
+<td>Log level: debug, info, warn, error</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="commands-in-detail">Commands in Detail</h2>
+<h3 id="tunnelmesh-init">tunnelmesh init</h3>
+<p>Initialise TunnelMesh by generating SSH keys.</p>
+<pre><code class="language-bash">tunnelmesh init
+</code></pre>
+<p><strong>What it does:</strong></p>
+<ol>
+<li>Creates <code>~/.tunnelmesh/</code> directory</li>
+<li>Generates ED25519 key pair</li>
+<li>Saves private key to <code>~/.tunnelmesh/id_ed25519</code></li>
+<li>Saves public key to <code>~/.tunnelmesh/id_ed25519.pub</code></li>
+</ol>
+<p><strong>Example output:</strong></p>
+<pre><code class="language-text">INF keys generated path=~/.tunnelmesh/id_ed25519
+INF public key path=~/.tunnelmesh/id_ed25519.pub
+```text
+
+---
+
+### tunnelmesh join
+
+Join the mesh network. When no server URL is provided, automatically bootstraps as a coordinator (first node in mesh).
+
+```bash
+tunnelmesh join [server-url] [flags]
+</code></pre>
+<p><strong>Flags:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Short</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--token</code></td>
+<td><code>-t</code></td>
+<td>Authentication token</td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><code>-n</code></td>
+<td>Peer name (defaults to hostname)</td>
+</tr>
+<tr>
+<td><code>--context</code></td>
+<td></td>
+<td>Save/update as named context</td>
+</tr>
+<tr>
+<td><code>--exit-node</code></td>
+<td></td>
+<td>Route internet through specified peer</td>
+</tr>
+<tr>
+<td><code>--allow-exit-traffic</code></td>
+<td></td>
+<td>Allow this peer as exit for others</td>
+</tr>
+<tr>
+<td><code>--latitude</code></td>
+<td></td>
+<td>Manual latitude (-90 to 90)</td>
+</tr>
+<tr>
+<td><code>--longitude</code></td>
+<td></td>
+<td>Manual longitude (-180 to 180)</td>
+</tr>
+<tr>
+<td><code>--city</code></td>
+<td></td>
+<td>City name for admin UI display</td>
+</tr>
+<tr>
+<td><code>--enable-tracing</code></td>
+<td></td>
+<td>Enable runtime tracing</td>
+</tr>
+</tbody></table>
+<p><strong>Example - Basic join:</strong></p>
+<pre><code class="language-bash">sudo tunnelmesh join tunnelmesh.example.com \
+  --token your-secure-token
+</code></pre>
+<p><strong>Example - Join with exit peer:</strong></p>
+<pre><code class="language-bash">sudo tunnelmesh join tunnelmesh.example.com \
+  --token your-secure-token \
+  --exit-peer server-peer
+</code></pre>
+<p><strong>Example - Join as exit peer:</strong></p>
+<pre><code class="language-bash">sudo tunnelmesh join tunnelmesh.example.com \
+  --token your-secure-token \
+  --allow-exit-traffic \
+  --latitude 1.3521 \
+  --longitude 103.8198 \
+  --city Singapore
+</code></pre>
+<p><strong>Example - Bootstrap coordinator (first node):</strong></p>
+<pre><code class="language-bash"># No server URL = automatically becomes coordinator
+sudo tunnelmesh join --token your-secure-token
+</code></pre>
+<p><strong>Generate a config:</strong></p>
+<pre><code class="language-bash">tunnelmesh init --peer --output peer.yaml
+</code></pre>
+<p>See <a href="../peer.yaml.example">peer.yaml.example</a> for all options including
+the <code>coordinator</code> section.</p>
+<hr>
+<h3 id="tunnelmesh-context">tunnelmesh context</h3>
+<p>Manage mesh contexts. Contexts store configuration paths, allocated IPs, and DNS settings for easy switching between
+multiple meshes.</p>
+<pre><code class="language-bash">tunnelmesh context &lt;subcommand&gt;
+</code></pre>
+<p><strong>Subcommands:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Subcommand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>create</code></td>
+<td>Create a new context from a config file</td>
+</tr>
+<tr>
+<td><code>list</code></td>
+<td>List all contexts</td>
+</tr>
+<tr>
+<td><code>use</code></td>
+<td>Switch active context (updates DNS)</td>
+</tr>
+<tr>
+<td><code>delete</code></td>
+<td>Delete a context</td>
+</tr>
+<tr>
+<td><code>show</code></td>
+<td>Show context details</td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="tunnelmesh-context-create">tunnelmesh context create</h4>
+<p>Create a new context from a configuration file.</p>
+<pre><code class="language-bash">tunnelmesh context create &lt;name&gt; --config &lt;path&gt;
+</code></pre>
+<p><strong>Flags:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--config</code>, <code>-c</code></td>
+<td>Path to config file (required)</td>
+</tr>
+</tbody></table>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash"># Create a peer context
+tunnelmesh context create home --config ~/.tunnelmesh/home.yaml
+
+# Create a coordinator context (with coordinator.enabled: true in config)
+tunnelmesh context create coordinator --config /etc/tunnelmesh/coordinator.yaml
+</code></pre>
+<hr>
+<h4 id="tunnelmesh-context-list">tunnelmesh context list</h4>
+<p>List all contexts with their status.</p>
+<pre><code class="language-bash">tunnelmesh context list
+</code></pre>
+<p><strong>Example output:</strong></p>
+<pre><code class="language-text">NAME         SERVER                      STATUS     ACTIVE
+home         http://home-server:8080     running    *
+work         https://work.mesh.io        stopped
+dev          http://192.168.1.10:8080    -
+```text
+
+- `STATUS`: Service status (`running`, `stopped`, or `-` if no service installed)
+- `ACTIVE`: `*` marks the currently active context
+
+---
+
+#### tunnelmesh context use
+
+Switch the active context. This changes which mesh&#39;s DNS resolver handles `.tunnelmesh` domains.
+
+```bash
+tunnelmesh context use &lt;name&gt;
+</code></pre>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash">tunnelmesh context use work
+</code></pre>
+<p><strong>What happens:</strong></p>
+<ol>
+<li>Updates active context in <code>~/.tunnelmesh/.context</code></li>
+<li>Reconfigures system DNS resolver for the new mesh&#39;s domain</li>
+<li>CLI commands now target the new context by default</li>
+</ol>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>Switching contexts doesn&#39;t stop running tunnels. Multiple meshes can run simultaneously—only the DNS &quot;focus&quot;
+changes.</p></div>
+</div>
+<hr>
+<h4 id="tunnelmesh-context-delete">tunnelmesh context delete</h4>
+<p>Delete a context. Prompts to stop/uninstall service if running.</p>
+<pre><code class="language-bash">tunnelmesh context delete &lt;name&gt;
+</code></pre>
+<p><strong>Example:</strong></p>
+<pre><code class="language-bash">tunnelmesh context delete dev
+</code></pre>
+<p><strong>Prompts:</strong></p>
+<ul>
+<li>If service is running: &quot;Service is running. Stop and uninstall?&quot;</li>
+<li>&quot;Remove config file at /path/to/config.yaml?&quot;</li>
+</ul>
+<hr>
+<h4 id="tunnelmesh-context-show">tunnelmesh context show</h4>
+<p>Show details of a specific context.</p>
+<pre><code class="language-bash">tunnelmesh context show [name]
+</code></pre>
+<p>If no name is provided, shows the active context.</p>
+<p><strong>Example output:</strong></p>
+<pre><code class="language-text">Context: home
+  Config:     /home/user/.tunnelmesh/home.yaml
+  Server:     http://home-server:8080
+  Mesh IP:    10.42.0.5
+  Domain:     .tunnelmesh
+  DNS Listen: 127.0.0.53:5353
+  Service:    tunnelmesh-home (running)
+```text
+
+---
+
+### tunnelmesh status
+
+Show current mesh status.
+
+```bash
+tunnelmesh status
+</code></pre>
+<p><strong>Example output:</strong></p>
+<pre><code class="language-text">TunnelMesh Status
+=================
+
+Node:
+  Name:        my-laptop
+  SSH Port:    2222
+  Private Key: /home/user/.tunnelmesh/id_ed25519
+  Key FP:      SHA256:abc123...
+
+Server:
+  URL:         https://tunnelmesh.example.com
+  Status:      connected
+
+Mesh:
+  Mesh IP:     10.42.0.5
+  Last Seen:   2024-01-15 10:30:45
+  Connectable: yes
+  Total Peers: 5
+  Online:      4
+
+TUN Device:
+  Name:        tun-mesh0
+  MTU:         1400
+
+DNS:
+  Enabled:     yes
+  Listen:      127.0.0.53:5353
+  Cache TTL:   300s
+</code></pre>
+<hr>
+<h3 id="tunnelmesh-peers">tunnelmesh peers</h3>
+<p>List all peers in the mesh.</p>
+<pre><code class="language-bash">tunnelmesh peers
+</code></pre>
+<p><strong>Example output:</strong></p>
+<pre><code class="language-text">NAME                 MESH IP         PUBLIC IP            LAST SEEN
+-------------------- --------------- -------------------- --------------------
+coordinator          10.42.0.1      203.0.113.10         2024-01-15 10:30:45
+my-laptop            10.42.0.5      198.51.100.20        2024-01-15 10:30:42
+server-eu            10.42.0.3      192.0.2.50           2024-01-15 10:30:40
+home-pc              10.42.0.10     203.0.113.11         2024-01-15 10:25:00
+</code></pre>
+<hr>
+<h3 id="tunnelmesh-resolve">tunnelmesh resolve</h3>
+<p>Resolve a mesh hostname to its IP address.</p>
+<pre><code class="language-bash">tunnelmesh resolve &lt;hostname&gt;
+</code></pre>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-bash"># Resolve a peer name
+tunnelmesh resolve coordinator
+# Output: coordinator -&gt; 10.42.0.1
+
+# Resolve with domain suffix
+tunnelmesh resolve coordinator.tunnelmesh
+# Output: coordinator.tunnelmesh -&gt; 10.42.0.1
+
+# Resolve a DNS alias
+tunnelmesh resolve nas
+# Output: nas -&gt; 10.42.0.2
+</code></pre>
+<hr>
+<h3 id="tunnelmesh-leave">tunnelmesh leave</h3>
+<p>Deregister from the mesh network.</p>
+<pre><code class="language-bash">tunnelmesh leave
+</code></pre>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>This removes your peer record from the coordinator. Your mesh IP will be released and may be assigned to
+another peer. Use this when permanently leaving the mesh, not for temporary disconnects.</p></div>
+</div>
+<hr>
+<h3 id="tunnelmesh-benchmark">tunnelmesh benchmark</h3>
+<p>Run speed tests between peers.</p>
+<pre><code class="language-bash">tunnelmesh benchmark &lt;peer-name&gt; [flags]
+</code></pre>
+<p><strong>Flags:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--size</code></td>
+<td>Transfer size</td>
+<td>10MB</td>
+</tr>
+<tr>
+<td><code>--direction</code></td>
+<td>upload or download</td>
+<td>upload</td>
+</tr>
+<tr>
+<td><code>--output</code>, <code>-o</code></td>
+<td>JSON output file</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--timeout</code></td>
+<td>Benchmark timeout</td>
+<td>2m</td>
+</tr>
+<tr>
+<td><code>--port</code></td>
+<td>Benchmark server port</td>
+<td>9998</td>
+</tr>
+<tr>
+<td><code>--packet-loss</code></td>
+<td>Packet loss % (0-100)</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>--latency</code></td>
+<td>Added latency</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>--jitter</code></td>
+<td>Latency variation</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>--bandwidth</code></td>
+<td>Bandwidth limit</td>
+<td>unlimited</td>
+</tr>
+</tbody></table>
+<p><strong>Example - Basic speed test:</strong></p>
+<pre><code class="language-bash">tunnelmesh benchmark server-peer
+</code></pre>
+<p><strong>Example output:</strong></p>
+<pre><code class="language-text">Benchmarking server-peer (10.42.0.1)...
+  Direction:  upload
+  Size:       10 MB
+  Duration:   125 ms
+  Throughput: 640.00 Mbps
+  Latency:    1.23 ms (avg), 0.95 ms (min), 2.10 ms (max)
+</code></pre>
+<p><strong>Example - Large transfer with JSON output:</strong></p>
+<pre><code class="language-bash">tunnelmesh benchmark server-peer --size 100MB --output results.json
+</code></pre>
+<p><strong>Example - Chaos testing (simulate poor network):</strong></p>
+<pre><code class="language-bash"># Simulate flaky WiFi
+tunnelmesh benchmark server-peer --size 50MB --packet-loss 2
+
+# Simulate mobile connection
+tunnelmesh benchmark server-peer --size 10MB --latency 150ms --jitter 50ms
+
+# Simulate bandwidth-constrained link
+tunnelmesh benchmark server-peer --size 100MB --bandwidth 10mbps
+
+# Combined stress test
+tunnelmesh benchmark server-peer --size 20MB \
+  --packet-loss 3 \
+  --latency 50ms \
+  --jitter 20ms \
+  --bandwidth 20mbps
+</code></pre>
+<p>See <a href="BENCHMARKING.md">Benchmarking Guide</a> for detailed documentation.</p>
+<hr>
+<h3 id="tunnelmesh-service">tunnelmesh service</h3>
+<p>Manage TunnelMesh as a system service.</p>
+<pre><code class="language-bash">tunnelmesh service &lt;subcommand&gt; [flags]
+</code></pre>
+<p><strong>Subcommands:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Subcommand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>install</code></td>
+<td>Install as system service</td>
+</tr>
+<tr>
+<td><code>uninstall</code></td>
+<td>Remove system service</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td>Start the service</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td>Stop the service</td>
+</tr>
+<tr>
+<td><code>restart</code></td>
+<td>Restart the service</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Show service status</td>
+</tr>
+<tr>
+<td><code>logs</code></td>
+<td>View service logs</td>
+</tr>
+</tbody></table>
+<p><strong>Common flags (all subcommands):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--context</code></td>
+<td>Target specific context (default: active context)</td>
+</tr>
+</tbody></table>
+<p><strong>Install flags:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Short</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--user</code></td>
+<td></td>
+<td>Run as user (Linux/macOS)</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td><code>-f</code></td>
+<td>Force reinstall</td>
+</tr>
+</tbody></table>
+<p><strong>Logs flags:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--follow</code></td>
+<td>Follow logs in real-time</td>
+</tr>
+<tr>
+<td><code>--lines</code></td>
+<td>Number of lines to show</td>
+</tr>
+</tbody></table>
+<p><strong>Example - Install peer service (context-based):</strong></p>
+<pre><code class="language-bash"># First, join and create a context
+sudo tunnelmesh join coord.example.com:8443 --token your-mesh-token --config /etc/tunnelmesh/peer.yaml --context home
+
+# Install service for the active context
+sudo tunnelmesh service install
+
+# Start service
+sudo tunnelmesh service start
+
+# Check status
+tunnelmesh service status
+
+# View logs
+tunnelmesh service logs --follow
+</code></pre>
+<p><strong>Example - Install coordinator service:</strong></p>
+<pre><code class="language-bash"># Create context and install (config has coordinator.enabled: true)
+tunnelmesh context create coordinator --config /etc/tunnelmesh/coordinator.yaml
+sudo tunnelmesh service install
+sudo tunnelmesh service start
+</code></pre>
+<p><strong>Example - Multiple meshes:</strong></p>
+<pre><code class="language-bash"># Join two different meshes
+sudo tunnelmesh join home-coord.example.com:8443 --token home-token --config ~/.tunnelmesh/home.yaml --context home
+sudo tunnelmesh join work-coord.example.com:8443 --token work-token --config ~/.tunnelmesh/work.yaml --context work
+
+# Install services for both
+sudo tunnelmesh service install --context home
+sudo tunnelmesh service install --context work
+
+# Start both
+sudo tunnelmesh service start --context home
+sudo tunnelmesh service start --context work
+
+# Control specific context
+tunnelmesh service status --context work
+tunnelmesh service logs --context home --follow
+</code></pre>
+<p><strong>Service naming:</strong> Service names are derived from context names:</p>
+<ul>
+<li>Context <code>home</code> → Service <code>tunnelmesh-home</code></li>
+<li>Context <code>work</code> → Service <code>tunnelmesh-work</code></li>
+<li>Context <code>default</code> → Service <code>tunnelmesh</code></li>
+</ul>
+<p><strong>Platform-specific paths:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Service Manager</th>
+<th>Config Path</th>
+<th>Log Command</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Linux</td>
+<td>systemd</td>
+<td><code>/etc/tunnelmesh/</code></td>
+<td><code>journalctl -u tunnelmesh</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>launchd</td>
+<td><code>/etc/tunnelmesh/</code></td>
+<td><code>tunnelmesh service logs</code></td>
+</tr>
+<tr>
+<td>Windows</td>
+<td>SCM</td>
+<td><code>C:\ProgramData\TunnelMesh\</code></td>
+<td>Event Viewer</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="tunnelmesh-update">tunnelmesh update</h3>
+<p>Self-update to the latest version.</p>
+<pre><code class="language-bash">tunnelmesh update [flags]
+</code></pre>
+<p><strong>Flags:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--version</code></td>
+<td>Update to specific version</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td>Force update even if current</td>
+</tr>
+<tr>
+<td><code>--check</code></td>
+<td>Check for updates only</td>
+</tr>
+</tbody></table>
+<p><strong>Example - Check for updates:</strong></p>
+<pre><code class="language-bash">tunnelmesh update --check
+</code></pre>
+<p><strong>Example - Update to latest:</strong></p>
+<pre><code class="language-bash">sudo tunnelmesh update
+</code></pre>
+<p><strong>Example - Update to specific version:</strong></p>
+<pre><code class="language-bash">sudo tunnelmesh update --version v1.2.3
+</code></pre>
+<hr>
+<h3 id="tunnelmesh-version">tunnelmesh version</h3>
+<p>Show version information.</p>
+<pre><code class="language-bash">tunnelmesh version
+</code></pre>
+<p><strong>Example output:</strong></p>
+<pre><code class="language-text">tunnelmesh v1.5.0
+  Commit:     abc123def
+  Build Time: 2024-01-15T10:00:00Z
+</code></pre>
+<hr>
+<h2 id="configuration-files">Configuration Files</h2>
+<h3 id="config-file-locations">Config File Locations</h3>
+<p>TunnelMesh searches for config files in order:</p>
+<ol>
+<li>Path specified by <code>--config</code> flag</li>
+<li><code>~/.tunnelmesh/config.yaml</code></li>
+<li><code>tunnelmesh.yaml</code> in current directory</li>
+<li><code>peer.yaml</code> in current directory</li>
+</ol>
+<h3 id="configuration-reference">Configuration Reference</h3>
+<p>For complete configuration options with documentation, see <a href="../peer.yaml.example">peer.yaml.example</a>.</p>
+<p>The config includes an optional <code>coordinator</code> section for running as a coordinator.</p>
+<p>Generate a config file with:</p>
+<pre><code class="language-bash">tunnelmesh init --peer    # Generate peer.yaml with all options
+</code></pre>
+<hr>
+<h2 id="walkthroughs">Walkthroughs</h2>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>These walkthroughs provide complete end-to-end setups for common use cases. Each includes cloud
+deployment, peer configuration, and verification steps.</p></div>
+</div>
+<h3 id="walkthrough-1-personal-vpn-setup">Walkthrough 1: Personal VPN Setup</h3>
+<p>Set up TunnelMesh for personal use with a cloud server and laptop.</p>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Prerequisites</strong>: Cloud server (DigitalOcean, AWS, etc.) with public IP, domain name (optional but
+recommended), and local machine with TunnelMesh installed.</p></div>
+</div>
+<h4 id="step-1-deploy-coordinator-cloud-server">Step 1: Deploy coordinator (cloud server)</h4>
+<pre><code class="language-bash"># On your cloud server
+sudo mkdir -p /etc/tunnelmesh
+
+# Generate config
+tunnelmesh init --peer --output /etc/tunnelmesh/coordinator.yaml
+
+# Edit: set auth_token, enable coordinator.enabled, enable allow_exit_traffic
+sudo nano /etc/tunnelmesh/coordinator.yaml
+
+tunnelmesh context create vpn --config /etc/tunnelmesh/coordinator.yaml
+sudo tunnelmesh service install
+sudo tunnelmesh service start
+</code></pre>
+<h4 id="step-2-connect-laptop">Step 2: Connect laptop</h4>
+<pre><code class="language-bash"># On your laptop
+tunnelmesh init --peer --output ~/.tunnelmesh/vpn.yaml
+
+# Edit: set server, auth_token, exit_peer: &quot;cloud-server&quot;
+nano ~/.tunnelmesh/vpn.yaml
+
+# Join and save as context
+sudo tunnelmesh join vpn-coord.example.com:8443 --token vpn-token --config ~/.tunnelmesh/vpn.yaml --context vpn
+</code></pre>
+<h4 id="step-3-verify-connection">Step 3: Verify connection</h4>
+<pre><code class="language-bash"># Check status (uses active context)
+tunnelmesh status
+
+# Ping the server
+ping cloud-server.tunnelmesh
+
+# Your internet now routes through the cloud server
+curl ifconfig.me
+</code></pre>
+<h3 id="walkthrough-2-team-development-mesh">Walkthrough 2: Team Development Mesh</h3>
+<p>Connect a development team for direct machine access.</p>
+<h4 id="step-1-deploy-minimal-coordinator">Step 1: Deploy minimal coordinator</h4>
+<pre><code class="language-bash"># On a small cloud instance
+tunnelmesh init --peer --output coordinator.yaml
+
+# Edit: set auth_token, enable coordinator.enabled: true
+nano coordinator.yaml
+
+tunnelmesh context create team --config coordinator.yaml
+sudo tunnelmesh service install
+sudo tunnelmesh service start
+</code></pre>
+<h4 id="step-2-each-developer-joins">Step 2: Each developer joins</h4>
+<pre><code class="language-bash"># Each team member runs:
+tunnelmesh init
+
+sudo tunnelmesh join coordinator-ip:8080 \
+  --token team-secret-token \
+  --context team
+</code></pre>
+<h4 id="step-3-team-collaboration">Step 3: Team collaboration</h4>
+<pre><code class="language-bash"># SSH to teammate
+ssh alice.tunnelmesh
+
+# Access teammate&#39;s dev server
+curl http://bob.tunnelmesh:3000
+
+# Connect to teammate&#39;s database
+psql -h charlie.tunnelmesh mydb
+</code></pre>
+<h3 id="walkthrough-3-home-lab-remote-access">Walkthrough 3: Home Lab Remote Access</h3>
+<p>Access home network from anywhere.</p>
+<h4 id="step-1-cloud-coordinator">Step 1: Cloud coordinator</h4>
+<pre><code class="language-bash"># Deploy to cloud (see terraform docs)
+# Or manually:
+tunnelmesh init --peer --output coordinator.yaml
+
+# Edit: set auth_token, enable coordinator.enabled: true
+nano coordinator.yaml
+
+sudo tunnelmesh join --token my-secret-token --config coordinator.yaml
+</code></pre>
+<h4 id="step-2-home-server-joins">Step 2: Home server joins</h4>
+<pre><code class="language-bash"># On your home server (Raspberry Pi, NAS, etc.)
+tunnelmesh init --peer --output peer.yaml
+
+# Edit: set name, server, auth_token, add dns.aliases for services
+nano peer.yaml
+
+sudo tunnelmesh join coord.example.com:8443 --token my-secret-token --config peer.yaml --context homelab
+sudo tunnelmesh service install
+sudo tunnelmesh service start
+</code></pre>
+<h4 id="step-3-remote-access">Step 3: Remote access</h4>
+<ol>
+<li>Open admin dashboard: <code>https://cloud.example.com/</code></li>
+<li>Join the mesh from any device using the native client</li>
+<li>Access <code>nas.tunnelmesh</code>, <code>plex.tunnelmesh</code>, etc.</li>
+</ol>
+<hr>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="no-active-context">&quot;No active context&quot;</h3>
+<pre><code class="language-bash"># List available contexts
+tunnelmesh context list
+
+# Set an active context
+tunnelmesh context use home
+
+# Or specify context for commands
+tunnelmesh status --context home
+</code></pre>
+<h3 id="config-file-required">&quot;Config file required&quot;</h3>
+<pre><code class="language-bash"># Join with --context to save configuration
+sudo tunnelmesh join coord.example.com:8443 --token your-mesh-token --config /path/to/config.yaml --context mycontext
+
+# Or create context manually
+tunnelmesh context create mycontext --config /path/to/config.yaml
+</code></pre>
+<h3 id="failed-to-create-tun-device">&quot;Failed to create TUN device&quot;</h3>
+<pre><code class="language-bash"># Requires root/admin privileges
+sudo tunnelmesh join
+
+# Or check TUN device availability
+ls -la /dev/net/tun
+</code></pre>
+<h3 id="connection-refused-to-coordinator">&quot;Connection refused&quot; to coordinator</h3>
+<pre><code class="language-bash"># Check coordinator is running
+curl http://coordinator:8080/health
+
+# Check firewall
+sudo ufw allow 8080/tcp  # Linux
+</code></pre>
+<h3 id="dns-not-resolving-mesh-names">DNS not resolving mesh names</h3>
+<pre><code class="language-bash"># Check resolver is running
+dig @127.0.0.53 -p 5353 peer-name.tunnelmesh
+
+# Check system resolver config
+# macOS:
+cat /etc/resolver/tunnelmesh
+
+# Linux:
+resolvectl status
+</code></pre>
+<h3 id="slow-or-unreliable-connections">Slow or unreliable connections</h3>
+<pre><code class="language-bash"># Check transport type
+tunnelmesh peers  # Shows connection info
+
+# Run benchmark to diagnose
+tunnelmesh benchmark peer-name --size 10MB
+
+# Check if using relay (slower)
+# Look for &quot;relay&quot; in peers output
+</code></pre>
+<hr>
+<h2 id="environment-variables">Environment Variables</h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>TUNNELMESH_CONFIG</code></td>
+<td>Default config file path</td>
+</tr>
+<tr>
+<td><code>TUNNELMESH_LOG_LEVEL</code></td>
+<td>Log level override</td>
+</tr>
+<tr>
+<td><code>TUNNELMESH_SERVER</code></td>
+<td>Default coordinator URL</td>
+</tr>
+<tr>
+<td><code>TUNNELMESH_TOKEN</code></td>
+<td>Default auth token</td>
+</tr>
+</tbody></table>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"CLI"};</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://read.tunnelmesh.io/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/getting-started/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/admin/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/dashboard/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/user-identity/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/packet-filter/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/s3-storage/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/nfs/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/docker/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/cloud-deployment/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/high-availability/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/windows/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/cli/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/docs/benchmarking/</loc><lastmod>2026-02-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/tunnelmesh-hyperconverged/</loc><lastmod>2026-02-27</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/cloud-deployment-guide/</loc><lastmod>2026-02-16</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/internal-packet-filter/</loc><lastmod>2026-02-09</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/100-nodes-in-the-wild/</loc><lastmod>2026-02-02</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/s3-storage-backend/</loc><lastmod>2026-01-26</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/user-identity-zero-trust/</loc><lastmod>2026-01-19</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/benchmarking-tunnelmesh/</loc><lastmod>2026-01-12</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/tunnelmesh-in-2026/</loc><lastmod>2026-01-05</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/transport-fallback-chain/</loc><lastmod>2025-12-22</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/nfs-over-the-mesh/</loc><lastmod>2025-12-15</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/docker-support-in-tunnelmesh/</loc><lastmod>2025-12-08</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/chacha20-poly1305-cipher/</loc><lastmod>2025-12-01</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/building-in-go-first-lessons/</loc><lastmod>2025-11-24</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/nat-traversal-explained/</loc><lastmod>2025-11-17</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/noise-protocol-deep-dive/</loc><lastmod>2025-11-10</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/why-we-built-tunnelmesh/</loc><lastmod>2025-11-03</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/introducing-tunnelmesh/</loc><lastmod>2025-10-28</lastmod></url>
+  <url><loc>https://read.tunnelmesh.io/blog/welcome/</loc><lastmod>2025-10-20</lastmod></url>
+</urlset>

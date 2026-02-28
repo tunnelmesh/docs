@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Guide — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="The TunnelMesh admin dashboard is your central view of the mesh. Every peer running in the mesh can reach it at https://this.tm/, a special hostname that always">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/dashboard/">
+  <meta property="og:title" content="Dashboard Guide — TunnelMesh Docs">
+  <meta property="og:description" content="The TunnelMesh admin dashboard is your central view of the mesh. Every peer running in the mesh can reach it at https://this.tm/, a special hostname that always">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/dashboard/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="admin-dashboard-guide">Admin Dashboard Guide</h1>
+<p>The TunnelMesh admin dashboard is your central view of the mesh. Every peer running in the mesh can reach it at <code>https://this.tm/</code>, a special hostname that always resolves to the coordinator node regardless of where you are in the mesh.</p>
+<p>This doc is a reference for what lives in the dashboard and how access to each panel is controlled. For the underlying RBAC model, see <a href="USER_IDENTITY.md">User Identity &amp; RBAC</a>.</p>
+<h2 id="dashboard-layout">Dashboard Layout</h2>
+<p>The dashboard is divided into three tabs along the top: <strong>Mesh</strong>, <strong>App</strong>, and <strong>Data</strong>.</p>
+<img src="/docs/images/dashboard-tabs.svg" alt="Dashboard layout: three tabs (Mesh, App, Data) with panel names shown in each, public panels highlighted with accent border">
+
+<ul>
+<li><strong>Mesh</strong>: real-time visibility into the network (topology, alerts, traffic)</li>
+<li><strong>App</strong>: storage and container management (objects, shares, Docker)</li>
+<li><strong>Data</strong>: administrative configuration (peer management, groups, DNS, RBAC)</li>
+</ul>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>Public panels are visible to any authenticated mesh peer without additional RBAC grants. Admin-only panels require the peer to be listed in <code>admin_peers</code> or have an explicit role binding.</p></div>
+</div>
+<hr>
+<h2 id="panel-reference">Panel Reference</h2>
+<h3 id="mesh-tab">Mesh Tab</h3>
+<table>
+<thead>
+<tr>
+<th>Panel ID</th>
+<th>Display Name</th>
+<th>Public?</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>visualizer</code></td>
+<td>Network Topology</td>
+<td>✅ yes</td>
+<td>Live graph of all peers and their connections. Shows active tunnels, latency, and transport type (SSH/UDP/relay).</td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>Node Locations</td>
+<td>✅ yes</td>
+<td>Geographic map of peer locations, if the coordinator has location tracking enabled.</td>
+</tr>
+<tr>
+<td><code>alerts</code></td>
+<td>Active Alerts</td>
+<td>✅ yes</td>
+<td>Current mesh-wide alerts: disconnected peers, high latency, failed tunnels.</td>
+</tr>
+<tr>
+<td><code>peers</code></td>
+<td>Connected Peers</td>
+<td>admin only</td>
+<td>Detailed peer list with bandwidth, connection history, and transport info. Allows forcing transport changes.</td>
+</tr>
+<tr>
+<td><code>logs</code></td>
+<td>Peer Logs</td>
+<td>admin only</td>
+<td>Live log stream from any peer in the mesh, streamed through the coordinator.</td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>Packet Filter</td>
+<td>admin only</td>
+<td>View and edit global packet filter rules. Shows per-rule match metrics.</td>
+</tr>
+</tbody></table>
+<h3 id="app-tab">App Tab</h3>
+<table>
+<thead>
+<tr>
+<th>Panel ID</th>
+<th>Display Name</th>
+<th>Public?</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>s3</code></td>
+<td>Objects</td>
+<td>✅ yes</td>
+<td>S3-compatible object browser. Peers can see buckets and objects they have RBAC access to.</td>
+</tr>
+<tr>
+<td><code>shares</code></td>
+<td>Shares</td>
+<td>✅ yes</td>
+<td>File share browser. Lists shares the current peer is allowed to access.</td>
+</tr>
+<tr>
+<td><code>docker</code></td>
+<td>Docker Containers</td>
+<td>admin only</td>
+<td>View containers running on any mesh node. Start, stop, restart, and stream logs, without SSH-ing into each machine.</td>
+</tr>
+</tbody></table>
+<h3 id="data-tab">Data Tab</h3>
+<table>
+<thead>
+<tr>
+<th>Panel ID</th>
+<th>Display Name</th>
+<th>Public?</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>peers-mgmt</code></td>
+<td>Peers</td>
+<td>admin only</td>
+<td>Peer registry: view all known peers, their IDs, groups, and last-seen timestamps.</td>
+</tr>
+<tr>
+<td><code>groups</code></td>
+<td>Groups</td>
+<td>admin only</td>
+<td>Manage peer groups used in RBAC bindings.</td>
+</tr>
+<tr>
+<td><code>bindings</code></td>
+<td>Role Bindings</td>
+<td>admin only</td>
+<td>View and create RBAC role bindings that grant permissions to peers and groups.</td>
+</tr>
+<tr>
+<td><code>dns</code></td>
+<td>DNS Records</td>
+<td>admin only</td>
+<td>Inspect and manage mesh DNS records (<code>.tunnelmesh</code> zone).</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="panel-access-control">Panel Access Control</h2>
+<p>Panel visibility is governed by the same RBAC system used for everything else in TunnelMesh. Concretely:</p>
+<p><strong>Public panels</strong> (<code>visualizer</code>, <code>map</code>, <code>alerts</code>, <code>s3</code>, <code>shares</code>) are visible to every peer that is successfully connected to the mesh. No additional configuration is needed.</p>
+<p><strong>Admin panels</strong> are visible to peers listed in <code>admin_peers</code> in the coordinator config. These peers get the full admin role, which includes all panels.</p>
+<p><strong>Selective grants</strong> let you give a non-admin peer access to a specific admin panel without full admin rights:</p>
+<pre><code class="language-bash"># Grant a peer access to the Docker panel only
+tunnelmesh role bind alice panel-viewer --panel-scope docker
+
+# Grant a peer access to the logs and peers panels
+tunnelmesh role bind alice panel-viewer --panel-scope logs
+tunnelmesh role bind alice panel-viewer --panel-scope peers
+
+# Use a group for shared access
+tunnelmesh group create monitoring-team
+tunnelmesh group add-member monitoring-team alice
+tunnelmesh group bind monitoring-team panel-viewer --panel-scope peers
+tunnelmesh group bind monitoring-team panel-viewer --panel-scope logs
+</code></pre>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p>Selective panel grants are useful for on-call engineers who need to see peer logs or container stats without being full mesh admins. Grant the minimum set of panels they actually need.</p></div>
+</div>
+<p>See <a href="USER_IDENTITY.md">User Identity &amp; RBAC</a> for the full RBAC documentation.</p>
+<hr>
+<h2 id="plugin-panels">Plugin Panels</h2>
+<p>Plugins can register additional panels in any tab using the <code>Register</code> API. Plugin panels are of type <code>External</code> and can embed content via iframe or script injection.</p>
+<pre><code class="language-bash"># List all registered panels (including plugin panels)
+tunnelmesh panel list
+
+# List only plugin (external) panels
+tunnelmesh panel list --external
+</code></pre>
+<p>Plugin panels appear in the tab they registered under. Admins can control their visibility using the same <code>--panel-scope</code> mechanism as built-in panels.</p>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>Plugin panels cannot override built-in panels; registering a panel with an existing built-in ID returns an error. Use distinct IDs for plugin panels.</p></div>
+</div>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"DASHBOARD"};</script>
+</body>
+</html>

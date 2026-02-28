@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Docker Deployment — TunnelMesh Docs</title>
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <meta name="description" content="This guide covers running TunnelMesh in Docker containers for development, testing, and production deployments. Containers need elevated privileges (NET_ADMIN) ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/monokai.min.css" id="hljs-theme">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="52ad1994-5bcf-4035-9fc1-98494b14eb2f" data-auto-track="false"></script>
+  <link rel="canonical" href="https://read.tunnelmesh.io/docs/docker/">
+  <meta property="og:title" content="Docker Deployment — TunnelMesh Docs">
+  <meta property="og:description" content="This guide covers running TunnelMesh in Docker containers for development, testing, and production deployments. Containers need elevated privileges (NET_ADMIN) ">
+  <meta property="og:url" content="https://read.tunnelmesh.io/docs/docker/">
+  <meta property="og:type" content="website">
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="#/docs" class="logo">
+      <img src="/img/icon.png" class="logo-img" width="30" height="30" alt="TunnelMesh">
+      <span class="logo-word">tunnelmesh</span>
+      <span class="logo-tag">docs</span>
+    </a>
+
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="docs" aria-label="Documentation">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Docs
+      </button>
+      <button class="nav-tab" data-view="blog" aria-label="Blog">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        Blog
+      </button>
+    </div>
+
+    <div class="nav-actions">
+      <a href="https://tunnelmesh.io" class="nav-icon-link" target="_blank" rel="noopener" aria-label="TunnelMesh website" title="Website">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="2" y1="12" x2="22" y2="12"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/tunnelmesh/tunnelmesh" class="nav-icon-link" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <svg width="17" height="17" viewBox="0 0 98 96" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z"/>
+        </svg>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- ── App Layout ── -->
+<div class="app-wrap">
+
+  <!-- ══ DOCS VIEW ══ -->
+  <div class="view active" id="view-docs">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-scroll">
+        <div class="sidebar-section-label">Documentation</div>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Documentation navigation"></nav>
+      </div>
+    </aside>
+
+    <!-- Center content -->
+    <main class="docs-main">
+      <div class="docs-content">
+        <article id="doc-article" class="doc-article" aria-live="polite"><h1 id="docker-deployment">Docker Deployment</h1>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>This guide covers running TunnelMesh in Docker containers for development, testing, and production
+deployments. Containers need elevated privileges (NET_ADMIN) to create TUN interfaces.</p></div>
+</div>
+<h2 id="quick-start">Quick Start</h2>
+<pre><code class="language-bash"># Start the full mesh stack
+cd docker
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# Run connectivity tests
+make docker-test
+
+# Stop
+docker compose down
+</code></pre>
+<h2 id="building-the-image">Building the Image</h2>
+<h3 id="using-make">Using Make</h3>
+<pre><code class="language-bash">make docker-build
+</code></pre>
+<h3 id="manual-build">Manual Build</h3>
+<pre><code class="language-bash">docker build -t tunnelmesh:latest -f docker/Dockerfile .
+</code></pre>
+<h2 id="docker-compose-stack">Docker Compose Stack</h2>
+<p>The included <code>docker-compose.yml</code> sets up a complete mesh environment with scalable coordinators for testing
+chunk-level replication:</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>coordinator</code></td>
+<td>Coordinator peer with admin UI (2 replicas by default)</td>
+</tr>
+<tr>
+<td><code>client</code></td>
+<td>Mesh peer (5 replicas by default)</td>
+</tr>
+<tr>
+<td><code>prometheus</code></td>
+<td>Metrics collection (one per coordinator)</td>
+</tr>
+<tr>
+<td><code>grafana</code></td>
+<td>Dashboards and visualisation (one per coordinator)</td>
+</tr>
+<tr>
+<td><code>loki</code></td>
+<td>Log aggregation (one per coordinator)</td>
+</tr>
+<tr>
+<td><code>sd-generator</code></td>
+<td>Prometheus service discovery</td>
+</tr>
+<tr>
+<td><code>benchmarker</code></td>
+<td>Automated performance testing</td>
+</tr>
+</tbody></table>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p><strong>Multi-coordinator architecture</strong>: Each coordinator replica runs its own monitoring stack and uses tmpfs for
+ephemeral storage. Coordinators discover each other via peer registration and replicate S3 chunks peer-to-peer.
+All coordinators are equal peers with no primary/replica distinction.</p></div>
+</div>
+<h3 id="starting-the-stack">Starting the Stack</h3>
+<pre><code class="language-bash">cd docker
+
+# Start all services (2 coordinators by default)
+docker compose up -d
+
+# Start with custom number of coordinators
+docker compose up -d --scale coordinator=3
+
+# Scale coordinators after startup
+make docker-scale-coords
+
+# Scale clients
+docker compose up -d --scale client=10
+</code></pre>
+<h3 id="viewing-logs">Viewing Logs</h3>
+<pre><code class="language-bash"># All services
+docker compose logs -f
+
+# Coordinator logs only
+make docker-logs-coords
+
+# Specific coordinator
+docker compose logs -f coordinator
+
+# View replication activity
+docker compose logs coordinator | grep -i replication
+</code></pre>
+<h3 id="accessing-services">Accessing Services</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>URL</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Coordination API</td>
+<td><a href="http://localhost:8081">http://localhost:8081</a></td>
+<td>Load-balanced across all coordinators</td>
+</tr>
+<tr>
+<td>Admin Dashboard</td>
+<td><a href="https://coordinator-node.tunnelmesh/">https://coordinator-node.tunnelmesh/</a></td>
+<td>Mesh-only (any coordinator)</td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td><a href="http://localhost:3000">http://localhost:3000</a></td>
+<td>Metrics dashboards (first coordinator)</td>
+</tr>
+<tr>
+<td>Prometheus</td>
+<td><a href="http://localhost:9090">http://localhost:9090</a></td>
+<td>Raw metrics (first coordinator)</td>
+</tr>
+</tbody></table>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>The admin panel is accessible from any coordinator node within the mesh. Monitoring stacks
+(Grafana/Prometheus) are exposed from the first coordinator replica via port mapping. Each coordinator runs its own
+isolated monitoring stack with tmpfs storage.</p></div>
+</div>
+<h2 id="container-requirements">Container Requirements</h2>
+<div class="callout warning">
+  <div class="callout-title"><span>Warning</span></div>
+  <div class="callout-body"><p><strong>Elevated privileges required</strong>: TunnelMesh containers need NET_ADMIN capability and access to
+/dev/net/tun to create network interfaces. This is unavoidable for VPN/tunnel software.</p></div>
+</div>
+<p>TunnelMesh containers need elevated privileges for TUN interface creation:</p>
+<pre><code class="language-yaml">cap_add:
+  - NET_ADMIN
+devices:
+  - /dev/net/tun:/dev/net/tun
+</code></pre>
+<h3 id="minimal-container-configuration">Minimal Container Configuration</h3>
+<pre><code class="language-yaml">services:
+  tunnelmesh:
+    image: ghcr.io/zombar/tunnelmesh:latest
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ./config.yaml:/etc/tunnelmesh/config.yaml:ro
+    command: [&quot;join&quot;, &quot;--config&quot;, &quot;/etc/tunnelmesh/config.yaml&quot;]
+</code></pre>
+<h2 id="configuration">Configuration</h2>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>Context management (<code>tunnelmesh context</code>) is designed for host-based installations
+where you run multiple meshes from one machine. In Docker deployments, each container is
+typically dedicated to a single mesh and receives its config directly via volume mount or
+environment variables.</p></div>
+</div>
+<h3 id="coordinator-configuration">Coordinator Configuration</h3>
+<p><strong>Start coordinator (automatically bootstraps when no server URL):</strong></p>
+<pre><code class="language-bash">docker run tunnelmesh join --token your-secure-token
+</code></pre>
+<p>Optional <code>coordinator.yaml</code> for custom settings:</p>
+<pre><code class="language-yaml">name: &quot;coordinator&quot;
+
+# Coordinator services (auto-enabled when no server URL provided)
+# Admin panel, relay, and S3 are always enabled (ports: 443, 9000)
+coordinator:
+  listen: &quot;:8080&quot;  # Coordination API (default: &quot;:8443&quot;)
+  data_dir: &quot;/var/lib/tunnelmesh&quot;
+</code></pre>
+<h3 id="peer-configuration">Peer Configuration</h3>
+<p>Create <code>docker/config/peer.yaml</code>:</p>
+<pre><code class="language-yaml">name: &quot;peer-1&quot;
+
+# DNS is always enabled
+dns:
+  listen: &quot;127.0.0.53:5353&quot;
+</code></pre>
+<p>Start peer:</p>
+<pre><code class="language-bash">docker run tunnelmesh join coordinator:8080 --token your-secure-token --config /etc/tunnelmesh/peer.yaml
+</code></pre>
+<h2 id="network-modes">Network Modes</h2>
+<h3 id="bridge-network-default">Bridge Network (Default)</h3>
+<p>Services communicate over a Docker bridge network:</p>
+<pre><code class="language-yaml">networks:
+  mesh-control:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
+</code></pre>
+<h3 id="host-network">Host Network</h3>
+<p>For production deployments requiring full network access:</p>
+<pre><code class="language-yaml">services:
+  tunnelmesh:
+    network_mode: host
+    # Note: No port mapping needed with host network
+</code></pre>
+<h3 id="shared-network-namespace">Shared Network Namespace</h3>
+<p>Monitoring services share the coordinator&#39;s network to access mesh IPs:</p>
+<pre><code class="language-yaml">services:
+  prometheus:
+    network_mode: &quot;service:coordinator&quot;
+</code></pre>
+<div class="callout note">
+  <div class="callout-title"><span>Note</span></div>
+  <div class="callout-body"><p>Each coordinator replica runs its own monitoring stack. All monitoring containers share their respective
+coordinator&#39;s network namespace.</p></div>
+</div>
+<h2 id="volumes">Volumes</h2>
+<h3 id="coordinator-storage">Coordinator Storage</h3>
+<p>Coordinators use <strong>tmpfs</strong> (ephemeral RAM-based storage) for testing replication:</p>
+<pre><code class="language-yaml">volumes:
+  - type: tmpfs
+    target: /var/lib/tunnelmesh
+    tmpfs:
+      size: 268435456  # 256MB
+  - type: tmpfs
+    target: /root/.tunnelmesh
+</code></pre>
+<div class="callout warning">
+  <div class="callout-title"><span>Warning</span></div>
+  <div class="callout-body"><p><strong>Ephemeral storage</strong>: All coordinator data (S3 chunks, SSH keys, metrics) is lost on container restart. This is
+intentional for replication testing where you want a clean slate. For production deployments, use named volumes or
+host mounts instead of tmpfs.</p></div>
+</div>
+<h3 id="monitoring-stack-volumes">Monitoring Stack Volumes</h3>
+<p>Each monitoring service has persistent storage:</p>
+<pre><code class="language-yaml">volumes:
+  prometheus-data:     # Prometheus TSDB
+  grafana-data:        # Grafana configuration
+  loki-data:           # Log storage
+  benchmark-results:   # Benchmark JSON output
+</code></pre>
+<h3 id="accessing-benchmark-results">Accessing Benchmark Results</h3>
+<pre><code class="language-bash"># List results
+docker compose exec benchmarker ls -la /results/
+
+# Copy to host (find the benchmarker container ID first)
+docker ps | grep benchmarker
+docker cp &lt;container-id&gt;:/results ./benchmark-results/
+
+# View latest result
+docker compose exec benchmarker cat /results/benchmark_*.json | jq . | tail -50
+</code></pre>
+<h2 id="health-checks">Health Checks</h2>
+<p>All services include health checks:</p>
+<pre><code class="language-yaml">healthcheck:
+  test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-sf&quot;, &quot;http://localhost:8080/health&quot;]
+  interval: 5s
+  timeout: 3s
+  retries: 5
+  start_period: 3s
+</code></pre>
+<p>Check service health:</p>
+<pre><code class="language-bash">docker compose ps
+</code></pre>
+<h2 id="running-tests">Running Tests</h2>
+<h3 id="connectivity-tests">Connectivity Tests</h3>
+<pre><code class="language-bash"># From host
+make docker-test
+
+# Manual ping test (pick any coordinator)
+docker compose exec coordinator ping -c 3 client-1.tunnelmesh
+</code></pre>
+<h3 id="benchmark-tests">Benchmark Tests</h3>
+<pre><code class="language-bash"># Run single benchmark (use benchmarker container)
+docker compose exec benchmarker tunnelmesh benchmark client-1 --size 50MB
+
+# View automated benchmark results
+docker compose logs benchmarker
+</code></pre>
+<h3 id="replication-tests">Replication Tests</h3>
+<p>Test chunk-level replication between coordinators:</p>
+<pre><code class="language-bash"># 1. Create bucket with replication factor 2
+export TUNNELMESH_TOKEN=$(openssl rand -hex 32)
+curl -X PUT http://localhost:8081/test-bucket \
+  -H &quot;Authorization: Bearer $TUNNELMESH_TOKEN&quot; \
+  -H &quot;X-Replication-Factor: 2&quot;
+
+# 2. Upload test file (will be chunked and replicated)
+echo &quot;test data&quot; &gt; test.txt
+aws s3 cp test.txt s3://test-bucket/test.txt \
+  --endpoint-url http://localhost:9000
+
+# 3. Check replication in coordinator logs
+docker compose logs coordinator | grep -i &quot;replication\|chunk&quot;
+
+# 4. Verify chunk distribution
+curl -H &quot;Authorization: Bearer $TUNNELMESH_TOKEN&quot; \
+  http://localhost:8081/api/admin/buckets/test-bucket
+
+# 5. Test distributed reads (stop one coordinator)
+docker ps | grep coordinator  # Note one coordinator ID
+docker stop &lt;coordinator-id&gt;
+aws s3 cp s3://test-bucket/test.txt - --endpoint-url http://localhost:9000
+# Should succeed if replication worked
+</code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="tun-device-issues">TUN Device Issues</h3>
+<pre><code class="language-text">Error: cannot create TUN device
+</code></pre>
+<p>Ensure the container has proper privileges:</p>
+<pre><code class="language-bash"># Check capabilities (pick any coordinator container)
+docker ps | grep coordinator
+docker inspect &lt;coordinator-container-id&gt; | jq &#39;.[0].HostConfig.CapAdd&#39;
+
+# Should include: [&quot;NET_ADMIN&quot;]
+</code></pre>
+<h3 id="dns-resolution">DNS Resolution</h3>
+<pre><code class="language-text">Error: cannot resolve peer
+</code></pre>
+<p>Check mesh DNS is working:</p>
+<pre><code class="language-bash">docker compose exec coordinator dig peer-1.tunnelmesh @localhost
+</code></pre>
+<h3 id="container-networking">Container Networking</h3>
+<pre><code class="language-bash"># Check container IPs (pick any coordinator)
+docker compose exec coordinator ip addr
+
+# Check routes
+docker compose exec coordinator ip route
+
+# Check mesh connectivity
+docker compose exec coordinator tunnelmesh status
+</code></pre>
+<h3 id="coordinator-discovery">Coordinator Discovery</h3>
+<p>Verify coordinators can discover each other:</p>
+<pre><code class="language-bash"># View coordinator registration logs
+docker compose logs coordinator | grep -i &quot;coordinator.*registered&quot;
+
+# Should show each coordinator discovering the others
+</code></pre>
+<h3 id="logs">Logs</h3>
+<pre><code class="language-bash"># View coordinator logs
+make docker-logs-coords
+
+# View peer discovery
+docker compose logs coordinator 2&gt;&amp;1 | grep -i peer
+
+# View replication activity
+docker compose logs coordinator 2&gt;&amp;1 | grep -i replication
+</code></pre>
+<h2 id="production-considerations">Production Considerations</h2>
+<div class="callout tip">
+  <div class="callout-title"><span>Tip</span></div>
+  <div class="callout-body"><p><strong>Production checklist</strong>: Use resource limits, restart policies, log rotation, secrets management,
+and health checks. Don&#39;t run containers as root where possible (though NET_ADMIN requires root).</p></div>
+</div>
+<h3 id="resource-limits">Resource Limits</h3>
+<pre><code class="language-yaml">services:
+  server:
+    deploy:
+      resources:
+        limits:
+          cpus: &#39;2&#39;
+          memory: 1G
+        reservations:
+          cpus: &#39;0.5&#39;
+          memory: 256M
+</code></pre>
+<h3 id="restart-policy">Restart Policy</h3>
+<pre><code class="language-yaml">services:
+  server:
+    restart: unless-stopped
+</code></pre>
+<h3 id="logging">Logging</h3>
+<pre><code class="language-yaml">services:
+  server:
+    logging:
+      driver: &quot;json-file&quot;
+      options:
+        max-size: &quot;10m&quot;
+        max-file: &quot;3&quot;
+</code></pre>
+<div class="callout caution">
+  <div class="callout-title"><span>Caution</span></div>
+  <div class="callout-body"><p><strong>Security best practices</strong>: Never hardcode auth tokens in compose files. Use Docker secrets or
+environment files with restricted permissions. Limit port exposure to only what&#39;s necessary.</p></div>
+</div>
+<h3 id="security">Security</h3>
+<ul>
+<li>Use secrets management for <code>auth_token</code></li>
+<li>Run containers as non-root where possible</li>
+<li>Use read-only root filesystem for static configs</li>
+<li>Limit network exposure with explicit port mappings</li>
+</ul>
+<h2 id="example-minimal-production-setup">Example: Minimal Production Setup</h2>
+<pre><code class="language-yaml">version: &quot;3.8&quot;
+
+services:
+  coordinator:
+    image: ghcr.io/zombar/tunnelmesh:latest
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    ports:
+      - &quot;8080:8080&quot;
+    volumes:
+      - ./coordinator.yaml:/etc/tunnelmesh/coordinator.yaml:ro
+    command: [&quot;join&quot;, &quot;--config&quot;, &quot;/etc/tunnelmesh/coordinator.yaml&quot;]
+    healthcheck:
+      test: [&quot;CMD&quot;, &quot;curl&quot;, &quot;-sf&quot;, &quot;http://localhost:8080/health&quot;]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+</code></pre>
+<hr>
+<p><em>TunnelMesh is released under the <a href="https://github.com/tunnelmesh/tunnelmesh/blob/main/LICENSE">AGPL-3.0 License</a>.</em></p>
+</article>
+        <nav id="doc-pagination" class="doc-pagination" aria-label="Document navigation"></nav>
+      </div>
+    </main>
+
+    <!-- Right page TOC -->
+    <aside class="page-toc" id="page-toc" aria-label="Page contents">
+      <div class="page-toc-label">On this page</div>
+      <nav id="page-toc-nav" class="page-toc-nav"></nav>
+    </aside>
+
+  </div>
+
+  <!-- ══ BLOG VIEW ══ -->
+  <div class="view hidden" id="view-blog">
+    <main class="blog-main" id="blog-main" aria-live="polite">
+      <div class="doc-loading">
+        <div class="loading-spinner"></div>
+        <span>Loading…</span>
+      </div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="site-footer">
+  <p>© 2026 FORGE3D CYF. Registered in Wales, Company No. 16891098.</p>
+</footer>
+
+<!-- ── Scripts ── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+<script src="/js/app.js"></script>
+<script>window.__PRERENDERED = {"type":"doc","id":"DOCKER"};</script>
+</body>
+</html>
