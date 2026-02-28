@@ -579,9 +579,11 @@ function hydratePrerendered(pr) {
     buildPageTOC();
     const docDef = ALL_DOCS.find(d => d.id === pr.id);
     document.title = `${docDef?.title || pr.id} — TunnelMesh Docs`;
+    window.umami?.track();
 
   } else if (pr.type === 'blog-index') {
     showBlogIndex();
+    window.umami?.track(p => ({ ...p, tag: 'blog' }));
 
   } else if (pr.type === 'blog-article') {
     state.currentBlogSlug = pr.slug;
@@ -595,6 +597,7 @@ function hydratePrerendered(pr) {
       const meta = (manifest.articles || []).find(a => a.slug === pr.slug);
       if (meta) document.title = `${meta.title} — TunnelMesh Blog`;
     });
+    window.umami?.track(p => ({ ...p, tag: 'blog' }));
   }
 }
 
@@ -617,14 +620,17 @@ function handleRoute() {
     const slug = hash.replace('#/blog/', '');
     state.currentBlogSlug = slug;
     showBlogArticle(slug);
+    window.umami?.track(p => ({ ...p, tag: 'blog' }));
 
   } else if (hash.startsWith('#/blog')) {
     state.currentBlogSlug = null;
     showBlogIndex();
+    window.umami?.track(p => ({ ...p, tag: 'blog' }));
 
   } else {
     const docId = hash.replace('#/docs/', '') || 'GETTING_STARTED';
     loadDoc(docId);
+    window.umami?.track();
   }
 }
 
